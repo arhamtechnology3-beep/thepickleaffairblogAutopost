@@ -1,0 +1,11 @@
+{
+  "name": "blog-autopost",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Shopify CLI config for The Pickle Affair Blog Autopost (Admin API content scopes)",
+  "scripts": {
+    "config:link": "shopify app config link --auth-alias=cs@thepickleaffair.com",
+    "deploy": "shopify app deploy --auth-alias=cs@thepickleaffair.com --allow-updates",
+    "info": "shopify app info --auth-alias=cs@thepickleaffair.com"
+  }
+}

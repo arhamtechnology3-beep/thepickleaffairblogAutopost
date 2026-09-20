@@ -1,0 +1,48 @@
+name: The Pickle Affair Daily Blog Publisher
+
+on:
+  schedule:
+    # 5 posts/day IST windows: ~09:05, 11:05, 14:05, 17:05, 19:35 IST
+    - cron: '35 3,5,8,11,14 * * *'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'generate (create 5) | publish (release drafts) | both'
+        required: true
+        default: 'both'
+
+jobs:
+  daily-blogs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Generate today's 5 SEO blogs
+        if: ${{ github.event_name == 'schedule' || github.event.inputs.mode == 'generate' || github.event.inputs.mode == 'both' }}
+        env:
+          # Prefer Client Credentials (Postman-style). Optional fallback: SHOPIFY_ACCESS_TOKEN
+          SHOPIFY_CLIENT_ID: ${{ secrets.SHOPIFY_CLIENT_ID }}
+          SHOPIFY_CLIENT_SECRET: ${{ secrets.SHOPIFY_CLIENT_SECRET }}
+          SHOPIFY_ACCESS_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
+          SHOPIFY_SHOP_URL: https://the-pickle-affair.myshopify.com
+          SHOPIFY_BLOG_ID: '96853164183'
+          DAILY_BLOG_COUNT: '5'
+          PUBLISH_IMMEDIATELY: '1'
+        run: python3 scratch/generate_daily_blogs.py
+
+      - name: Publish queued drafts (cadence safety net)
+        if: ${{ github.event_name == 'schedule' || github.event.inputs.mode == 'publish' || github.event.inputs.mode == 'both' }}
+        env:
+          SHOPIFY_CLIENT_ID: ${{ secrets.SHOPIFY_CLIENT_ID }}
+          SHOPIFY_CLIENT_SECRET: ${{ secrets.SHOPIFY_CLIENT_SECRET }}
+          SHOPIFY_ACCESS_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
+          SHOPIFY_SHOP_URL: https://the-pickle-affair.myshopify.com
+          SHOPIFY_BLOG_ID: '96853164183'
+          DAILY_BLOG_COUNT: '5'
+        run: python3 scratch/daily_publish_daemon.py

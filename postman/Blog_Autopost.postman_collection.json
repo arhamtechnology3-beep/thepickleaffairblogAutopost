@@ -1,0 +1,80 @@
+{
+  "info": {
+    "_postman_id": "pickle-affair-blog-autopost-v2",
+    "name": "The Pickle Affair — Blog Autopost",
+    "description": "HOW TO USE:\n1. Open request \"1. Get Admin API access token\"\n2. Body tab → row client_secret → CURRENT VALUE column → paste Secret from Shopify Dev Dashboard (App settings → Secret → Copy)\n3. Send\n4. Then run request 2",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "shop", "value": "the-pickle-affair.myshopify.com" },
+    { "key": "client_id", "value": "e47ce2d8e254ca7eaf7a59dee082fd71" },
+    { "key": "access_token", "value": "" },
+    { "key": "api_version", "value": "2024-10" },
+    { "key": "blog_id", "value": "96853164183" }
+  ],
+  "item": [
+    {
+      "name": "1. Get Admin API access token (client_credentials)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 200) {",
+              "  const j = pm.response.json();",
+              "  pm.collectionVariables.set('access_token', j.access_token);",
+              "  console.log('OK — token saved. expires_in:', j.expires_in);",
+              "} else {",
+              "  console.log(pm.response.text());",
+              "}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/x-www-form-urlencoded" },
+          { "key": "Accept", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "urlencoded",
+          "urlencoded": [
+            { "key": "grant_type", "value": "client_credentials", "type": "text" },
+            { "key": "client_id", "value": "{{client_id}}", "type": "text" },
+            {
+              "key": "client_secret",
+              "value": "",
+              "type": "text",
+              "description": "PASTE HERE: Dev Dashboard → Blog Autopost → App settings → Secret → Copy"
+            }
+          ]
+        },
+        "url": {
+          "raw": "https://{{shop}}/admin/oauth/access_token",
+          "protocol": "https",
+          "host": ["{{shop}}"],
+          "path": ["admin", "oauth", "access_token"]
+        }
+      }
+    },
+    {
+      "name": "2. Smoke test — list Kitchen Tales articles",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "X-Shopify-Access-Token", "value": "{{access_token}}" },
+          { "key": "Accept", "value": "application/json" }
+        ],
+        "url": {
+          "raw": "https://{{shop}}/admin/api/{{api_version}}/blogs/{{blog_id}}/articles.json?limit=5",
+          "protocol": "https",
+          "host": ["{{shop}}"],
+          "path": ["admin", "api", "{{api_version}}", "blogs", "{{blog_id}}", "articles.json"],
+          "query": [{ "key": "limit", "value": "5" }]
+        }
+      }
+    }
+  ]
+}

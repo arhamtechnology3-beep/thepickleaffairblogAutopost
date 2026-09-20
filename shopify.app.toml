@@ -1,0 +1,21 @@
+# Learn more: https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "e47ce2d8e254ca7eaf7a59dee082fd71"
+name = "Blog Autopost"
+handle = "blog-autopost"
+application_url = "https://shopify.dev/apps/default-app-home"
+embedded = false
+
+[access_scopes]
+scopes = "read_content,write_content"
+
+[auth]
+redirect_urls = [
+  "https://shopify.dev/apps/default-app-home/api/auth"
+]
+
+[webhooks]
+api_version = "2024-10"
+
+[pos]
+embedded = false

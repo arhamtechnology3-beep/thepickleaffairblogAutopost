@@ -7,7 +7,8 @@ application_url = "https://shopify.dev/apps/default-app-home"
 embedded = false
 
 [access_scopes]
-scopes = "read_content,write_content"
+# Blog + collections/products for SEO collection pages (COLLECTIONS_SEO_PLAN.md)
+scopes = "read_content,write_content,read_products,write_products"
 
 [auth]
 redirect_urls = [

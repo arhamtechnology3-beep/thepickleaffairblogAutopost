@@ -1,0 +1,39 @@
+name: Create SEO Collections
+
+# Creates/updates the 8 collections from COLLECTIONS_SEO_PLAN.md
+# Requires GitHub secrets + app scopes: read_products, write_products
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: '1 = print only, no Shopify writes'
+        required: false
+        default: '0'
+
+concurrency:
+  group: pickle-affair-seo-collections
+  cancel-in-progress: false
+
+jobs:
+  collections:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Create / update SEO collections
+        env:
+          SHOPIFY_CLIENT_ID: ${{ secrets.SHOPIFY_CLIENT_ID }}
+          SHOPIFY_CLIENT_SECRET: ${{ secrets.SHOPIFY_CLIENT_SECRET }}
+          SHOPIFY_ACCESS_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
+          SHOPIFY_SHOP_URL: https://the-pickle-affair.myshopify.com
+          DRY_RUN: ${{ github.event.inputs.dry_run || '0' }}
+        run: |
+          # COLLECTIONS_SEO_PLAN.md lives in theme repo; embed copy for Actions
+          if [ ! -f COLLECTIONS_SEO_PLAN.md ]; then
+            echo "Plan reference: 8 collections (sweet, mango, spicy, gunda, methi, kathiawadi, thepla, buy-online)"
+          fi
+          python3 scratch/create_seo_collections.py

@@ -26,6 +26,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scratch"))
 from shopify_auth import resolve_access_token, shop_url  # noqa: E402
+from blog_content import MIN_WORDS, build_long_article, word_count  # noqa: E402
 
 PRODUCTS = {p["handle"]: p for p in json.loads((ROOT / "scratch" / "product_registry.json").read_text())}
 TOPIC_LIB = json.loads((ROOT / "scratch" / "topic_library.json").read_text())
@@ -507,13 +508,18 @@ def main() -> None:
 
     created = 0
     for topic in topics:
-        title, excerpt, body, tags, image = build_article(topic, day)
+        title, excerpt, body, tags, image = build_long_article(topic)
+        words = word_count(body)
+        if words < MIN_WORDS:
+            print(f"SKIP below min words ({words} < {MIN_WORDS}): {title}")
+            continue
         # Final title collision check
         if any(normalize(a.get("title", "")) == normalize(title) for a in articles):
             print(f"SKIP exact title exists: {title}")
             continue
         published_at = now.isoformat()
-        print(f"→ PUBLISH ({topic.get('intent')} / {topic.get('cluster')}): {title}")
+        print(f"→ PUBLISH ({topic.get('intent')} / {topic.get('cluster')}): {title} (~{words} words)")
+        print(f"   collections={topic.get('collection_handles')} products={topic.get('product_handles')}")
         result = create_article(title, excerpt, body, tags, image, published_at)
         art = result.get("article", {})
         handle = art.get("handle", "")

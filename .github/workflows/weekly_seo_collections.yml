@@ -1,0 +1,63 @@
+name: Weekly SEO Collections
+
+# Adds/updates competitor-informed collections from collection_library.json
+# Cadence: weekly (not daily mass-creation — quality over doorway spam)
+
+on:
+  schedule:
+    # Monday ~10:05 IST = 04:35 UTC
+    - cron: '35 4 * * 1'
+  workflow_dispatch:
+    inputs:
+      batch:
+        description: 'all | queued | live'
+        required: true
+        default: 'queued'
+      limit:
+        description: 'Max collections this run (0 = no cap)'
+        required: false
+        default: '2'
+      dry_run:
+        description: '1 = no writes'
+        required: false
+        default: '0'
+
+concurrency:
+  group: pickle-affair-weekly-collections
+  cancel-in-progress: false
+
+jobs:
+  collections:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Create / enrich collections
+        env:
+          SHOPIFY_CLIENT_ID: ${{ secrets.SHOPIFY_CLIENT_ID }}
+          SHOPIFY_CLIENT_SECRET: ${{ secrets.SHOPIFY_CLIENT_SECRET }}
+          SHOPIFY_ACCESS_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
+          SHOPIFY_SHOP_URL: https://the-pickle-affair.myshopify.com
+          COLLECTION_BATCH: ${{ github.event_name == 'schedule' && 'queued' || github.event.inputs.batch || 'queued' }}
+          COLLECTION_LIMIT: ${{ github.event_name == 'schedule' && '2' || github.event.inputs.limit || '2' }}
+          DRY_RUN: ${{ github.event.inputs.dry_run || '0' }}
+        run: |
+          echo "Weekly collections · batch=$COLLECTION_BATCH limit=$COLLECTION_LIMIT"
+          python3 scratch/create_seo_collections.py
+      - name: Commit library status if changed
+        if: ${{ github.event.inputs.dry_run != '1' }}
+        run: |
+          if git diff --quiet scratch/collection_library.json; then
+            echo "No library status changes"
+          else
+            git config user.name "pickle-affair-bot"
+            git config user.email "bot@users.noreply.github.com"
+            git add scratch/collection_library.json
+            git commit -m "Mark newly published collections as live in library."
+            git push
+          fi

@@ -8,8 +8,25 @@
       "cluster": "Pillar",
       "category": "Heritage Recipes",
       "angle": "pillar_overview",
-      "product_handles": ["mango-pickle-traditional-keri-achar-gujarati", "sweet-mango-pickle-meethi-keri-achar-homemade", "chhundo-pickle-sweet-shredded-mango-achar-gujarati", "gunda-keri-pickle-lasode-ka-achar-gujarati", "katka-keri-pickle-homemade-gujarati-mango-achar", "chana-keri-methi-pickle-gujarati-methia-achar"],
-      "secondary": ["kathiawadi pickles", "gujarati achar", "homemade mango pickle", "baa nu athanu"]
+      "product_handles": [
+        "mango-pickle-traditional-keri-achar-gujarati",
+        "sweet-mango-pickle-meethi-keri-achar-homemade",
+        "chhundo-pickle-sweet-shredded-mango-achar-gujarati",
+        "gunda-keri-pickle-lasode-ka-achar-gujarati",
+        "katka-keri-pickle-homemade-gujarati-mango-achar",
+        "chana-keri-methi-pickle-gujarati-methia-achar"
+      ],
+      "secondary": [
+        "kathiawadi pickles",
+        "gujarati achar",
+        "homemade mango pickle",
+        "baa nu athanu"
+      ],
+      "collection_handles": [
+        "gujarati-achar",
+        "all-pickles",
+        "kathiawadi-homemade-pickles"
+      ]
     }
   ],
   "topics": [
@@ -21,8 +38,18 @@
       "cluster": "Pickle Guides",
       "category": "Buying Guides",
       "angle": "storage",
-      "product_handles": ["mango-pickle-traditional-keri-achar-gujarati"],
-      "secondary": ["pickle shelf life", "store mango pickle", "achar storage tips"]
+      "product_handles": [
+        "mango-pickle-traditional-keri-achar-gujarati"
+      ],
+      "secondary": [
+        "pickle shelf life",
+        "store mango pickle",
+        "achar storage tips"
+      ],
+      "collection_handles": [
+        "all-mango-pickles",
+        "kathiawadi-homemade-pickles"
+      ]
     },
     {
       "id": "mango-pickle-shelf-life",
@@ -32,8 +59,19 @@
       "cluster": "Pickle Guides",
       "category": "Buying Guides",
       "angle": "shelf_life",
-      "product_handles": ["mango-pickle-traditional-keri-achar-gujarati", "sweet-mango-pickle-meethi-keri-achar-homemade"],
-      "secondary": ["mango pickle expiry", "opened pickle storage", "homemade achar shelf life"]
+      "product_handles": [
+        "mango-pickle-traditional-keri-achar-gujarati",
+        "sweet-mango-pickle-meethi-keri-achar-homemade"
+      ],
+      "secondary": [
+        "mango pickle expiry",
+        "opened pickle storage",
+        "homemade achar shelf life"
+      ],
+      "collection_handles": [
+        "all-mango-pickles",
+        "homemade-mango-pickle"
+      ]
     },
     {
       "id": "mustard-oil-pickle",
@@ -43,8 +81,19 @@
       "cluster": "Health & Spices",
       "category": "Health & Spices",
       "angle": "ingredient",
-      "product_handles": ["mango-pickle-traditional-keri-achar-gujarati", "katka-keri-pickle-homemade-gujarati-mango-achar"],
-      "secondary": ["cold pressed mustard oil achar", "pickle oil choice", "kathiawadi pickle spices"]
+      "product_handles": [
+        "mango-pickle-traditional-keri-achar-gujarati",
+        "katka-keri-pickle-homemade-gujarati-mango-achar"
+      ],
+      "secondary": [
+        "cold pressed mustard oil achar",
+        "pickle oil choice",
+        "kathiawadi pickle spices"
+      ],
+      "collection_handles": [
+        "spicy-traditional-keri-achar",
+        "kathiawadi-homemade-pickles"
+      ]
     },
     {
       "id": "fenugreek-methi-pickle",
@@ -54,8 +103,18 @@
       "cluster": "Health & Spices",
       "category": "Health & Spices",
       "angle": "ingredient",
-      "product_handles": ["chana-keri-methi-pickle-gujarati-methia-achar"],
-      "secondary": ["methia keri", "methi dana pickle", "chana keri methi"]
+      "product_handles": [
+        "chana-keri-methi-pickle-gujarati-methia-achar"
+      ],
+      "secondary": [
+        "methia keri",
+        "methi dana pickle",
+        "chana keri methi"
+      ],
+      "collection_handles": [
+        "methi-fenugreek-pickles",
+        "spicy-traditional-keri-achar"
+      ]
     },
     {
       "id": "pickle-thepla",
@@ -65,8 +124,20 @@
       "cluster": "Pickle Pairings",
       "category": "Pickle Pairings",
       "angle": "pairing",
-      "product_handles": ["sweet-mango-pickle-meethi-keri-achar-homemade", "gor-keri-pickle-jaggery-mango-achar-gujarati", "chana-keri-methi-pickle-gujarati-methia-achar"],
-      "secondary": ["thepla and achar", "gujarati breakfast pickle", "travel food pickle"]
+      "product_handles": [
+        "sweet-mango-pickle-meethi-keri-achar-homemade",
+        "gor-keri-pickle-jaggery-mango-achar-gujarati",
+        "chana-keri-methi-pickle-gujarati-methia-achar"
+      ],
+      "secondary": [
+        "thepla and achar",
+        "gujarati breakfast pickle",
+        "travel food pickle"
+      ],
+      "collection_handles": [
+        "pickles-for-thepla-tiffin",
+        "sweet-gujarati-pickles"
+      ]
     },
     {
       "id": "pickle-khichdi",
@@ -76,8 +147,19 @@
       "cluster": "Pickle Pairings",
       "category": "Pickle Pairings",
       "angle": "pairing",
-      "product_handles": ["katka-keri-pickle-homemade-gujarati-mango-achar", "gunda-keri-pickle-lasode-ka-achar-gujarati"],
-      "secondary": ["khichdi achar", "dal rice pickle", "comfort food pickle"]
+      "product_handles": [
+        "katka-keri-pickle-homemade-gujarati-mango-achar",
+        "gunda-keri-pickle-lasode-ka-achar-gujarati"
+      ],
+      "secondary": [
+        "khichdi achar",
+        "dal rice pickle",
+        "comfort food pickle"
+      ],
+      "collection_handles": [
+        "pickle-with-khichdi-dal",
+        "spicy-traditional-keri-achar"
+      ]
     },
     {
       "id": "chhundo-vs-meethi-keri",
@@ -87,8 +169,20 @@
       "cluster": "Heritage Recipes",
       "category": "Heritage Recipes",
       "angle": "comparison",
-      "product_handles": ["chhundo-pickle-sweet-shredded-mango-achar-gujarati", "sweet-mango-pickle-meethi-keri-achar-homemade"],
-      "secondary": ["sweet shredded mango achar", "meethi keri achar", "gujarati sweet pickle"]
+      "product_handles": [
+        "chhundo-pickle-sweet-shredded-mango-achar-gujarati",
+        "sweet-mango-pickle-meethi-keri-achar-homemade"
+      ],
+      "secondary": [
+        "sweet shredded mango achar",
+        "meethi keri achar",
+        "gujarati sweet pickle"
+      ],
+      "collection_handles": [
+        "sweet-gujarati-pickles",
+        "chhundo-pickles",
+        "meethi-keri-sweet-mango"
+      ]
     },
     {
       "id": "baa-kitchen-traditional",
@@ -98,8 +192,18 @@
       "cluster": "Artisanal Craft",
       "category": "Artisanal Craft",
       "angle": "baa_story",
-      "product_handles": ["mango-pickle-traditional-keri-achar-gujarati"],
-      "secondary": ["baa nu athanu", "kathiawadi pickle tradition", "small batch pickle"]
+      "product_handles": [
+        "mango-pickle-traditional-keri-achar-gujarati"
+      ],
+      "secondary": [
+        "baa nu athanu",
+        "kathiawadi pickle tradition",
+        "small batch pickle"
+      ],
+      "collection_handles": [
+        "kathiawadi-homemade-pickles",
+        "saurashtra-kathiawadi-achar"
+      ]
     },
     {
       "id": "buy-gujarati-pickle-online",
@@ -109,8 +213,19 @@
       "cluster": "Buying Guides",
       "category": "Buying Guides",
       "angle": "buying",
-      "product_handles": ["mango-pickle-traditional-keri-achar-gujarati", "gunda-keri-pickle-lasode-ka-achar-gujarati"],
-      "secondary": ["homemade pickle online india", "fssai pickle", "kathiawadi achar online"]
+      "product_handles": [
+        "mango-pickle-traditional-keri-achar-gujarati",
+        "gunda-keri-pickle-lasode-ka-achar-gujarati"
+      ],
+      "secondary": [
+        "homemade pickle online india",
+        "fssai pickle",
+        "kathiawadi achar online"
+      ],
+      "collection_handles": [
+        "buy-gujarati-pickle-online",
+        "customer-favourites"
+      ]
     },
     {
       "id": "chhundo-guide",
@@ -120,15 +235,39 @@
       "cluster": "Heritage Recipes",
       "category": "Heritage Recipes",
       "angle": "heritage_product",
-      "product_handles": ["chhundo-pickle-sweet-shredded-mango-achar-gujarati"],
-      "secondary": ["sweet shredded mango pickle", "gujarati chhundo", "chhundo vs achar"]
+      "product_handles": [
+        "chhundo-pickle-sweet-shredded-mango-achar-gujarati"
+      ],
+      "secondary": [
+        "sweet shredded mango pickle",
+        "gujarati chhundo",
+        "chhundo vs achar"
+      ],
+      "collection_handles": [
+        "chhundo-pickles",
+        "sweet-gujarati-pickles"
+      ]
     }
   ],
   "daily_intent_mix": [
-    ["pillar_overview", "heritage_product", "baa_story"],
-    ["storage", "shelf_life"],
-    ["ingredient"],
-    ["pairing"],
-    ["buying", "comparison"]
+    [
+      "pillar_overview",
+      "heritage_product",
+      "baa_story"
+    ],
+    [
+      "storage",
+      "shelf_life"
+    ],
+    [
+      "ingredient"
+    ],
+    [
+      "pairing"
+    ],
+    [
+      "buying",
+      "comparison"
+    ]
   ]
 }

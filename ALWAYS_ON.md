@@ -1,30 +1,23 @@
-# Autopost — always-on daily publishing
+# Autopost — always-on (random time each day)
 
-Kitchen Tales posts run on **GitHub Actions** (cloud). Your Mac does not need to be on.
+Kitchen Tales posts run on **GitHub Actions**. Your Mac can be offline.
 
-## Status
-- Workflow: **The Pickle Affair Daily Blog Publisher**
-- Schedule: **every day ~09:05 IST** (max 5 quality posts; fewer if gates block)
-- Secrets required: `SHOPIFY_CLIENT_ID`, `SHOPIFY_CLIENT_SECRET`
+## Schedule
 
-## How to STOP (manual)
+Each calendar day picks a **random IST time** between ~09:00 and ~20:45.
+The workflow checks every 30 minutes and publishes **only when that slot is due** — so posts are not batched at the same timestamp.
 
-1. Open https://github.com/arhamtechnology3-beep/thepickleaffairblogAutopost/actions  
-2. Click **The Pickle Affair Daily Blog Publisher**  
-3. Click **⋯** → **Disable workflow**
+- Default: **1 post/day** at that random time
+- Quality gates may skip the day (0 posts) if no unique topic
 
-Or pause via CLI:
+## How to STOP
+
+Actions → **The Pickle Affair Daily Blog Publisher** → **⋯** → **Disable workflow**
+
 ```bash
 gh workflow disable "The Pickle Affair Daily Blog Publisher" --repo arhamtechnology3-beep/thepickleaffairblogAutopost
 ```
 
-Re-enable:
-```bash
-gh workflow enable "The Pickle Affair Daily Blog Publisher" --repo arhamtechnology3-beep/thepickleaffairblogAutopost
-```
+## Manual run
 
-## Manual run anytime
-Actions → Daily Blog Publisher → **Run workflow** → mode `both`
-
-## Policy
-See `BLOG.md` — quality over volume; no duplicate intents.
+Use `force=1` to publish immediately (ignore waiting for the random slot).

@@ -15,6 +15,7 @@ import datetime as dt
 import hashlib
 import json
 import os
+import random
 import re
 import ssl
 import sys
@@ -71,6 +72,26 @@ def ist_now() -> dt.datetime:
 
 def day_seed(day: dt.date) -> int:
     return int(hashlib.sha1(day.isoformat().encode()).hexdigest()[:8], 16)
+
+
+IST = dt.timezone(dt.timedelta(hours=5, minutes=30))
+
+
+def random_publish_slots(day: dt.date, count: int) -> list[dt.datetime]:
+    """Pick distinct random IST publish times for this calendar day (changes daily)."""
+    rng = random.Random(day_seed(day) ^ 0xB106)
+    candidates: list[dt.time] = []
+    for hour in range(9, 21):  # 09:00–20:45 IST
+        for minute in (0, 15, 30, 45):
+            candidates.append(dt.time(hour, minute))
+    count = max(1, min(int(count), len(candidates)))
+    picked = sorted(rng.sample(candidates, k=count))
+    return [dt.datetime.combine(day, t, tzinfo=IST) for t in picked]
+
+
+def count_published_today(articles: list[dict], day: dt.date) -> int:
+    prefix = day.isoformat()
+    return sum(1 for a in articles if str(a.get("published_at") or "").startswith(prefix))
 
 
 def load_owned_keywords() -> set[str]:
@@ -445,13 +466,39 @@ def main() -> None:
 
     now = ist_now()
     day = now.date()
+    force = os.environ.get("FORCE_PUBLISH", "").strip() in ("1", "true", "yes")
+    slots = random_publish_slots(day, MAX_DAILY)
     print(f"=== Kitchen Tales quality publisher · {day.isoformat()} IST {now.strftime('%H:%M')} ===")
     print("Rule: publish only unique intents that pass gates (max "
           f"{MAX_DAILY}, fewer OK).")
+    print("Today's random publish slot(s) IST: "
+          + ", ".join(s.strftime("%H:%M") for s in slots)
+          + (" · FORCE" if force else ""))
 
     articles = existing_articles()
+    already = count_published_today(articles, day)
+    if already >= MAX_DAILY and not force:
+        print(f"Already published {already}/{MAX_DAILY} today — skip.")
+        return
+
+    if not force:
+        # Publish at most one article per run, only after the next random slot.
+        next_idx = already
+        if next_idx >= len(slots):
+            print("All random slots for today are done.")
+            return
+        due = slots[next_idx]
+        if now < due:
+            print(f"Waiting for random slot {due.strftime('%H:%M')} IST "
+                  f"(now {now.strftime('%H:%M')}) — no post this run.")
+            return
+        print(f"Slot {due.strftime('%H:%M')} IST is due — publishing 1 post.")
+        publish_cap = 1
+    else:
+        publish_cap = max(0, MAX_DAILY - already) or MAX_DAILY
+
     owned = load_owned_keywords()
-    topics = pick_daily_topics(day, articles, owned)
+    topics = pick_daily_topics(day, articles, owned)[:publish_cap]
 
     if not topics:
         print("No eligible topics today — holding publish (quality over quota).")
@@ -480,7 +527,7 @@ def main() -> None:
 
     print(f"Done. Published {created} article(s) (cap {MAX_DAILY}).")
     print("Report: DAILY_CONTENT_REPORT.md · Scorecard: BLOG.md §77")
-    if created < MAX_DAILY:
+    if created < MAX_DAILY and force:
         print("Note: fewer than 5 is correct when uniqueness/quality gates block fillers.")
 
 

@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""Ensure up to 5 blog posts are live each IST day (publishes queued drafts if needed)."""
+"""Publish queued drafts at today's random IST slots (never same-time batch)."""
 from __future__ import annotations
 
 import datetime as dt
-import json
+import hashlib
 import os
+import random
 import ssl
 import sys
-import urllib.error
 import urllib.request
 from pathlib import Path
 
@@ -17,16 +17,17 @@ from shopify_auth import resolve_access_token, shop_url  # noqa: E402
 SHOP_URL = shop_url()
 TOKEN = ""
 BLOG_ID = os.environ.get("SHOPIFY_BLOG_ID", "96853164183")
-DAILY_TARGET = int(os.environ.get("DAILY_BLOG_COUNT", "5"))
+DAILY_TARGET = int(os.environ.get("DAILY_BLOG_COUNT", "1"))
 API = "2024-10"
 CTX = ssl.create_default_context()
+IST = dt.timezone(dt.timedelta(hours=5, minutes=30))
 
 
 def api(method: str, path: str, payload: dict | None = None) -> dict:
     global TOKEN
     if not TOKEN:
         TOKEN = resolve_access_token()
-    data = None if payload is None else json.dumps(payload).encode()
+    data = None if payload is None else __import__("json").dumps(payload).encode()
     req = urllib.request.Request(
         f"{SHOP_URL}/admin/api/{API}{path}",
         data=data,
@@ -39,57 +40,67 @@ def api(method: str, path: str, payload: dict | None = None) -> dict:
     )
     with urllib.request.urlopen(req, context=CTX, timeout=60) as resp:
         body = resp.read().decode()
-        return json.loads(body) if body else {}
+        return __import__("json").loads(body) if body else {}
 
 
 def ist_now() -> dt.datetime:
-    return dt.datetime.now(dt.timezone(dt.timedelta(hours=5, minutes=30)))
+    return dt.datetime.now(IST)
 
 
-def target_for_hour(hour: int) -> int:
-    # Stagger: 1 by 10am, 2 by noon, 3 by 3pm, 4 by 6pm, 5 by 8pm
-    if hour < 10:
-        return 1
-    if hour < 12:
-        return 2
-    if hour < 15:
-        return 3
-    if hour < 18:
-        return 4
-    return DAILY_TARGET
+def day_seed(day: dt.date) -> int:
+    return int(hashlib.sha1(day.isoformat().encode()).hexdigest()[:8], 16)
+
+
+def random_publish_slots(day: dt.date, count: int) -> list[dt.datetime]:
+    rng = random.Random(day_seed(day) ^ 0xB106)
+    candidates: list[dt.time] = []
+    for hour in range(9, 21):
+        for minute in (0, 15, 30, 45):
+            candidates.append(dt.time(hour, minute))
+    count = max(1, min(int(count), len(candidates)))
+    picked = sorted(rng.sample(candidates, k=count))
+    return [dt.datetime.combine(day, t, tzinfo=IST) for t in picked]
 
 
 def main() -> None:
     now = ist_now()
-    today = now.strftime("%Y-%m-%d")
-    target = target_for_hour(now.hour)
+    day = now.date()
+    today = day.isoformat()
+    slots = random_publish_slots(day, DAILY_TARGET)
     data = api("GET", f"/blogs/{BLOG_ID}/articles.json?limit=250")
     articles = data.get("articles", [])
     published = [a for a in articles if a.get("published_at")]
     drafts = sorted([a for a in articles if not a.get("published_at")], key=lambda a: a["id"])
     today_pub = [a for a in published if str(a.get("published_at", "")).startswith(today)]
-    needed = max(0, target - len(today_pub))
+    already = len(today_pub)
 
-    print(f"IST {now:%Y-%m-%d %H:%M} · today={len(today_pub)} · target={target} · needed={needed} · drafts={len(drafts)}")
-    if needed == 0:
+    print(
+        f"IST {now:%Y-%m-%d %H:%M} · today={already} · target={DAILY_TARGET} · "
+        f"slots={[s.strftime('%H:%M') for s in slots]} · drafts={len(drafts)}"
+    )
+    if already >= DAILY_TARGET:
         print("Target already met.")
         return
     if not drafts:
         print("No drafts. Run generate_daily_blogs.py first.")
         return
 
-    slots = ["09:00:00+05:30", "11:00:00+05:30", "14:00:00+05:30", "17:00:00+05:30", "19:30:00+05:30"]
-    for idx, art in enumerate(drafts[:needed]):
-        slot = slots[min(len(today_pub) + idx, len(slots) - 1)]
-        payload = {
-            "article": {
-                "id": art["id"],
-                "published": True,
-                "published_at": f"{today}T{slot}",
-            }
+    next_idx = already
+    due = slots[next_idx]
+    if now < due:
+        print(f"Waiting for random slot {due.strftime('%H:%M')} IST — no draft publish.")
+        return
+
+    art = drafts[0]
+    payload = {
+        "article": {
+            "id": art["id"],
+            "published": True,
+            "published_at": now.isoformat(),
         }
-        api("PUT", f"/blogs/{BLOG_ID}/articles/{art['id']}.json", payload)
-        print(f"Published draft {art['id']}: {art['title']}")
+    }
+    api("PUT", f"/blogs/{BLOG_ID}/articles/{art['id']}.json", payload)
+    print(f"Published draft {art['id']} at random slot {due.strftime('%H:%M')}: {art['title']}")
 
 
 if __name__ == "__main__":

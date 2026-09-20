@@ -1,12 +1,13 @@
 name: The Pickle Affair Daily Blog Publisher
 
-# Runs on GitHub servers — Mac can be offline.
-# Stops only when you disable this workflow in GitHub Actions (or delete the schedule).
+# Runs on GitHub (Mac offline OK). Each day picks a RANDOM IST publish time.
+# Hourly checks; posts only when that day's random slot is due — never a same-time batch.
 
 on:
   schedule:
-    # Once per day ~09:05 IST (03:35 UTC). Publishes up to 5 quality posts (fewer OK).
-    - cron: '35 3 * * *'
+    # Poll every 30m during ~09:00–20:30 IST (03:30–15:00 UTC)
+    - cron: '0,30 3-14 * * *'
+    - cron: '0 15 * * *'
   workflow_dispatch:
     inputs:
       mode:
@@ -14,9 +15,13 @@ on:
         required: true
         default: 'both'
       count:
-        description: 'Max posts this run (1-5)'
+        description: 'Max posts/day (each at a different random time; default 1)'
         required: false
-        default: '5'
+        default: '1'
+      force:
+        description: 'Ignore random slot wait (1 = publish now)'
+        required: false
+        default: '0'
 
 concurrency:
   group: pickle-affair-daily-blogs
@@ -25,7 +30,7 @@ concurrency:
 jobs:
   daily-blogs:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -35,7 +40,7 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Generate & publish Kitchen Tales posts
+      - name: Publish when today's random slot is due
         if: ${{ github.event_name == 'schedule' || github.event.inputs.mode == 'generate' || github.event.inputs.mode == 'both' }}
         env:
           SHOPIFY_CLIENT_ID: ${{ secrets.SHOPIFY_CLIENT_ID }}
@@ -43,19 +48,20 @@ jobs:
           SHOPIFY_ACCESS_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
           SHOPIFY_SHOP_URL: https://the-pickle-affair.myshopify.com
           SHOPIFY_BLOG_ID: '96853164183'
-          DAILY_BLOG_COUNT: ${{ github.event.inputs.count || '5' }}
+          DAILY_BLOG_COUNT: ${{ github.event_name == 'schedule' && '1' || github.event.inputs.count || '1' }}
+          FORCE_PUBLISH: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.force || '0' }}
           PUBLISH_IMMEDIATELY: '1'
         run: |
-          echo "Policy: BLOG.md (quality over volume; max ${DAILY_BLOG_COUNT}/day)"
+          echo "Random daily slot gate · count=${DAILY_BLOG_COUNT} · force=${FORCE_PUBLISH}"
           python3 scratch/generate_daily_blogs.py
 
-      - name: Publish queued drafts (safety net)
-        if: ${{ github.event_name == 'schedule' || github.event.inputs.mode == 'publish' || github.event.inputs.mode == 'both' }}
+      - name: Publish queued drafts (manual only)
+        if: ${{ github.event_name == 'workflow_dispatch' && (github.event.inputs.mode == 'publish' || github.event.inputs.mode == 'both') }}
         env:
           SHOPIFY_CLIENT_ID: ${{ secrets.SHOPIFY_CLIENT_ID }}
           SHOPIFY_CLIENT_SECRET: ${{ secrets.SHOPIFY_CLIENT_SECRET }}
           SHOPIFY_ACCESS_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
           SHOPIFY_SHOP_URL: https://the-pickle-affair.myshopify.com
           SHOPIFY_BLOG_ID: '96853164183'
-          DAILY_BLOG_COUNT: ${{ github.event.inputs.count || '5' }}
+          DAILY_BLOG_COUNT: ${{ github.event.inputs.count || '1' }}
         run: python3 scratch/daily_publish_daemon.py

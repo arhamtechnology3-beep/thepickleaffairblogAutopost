@@ -13,16 +13,33 @@
         "Diet claim (jain, oil-free) — only if true for us",
         "Bestsellers / combos"
       ],
-      "we_skip": ["oil-free", "jain", "lemon", "bengali", "punjabi", "south-indian", "podi", "murabba", "chutneys"]
+      "we_skip": [
+        "oil-free",
+        "jain",
+        "lemon",
+        "bengali",
+        "punjabi",
+        "south-indian",
+        "podi",
+        "murabba",
+        "chutneys"
+      ]
     },
     "pasand": {
       "url": "https://pasand.co.in",
       "collection_count": 7,
-      "patterns": ["pickles hub", "customer-favourites", "combo packs", "gift box"]
+      "patterns": [
+        "pickles hub",
+        "customer-favourites",
+        "combo packs",
+        "gift box"
+      ]
     },
     "adani": {
       "url": "https://shop.adanispices.com",
-      "patterns": ["single Pickles hub among spices — thinner educational collections"]
+      "patterns": [
+        "single Pickles hub among spices — thinner educational collections"
+      ]
     },
     "cadence": "Weekly: add 1–2 new intent collections from queue after uniqueness check. Daily blogs support collections + PDPs. Do not mass-create empty collections daily."
   },
@@ -42,7 +59,15 @@
       "primary_keyword": "mango pickle online",
       "seo_title": "Mango Pickle Online | Homemade Aam Ka Achar & Keri Varieties",
       "seo_desc": "Browse authentic mango pickle (aam ka achar) styles — spicy keri, methi, katka, sweet and shredded chhundo. FSSAI kitchen · The Pickle Affair · India shipping.",
-      "products": ["mango", "gor", "meethi", "gunda", "chana", "chhundo", "katka"],
+      "products": [
+        "mango",
+        "gor",
+        "meethi",
+        "gunda",
+        "chana",
+        "chhundo",
+        "katka"
+      ],
       "priority": 1,
       "status": "live"
     },
@@ -52,7 +77,11 @@
       "primary_keyword": "sweet mango pickle",
       "seo_title": "Sweet Mango Pickle Online | Meethi Keri, Gor Keri & Chhundo",
       "seo_desc": "Shop sweet Gujarati mango pickles — Meethi Keri, Gor Keri (jaggery) and Chhundo. Handmade Kathiawadi jars from The Pickle Affair. Ships across India.",
-      "products": ["meethi", "gor", "chhundo"],
+      "products": [
+        "meethi",
+        "gor",
+        "chhundo"
+      ],
       "priority": 1,
       "status": "live"
     },
@@ -62,7 +91,11 @@
       "primary_keyword": "gujarati keri achar",
       "seo_title": "Gujarati Keri Achar | Spicy Homemade Mango Pickle",
       "seo_desc": "Traditional spicy Gujarati keri achar — homemade mango pickle, Katka Keri and Chana Keri Methi. Small-batch Kathiawadi flavour from The Pickle Affair.",
-      "products": ["mango", "katka", "chana"],
+      "products": [
+        "mango",
+        "katka",
+        "chana"
+      ],
       "priority": 1,
       "status": "live"
     },
@@ -72,7 +105,9 @@
       "primary_keyword": "gunda keri pickle",
       "seo_title": "Gunda Keri Pickle Online | Lasode Ka Achar",
       "seo_desc": "Buy Gunda Keri (lasode ka achar) — a specialty Gujarati pickle pairing gunda with keri spices. Handmade jars from The Pickle Affair.",
-      "products": ["gunda"],
+      "products": [
+        "gunda"
+      ],
       "priority": 1,
       "status": "live"
     },
@@ -82,7 +117,9 @@
       "primary_keyword": "methia keri",
       "seo_title": "Methia Keri & Fenugreek Mango Pickle | Chana Keri Methi",
       "seo_desc": "Shop methia / Chana Keri Methi — fenugreek-forward Gujarati mango pickle for everyday meals. Handmade by The Pickle Affair.",
-      "products": ["chana"],
+      "products": [
+        "chana"
+      ],
       "priority": 1,
       "status": "live"
     },
@@ -92,7 +129,15 @@
       "primary_keyword": "kathiawadi pickle",
       "seo_title": "Kathiawadi Homemade Pickles | Traditional Gujarati Achar",
       "seo_desc": "Explore Kathiawadi homemade pickles from The Pickle Affair — keri, chhundo, gunda, methi and more. Traditional taste, ships across India.",
-      "products": ["mango", "gor", "meethi", "gunda", "chana", "chhundo", "katka"],
+      "products": [
+        "mango",
+        "gor",
+        "meethi",
+        "gunda",
+        "chana",
+        "chhundo",
+        "katka"
+      ],
       "priority": 1,
       "status": "live"
     },
@@ -102,7 +147,12 @@
       "primary_keyword": "pickle with thepla",
       "seo_title": "Best Pickle for Thepla & Tiffin | Gujarati Achar Pairings",
       "seo_desc": "Pickles that belong with thepla and tiffin — Chhundo, Meethi Keri, methi and katka styles from The Pickle Affair.",
-      "products": ["chhundo", "meethi", "chana", "katka"],
+      "products": [
+        "chhundo",
+        "meethi",
+        "chana",
+        "katka"
+      ],
       "priority": 1,
       "status": "live"
     },
@@ -112,7 +162,15 @@
       "primary_keyword": "buy gujarati pickle online",
       "seo_title": "Buy Gujarati Pickle Online India | Kathiawadi Homemade Achar",
       "seo_desc": "Buy authentic Gujarati pickle online — chhundo, meethi keri, gunda keri, katka and aam ka achar. Handmade · pan-India shipping.",
-      "products": ["mango", "gor", "meethi", "gunda", "chana", "chhundo", "katka"],
+      "products": [
+        "mango",
+        "gor",
+        "meethi",
+        "gunda",
+        "chana",
+        "chhundo",
+        "katka"
+      ],
       "priority": 1,
       "status": "live"
     },
@@ -122,9 +180,17 @@
       "primary_keyword": "gujarati achar",
       "seo_title": "Gujarati Achar Online | Traditional Homemade Pickles",
       "seo_desc": "Shop Gujarati achar — keri, chhundo, gunda, methi and sweet mango styles from The Pickle Affair’s Kathiawadi kitchen. Ships across India.",
-      "products": ["mango", "gor", "meethi", "gunda", "chana", "chhundo", "katka"],
+      "products": [
+        "mango",
+        "gor",
+        "meethi",
+        "gunda",
+        "chana",
+        "chhundo",
+        "katka"
+      ],
       "priority": 2,
-      "status": "queued",
+      "status": "live",
       "competitor_signal": "Homepick /collections/gujarati-achar"
     },
     {
@@ -133,9 +199,17 @@
       "primary_keyword": "homemade pickles online",
       "seo_title": "Homemade Pickles Online | Traditional Indian & Gujarati Achar",
       "seo_desc": "Browse homemade pickles online from The Pickle Affair — full Kathiawadi range of mango, sweet, methi and specialty achar. Pan-India shipping.",
-      "products": ["mango", "gor", "meethi", "gunda", "chana", "chhundo", "katka"],
+      "products": [
+        "mango",
+        "gor",
+        "meethi",
+        "gunda",
+        "chana",
+        "chhundo",
+        "katka"
+      ],
       "priority": 2,
-      "status": "queued",
+      "status": "live",
       "competitor_signal": "Homepick /collections/all-pickles"
     },
     {
@@ -144,9 +218,14 @@
       "primary_keyword": "best gujarati pickles",
       "seo_title": "Best Gujarati Pickles | Customer Favourites from The Pickle Affair",
       "seo_desc": "Start with our most-reached-for jars — Meethi Keri, Chhundo, Homemade Mango Pickle and Gunda Keri. Handmade Kathiawadi favourites.",
-      "products": ["meethi", "chhundo", "mango", "gunda"],
+      "products": [
+        "meethi",
+        "chhundo",
+        "mango",
+        "gunda"
+      ],
       "priority": 2,
-      "status": "queued",
+      "status": "live",
       "competitor_signal": "Pasand customer-favourites / Homepick bestsellers"
     },
     {
@@ -155,9 +234,15 @@
       "primary_keyword": "pickle gift hamper india",
       "seo_title": "Pickle Gift Ideas India | Festive Gujarati Achar Hampers",
       "seo_desc": "Gift handmade Gujarati pickles — sweet, spicy and specialty jars from The Pickle Affair. Ideal for festive hampers and family gifting.",
-      "products": ["meethi", "chhundo", "gor", "gunda", "mango"],
+      "products": [
+        "meethi",
+        "chhundo",
+        "gor",
+        "gunda",
+        "mango"
+      ],
       "priority": 2,
-      "status": "queued",
+      "status": "live",
       "competitor_signal": "Homepick festive-gifting / Pasand gift-box"
     },
     {
@@ -166,9 +251,11 @@
       "primary_keyword": "buy chhundo online",
       "seo_title": "Buy Chhundo Online | Sweet Shredded Mango Achar",
       "seo_desc": "Buy Chhundo (sweet shredded mango achar) online from The Pickle Affair — traditional Gujarati relish texture for thepla and thalis.",
-      "products": ["chhundo"],
+      "products": [
+        "chhundo"
+      ],
       "priority": 2,
-      "status": "queued",
+      "status": "live",
       "competitor_signal": "Homepick sweet-pickles + Pasand chhundo focus"
     },
     {
@@ -177,9 +264,11 @@
       "primary_keyword": "gor keri pickle",
       "seo_title": "Gor Keri Pickle Online | Jaggery Mango Achar",
       "seo_desc": "Shop Gor Keri (jaggery mango achar) from The Pickle Affair — sweet-depth Gujarati pickle for everyday meals. Ships across India.",
-      "products": ["gor"],
+      "products": [
+        "gor"
+      ],
       "priority": 2,
-      "status": "queued",
+      "status": "live",
       "competitor_signal": "Adani Gor Keri / Gol Keri demand"
     },
     {
@@ -188,9 +277,12 @@
       "primary_keyword": "homemade mango pickle",
       "seo_title": "Homemade Mango Pickle Online | Aam Ka Achar",
       "seo_desc": "Buy homemade mango pickle (aam ka achar) — traditional spicy keri style from The Pickle Affair’s Kathiawadi kitchen.",
-      "products": ["mango", "katka"],
+      "products": [
+        "mango",
+        "katka"
+      ],
       "priority": 2,
-      "status": "queued",
+      "status": "live",
       "competitor_signal": "Homepick mango-pickles"
     },
     {
@@ -199,9 +291,13 @@
       "primary_keyword": "pickle with khichdi",
       "seo_title": "Pickle with Khichdi & Dal | Comfort Pairing Jars",
       "seo_desc": "Pickles that cut through khichdi and dal-rice comfort — Katka Keri, Gunda Keri and everyday spicy mango achar from The Pickle Affair.",
-      "products": ["katka", "gunda", "mango"],
+      "products": [
+        "katka",
+        "gunda",
+        "mango"
+      ],
       "priority": 3,
-      "status": "queued",
+      "status": "live",
       "competitor_signal": "Occasion pairing hub (our content advantage)"
     },
     {
@@ -210,9 +306,17 @@
       "primary_keyword": "saurashtra pickle",
       "seo_title": "Saurashtra & Kathiawadi Achar | Regional Gujarati Pickles",
       "seo_desc": "Explore Saurashtra / Kathiawadi-style achar from The Pickle Affair — regional Gujarati pickle character for everyday thalis.",
-      "products": ["mango", "katka", "gunda", "chana", "meethi", "chhundo", "gor"],
+      "products": [
+        "mango",
+        "katka",
+        "gunda",
+        "chana",
+        "meethi",
+        "chhundo",
+        "gor"
+      ],
       "priority": 3,
-      "status": "queued",
+      "status": "live",
       "competitor_signal": "Regional silo pattern (Homepick regional achar pages)"
     },
     {
@@ -221,9 +325,11 @@
       "primary_keyword": "meethi keri",
       "seo_title": "Meethi Keri Online | Sweet Mango Achar",
       "seo_desc": "Buy Meethi Keri (sweet mango achar) online — classic sweet keri pieces from The Pickle Affair for thepla and festive thalis.",
-      "products": ["meethi"],
+      "products": [
+        "meethi"
+      ],
       "priority": 3,
-      "status": "queued",
+      "status": "live",
       "competitor_signal": "SKU-intent landing page (sweet mango / meethi keri)"
     },
     {
@@ -232,9 +338,11 @@
       "primary_keyword": "katka keri pickle",
       "seo_title": "Katka Keri Pickle Online | Homemade Gujarati Mango Achar",
       "seo_desc": "Shop Katka Keri pickle — homemade Gujarati mango achar for everyday roti and khichdi plates. Handmade by The Pickle Affair.",
-      "products": ["katka"],
+      "products": [
+        "katka"
+      ],
       "priority": 3,
-      "status": "queued",
+      "status": "live",
       "competitor_signal": "Niche SKU collection (Homepick-style specialty pages)"
     },
     {
@@ -243,9 +351,17 @@
       "primary_keyword": "fssai homemade pickle online",
       "seo_title": "FSSAI Handmade Pickles Online | Hygienic Kathiawadi Achar",
       "seo_desc": "Shop handmade pickles prepared in an FSSAI-certified kitchen context — no synthetic colours, traditional Kathiawadi jars from The Pickle Affair.",
-      "products": ["mango", "gor", "meethi", "gunda", "chana", "chhundo", "katka"],
+      "products": [
+        "mango",
+        "gor",
+        "meethi",
+        "gunda",
+        "chana",
+        "chhundo",
+        "katka"
+      ],
       "priority": 3,
-      "status": "queued",
+      "status": "live",
       "competitor_signal": "Trust / clean-label hub (claim only what we state)"
     }
   ]

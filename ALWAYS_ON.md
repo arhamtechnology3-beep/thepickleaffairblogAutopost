@@ -1,29 +1,26 @@
-# Autopost — always-on (random time each day)
+# Autopost — always-on
 
 Kitchen Tales posts run on **GitHub Actions**. Your Mac can be offline.
 
-## Schedule
+## Blogs (daily, random time)
 
-Each calendar day picks a **random IST time** between ~09:00 and ~20:45.
-The workflow checks every 30 minutes and publishes **only when that slot is due** — so posts are not batched at the same timestamp.
+Each day picks a **random IST time** (~09:00–20:45). Default **1 post/day**.
 
-- Default: **1 post/day** at that random time
-- Quality gates may skip the day (0 posts) if no unique topic
+- Body length gate: **≥1500 words**
+- Each post targets **collection hubs + product pages** (`topic_library.json`)
 
-## How to STOP
+## Collections (weekly, competitor-informed)
 
-Actions → **The Pickle Affair Daily Blog Publisher** → **⋯** → **Disable workflow**
+Homepick-style architecture without doorway spam:
+
+- Library: `scratch/collection_library.json` (~20 intents)
+- Action: **Weekly SEO Collections** (Mondays, up to 2 new queued hubs)
+- Manual full sync: run with `batch=all` `limit=0`
+
+Collection pages include intro, buying guidance, comparison, serving, FAQ, related collections + blogs.
+
+## How to STOP blogs
 
 ```bash
 gh workflow disable "The Pickle Affair Daily Blog Publisher" --repo arhamtechnology3-beep/thepickleaffairblogAutopost
 ```
-
-## Manual run
-
-Use `force=1` to publish immediately (ignore waiting for the random slot).
-
-## Rewrite existing live posts (BLOG.md)
-
-Actions → **Rewrite Live Kitchen Tales (BLOG.md)** → **Run workflow**
-
-Updates every published Kitchen Tales article in place (titles, answer-first body, FAQs, products, related links) and unpublishes thin duplicates from the audit.

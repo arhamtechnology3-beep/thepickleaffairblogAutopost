@@ -17,6 +17,7 @@ import json
 import os
 import ssl
 import sys
+import time
 import urllib.error
 import urllib.request
 from pathlib import Path
@@ -50,23 +51,33 @@ def api(method: str, path: str, payload: dict | None = None) -> dict:
     if not TOKEN:
         TOKEN = resolve_access_token()
     data = None if payload is None else json.dumps(payload).encode()
-    req = urllib.request.Request(
-        f"{SHOP_URL}/admin/api/{API}{path}",
-        data=data,
-        method=method,
-        headers={
-            "X-Shopify-Access-Token": TOKEN,
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-        },
-    )
-    try:
-        with urllib.request.urlopen(req, context=CTX, timeout=90) as resp:
-            body = resp.read().decode()
-            return json.loads(body) if body else {}
-    except urllib.error.HTTPError as e:
-        err = e.read().decode()
-        raise SystemExit(f"API {method} {path} failed: {e.code} {err}") from e
+    last_err = ""
+    for attempt in range(8):
+        req = urllib.request.Request(
+            f"{SHOP_URL}/admin/api/{API}{path}",
+            data=data,
+            method=method,
+            headers={
+                "X-Shopify-Access-Token": TOKEN,
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+            },
+        )
+        try:
+            with urllib.request.urlopen(req, context=CTX, timeout=90) as resp:
+                body = resp.read().decode()
+                time.sleep(0.55)  # stay under ~2 calls/sec
+                return json.loads(body) if body else {}
+        except urllib.error.HTTPError as e:
+            err = e.read().decode()
+            last_err = f"{e.code} {err}"
+            if e.code == 429 or e.code >= 500:
+                wait = 1.5 * (attempt + 1)
+                print(f"  retry {attempt + 1} after {wait:.1f}s ({e.code})")
+                time.sleep(wait)
+                continue
+            raise SystemExit(f"API {method} {path} failed: {last_err}") from e
+    raise SystemExit(f"API {method} {path} failed after retries: {last_err}")
 
 
 def related_block(links: list[tuple[str, str]]) -> str:

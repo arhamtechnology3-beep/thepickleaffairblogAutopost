@@ -21,3 +21,9 @@ gh workflow disable "The Pickle Affair Daily Blog Publisher" --repo arhamtechnol
 ## Manual run
 
 Use `force=1` to publish immediately (ignore waiting for the random slot).
+
+## Rewrite existing live posts (BLOG.md)
+
+Actions → **Rewrite Live Kitchen Tales (BLOG.md)** → **Run workflow**
+
+Updates every published Kitchen Tales article in place (titles, answer-first body, FAQs, products, related links) and unpublishes thin duplicates from the audit.

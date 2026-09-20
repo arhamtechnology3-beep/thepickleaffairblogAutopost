@@ -1,0 +1,41 @@
+name: Rewrite Live Kitchen Tales (BLOG.md)
+
+# One-shot / on-demand: update all published posts to BLOG.md rules.
+# Does not change the daily random-slot publisher.
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: '1 = print only, no Shopify writes'
+        required: false
+        default: '0'
+
+concurrency:
+  group: pickle-affair-rewrite-live
+  cancel-in-progress: false
+
+jobs:
+  rewrite:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Rewrite live articles
+        env:
+          SHOPIFY_CLIENT_ID: ${{ secrets.SHOPIFY_CLIENT_ID }}
+          SHOPIFY_CLIENT_SECRET: ${{ secrets.SHOPIFY_CLIENT_SECRET }}
+          SHOPIFY_ACCESS_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
+          SHOPIFY_SHOP_URL: https://the-pickle-affair.myshopify.com
+          SHOPIFY_BLOG_ID: '96853164183'
+          DRY_RUN: ${{ github.event.inputs.dry_run || '0' }}
+        run: |
+          echo "Rewriting live Kitchen Tales to BLOG.md (dry_run=${DRY_RUN})"
+          python3 scratch/rewrite_live_blogs.py

@@ -177,7 +177,7 @@ def rich_body(spec: dict, all_handles: list[str]) -> str:
 <h2>Related Kitchen Tales guides</h2>
 <ul>{rel_b}</ul>
 
-<p><em>Collection SEO checklist: unique intro · buying guidance · comparison · serving · FAQ · internal links · one primary keyword ({kw}). Policy: no keyword stuffing, no competitor copy.</em></p>
+<p><em>Collection SEO: unique intro · buying guidance · comparison · serving · FAQ · internal links · one primary keyword ({kw}). Ships across India from Virar, Maharashtra.</em></p>
 """.strip()
 
 

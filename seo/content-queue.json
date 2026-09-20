@@ -1,0 +1,120 @@
+{
+  "updated": "2026-09-20",
+  "policy": ["BLOG.md", "seo/SEO_AUTOPILOT.md"],
+  "queue": [
+    {
+      "id": "w1-col-mango",
+      "type": "collection",
+      "target": "mango-pickles",
+      "primary_keyword": "mango pickle",
+      "article_type": "buying_guide",
+      "status": "pending",
+      "week": 1,
+      "notes": "Create Shopify collection + unique intro; do not use Status=Active only"
+    },
+    {
+      "id": "w1-prod-chhundo-seo",
+      "type": "product",
+      "target": "chhundo-pickle-sweet-shredded-mango-achar-gujarati",
+      "primary_keyword": "chhundo",
+      "article_type": "product_seo",
+      "status": "pending",
+      "week": 1,
+      "notes": "Optimize PDP metafields/description from verified Shopify facts only"
+    },
+    {
+      "id": "w1-blog-what-is-chhundo",
+      "type": "blog",
+      "target": "what-is-chhundo",
+      "primary_keyword": "what is chhundo",
+      "article_type": "educational",
+      "status": "pending",
+      "week": 1,
+      "supports": ["chhundo-pickle-sweet-shredded-mango-achar-gujarati", "sweet-pickles"],
+      "notes": "Must pass BLOG.md §56–77; expand or supersede thin Chhundo post if intent overlaps"
+    },
+    {
+      "id": "w2-col-gujarati",
+      "type": "collection",
+      "target": "gujarati-pickles",
+      "primary_keyword": "gujarati pickle",
+      "status": "pending",
+      "week": 2
+    },
+    {
+      "id": "w2-prod-gunda",
+      "type": "product",
+      "target": "gunda-keri-pickle-lasode-ka-achar-gujarati",
+      "primary_keyword": "gunda keri pickle",
+      "status": "pending",
+      "week": 2
+    },
+    {
+      "id": "w2-blog-what-is-gunda",
+      "type": "blog",
+      "target": "what-is-gunda-keri-pickle",
+      "primary_keyword": "what is gunda keri pickle",
+      "article_type": "educational",
+      "status": "pending",
+      "week": 2
+    },
+    {
+      "id": "w3-col-sweet",
+      "type": "collection",
+      "target": "sweet-pickles",
+      "primary_keyword": "sweet mango pickle",
+      "status": "pending",
+      "week": 3
+    },
+    {
+      "id": "w3-prod-gor",
+      "type": "product",
+      "target": "gor-keri-pickle-jaggery-mango-achar-gujarati",
+      "primary_keyword": "gor keri",
+      "status": "pending",
+      "week": 3
+    },
+    {
+      "id": "w3-blog-what-is-gor",
+      "type": "blog",
+      "target": "what-is-gor-keri",
+      "primary_keyword": "what is gor keri",
+      "status": "pending",
+      "week": 3
+    },
+    {
+      "id": "w4-col-spicy",
+      "type": "collection",
+      "target": "spicy-tangy-pickles",
+      "primary_keyword": "spicy mango pickle",
+      "status": "pending",
+      "week": 4
+    },
+    {
+      "id": "w4-prod-katka",
+      "type": "product",
+      "target": "katka-keri-pickle-homemade-gujarati-mango-achar",
+      "primary_keyword": "katka keri pickle",
+      "status": "pending",
+      "week": 4
+    },
+    {
+      "id": "w4-blog-gujarati-mango-guide",
+      "type": "blog",
+      "target": "traditional-gujarati-mango-pickle-guide",
+      "primary_keyword": "gujarati mango pickle",
+      "status": "pending",
+      "week": 4,
+      "notes": "Must not cannibalize gujarati-keri-achar existing URL — UPDATE or distinct intent"
+    },
+    {
+      "id": "expand-meethi-keri-blog",
+      "type": "blog",
+      "target": "sweet-mango-pickle-homemade-guide-the-pickle-affair",
+      "primary_keyword": "sweet mango pickle",
+      "status": "needs-review",
+      "action": "UPDATE",
+      "notes": "BLOG.md §50 priority expand existing URL"
+    }
+  ]
+}

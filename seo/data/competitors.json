@@ -1,0 +1,69 @@
+[
+  {
+    "competitor": "Homepick",
+    "URL": "https://homepick.co.in",
+    "products": ["Gujarati Chhunda", "Gunda Keri Pickle", "other regional pickles"],
+    "ranking_keywords": ["gujarati chhunda", "gunda keri pickle", "handcrafted pickles"],
+    "content_topics": ["sun-drying story", "heirloom mangoes", "small-batch", "Jain options"],
+    "strengths": ["Strong storytelling", "clear regional authenticity claims", "clean product pages"],
+    "gaps": ["May under-serve deep FAQ/pairing guides per SKU", "Opportunity for clearer sweet-vs-spicy buying hubs"],
+    "price_positioning": "Premium handmade (~₹250+ observed on sample SKUs)",
+    "unique_terms": ["chhunda", "heirloom mangoes", "oil free chhunda (their claim)"],
+    "opportunity_keywords": ["chhundo vs meethi keri", "how to choose gujarati pickle", "gunda keri buying guide"],
+    "last_checked": "2026-09-20"
+  },
+  {
+    "competitor": "Adani Spices",
+    "URL": "https://shop.adanispices.com",
+    "products": ["Pickle Chhundo", "Pickle Gor Keri"],
+    "ranking_keywords": ["pickle chhundo", "gor keri", "gujarati mango pickle"],
+    "content_topics": ["no artificial colours", "ISO claims", "mass availability messaging"],
+    "strengths": ["Brand recognition", "competitive pricing", "SKU availability"],
+    "gaps": ["Less artisan/Baa kitchen narrative", "thinner educational content vs specialty D2C"],
+    "price_positioning": "Value (~₹174 observed on sample bottles)",
+    "unique_terms": ["gol keri", "home-made style"],
+    "opportunity_keywords": ["artisanal vs commercial gujarati pickle", "gor keri jaggery mango pickle guide"],
+    "last_checked": "2026-09-20"
+  },
+  {
+    "competitor": "Pasand / Gut Feeling",
+    "URL": "https://pasand.co.in",
+    "products": ["Chhundo"],
+    "ranking_keywords": ["aam ka chunda", "gujarati chhundo"],
+    "content_topics": ["sun-drying process", "rajapuri mango", "since 1983 heritage"],
+    "strengths": ["Long heritage narrative", "detailed process copy"],
+    "gaps": ["Narrower multi-SKU pickle cluster vs full Gujarati range"],
+    "price_positioning": "Premium (~₹450 observed for chhundo sizes)",
+    "unique_terms": ["pasand", "sun-drying batch"],
+    "opportunity_keywords": ["what is chhundo", "chhundo serving ideas", "sweet shredded mango pickle"],
+    "last_checked": "2026-09-20"
+  },
+  {
+    "competitor": "FarmDidi",
+    "URL": "",
+    "products": [],
+    "ranking_keywords": [],
+    "content_topics": [],
+    "strengths": [],
+    "gaps": ["Needs live SERP confirmation before any comparison content"],
+    "price_positioning": "unknown",
+    "unique_terms": [],
+    "opportunity_keywords": [],
+    "last_checked": "2026-09-20",
+    "notes": "Named in SEO_AUTOPILOT research targets — do not invent ranking claims; research before use."
+  },
+  {
+    "competitor": "JhaJi Store",
+    "URL": "",
+    "products": [],
+    "ranking_keywords": [],
+    "content_topics": [],
+    "strengths": [],
+    "gaps": ["Needs live SERP confirmation"],
+    "price_positioning": "unknown",
+    "unique_terms": [],
+    "opportunity_keywords": [],
+    "last_checked": "2026-09-20",
+    "notes": "Placeholder research target only."
+  }
+]

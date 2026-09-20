@@ -1,47 +1,38 @@
-# SEO_CHECKLIST.md — Pre-publish gate (BLOG.md §40)
+# SEO_CHECKLIST.md — Pre-publish gate
 
-Use before every Kitchen Tales publish or major update.
+Masters: `BLOG.md` §40 + §56–77 + `seo/SEO_RULES.md`
 
 ## Uniqueness
-- [ ] No existing URL owns the same primary search intent (`BLOG_REGISTRY.md`)
-- [ ] Title unique
-- [ ] Meta description unique
-- [ ] H1 unique and matches intent
-- [ ] Outline not a near-clone of another article
+- [ ] No existing URL owns the same primary search intent (`BLOG_REGISTRY.md` / `seo/KEYWORD_MAP.md`)
+- [ ] Title / meta / H1 unique
+- [ ] Outline not a near-clone (§79 diversity)
 
-## Intent & usefulness
-- [ ] Dominant search intent classified
-- [ ] Intent satisfied (recipe pages have real process; storage pages teach storage)
-- [ ] Direct answer near the top
-- [ ] Would still be useful without Google
+## Intent & components (§56–57)
+- [ ] Article type chosen (recipe / how-to / buying / comparison / heritage / ingredient / pairing)
+- [ ] Required components for that type present
+- [ ] Quick answer near top
+- [ ] No large promo before useful info
+
+## Depth (§58–60, §80)
+- [ ] Enough depth for the intent (not filler to hit a number)
+- [ ] Original value specific to The Pickle Affair (§61)
 
 ## Claims & safety
-- [ ] No fabricated family history, awards, reviews, health claims
-- [ ] No invented recipe quantities
-- [ ] FSSAI / shelf-life / ingredients verified against live product copy
-- [ ] Recipe schema only if visible recipe qualifies
+- [ ] No fabricated recipes, health claims, awards, reviews, heritage
+- [ ] Product facts verified in Shopify
+- [ ] Recipe schema only if page qualifies
 
-## On-page SEO
-- [ ] One H1
-- [ ] Descriptive title (not stuffed)
-- [ ] Meta description matches content
-- [ ] Stable lowercase hyphenated slug (no gratuitous dates)
-- [ ] Category from: Heritage Recipes · Health & Spices · Buying Guides · Pickle Pairings · Artisanal Craft
+## Media & links (§62–69)
+- [ ] Descriptive image ALT
+- [ ] Related content + 1–3 product links + collection link
+- [ ] Natural anchors (no “click here”)
 
-## Links & media
-- [ ] Link to pillar when live
-- [ ] 2–5 related article links where useful
-- [ ] 1–3 relevant product links only
-- [ ] Descriptive image alt
-- [ ] No fake AI packaging
+## Scorecard (§77) — all must pass
+- [ ] Intent · Depth · Originality · Expertise · Accuracy
+- [ ] Structure · SEO · Internal linking · Conversion · Technical
 
 ## Technical
-- [ ] HTTP 200 after publish
-- [ ] Indexable / correct canonical
-- [ ] Structured data matches visible content
-- [ ] OG title/description/image sensible
-- [ ] Mobile layout OK
-- [ ] Registry + calendar updated
+- [ ] Indexable / canonical / OG / schema match visible content
+- [ ] Registry + calendar + `DAILY_CONTENT_REPORT.md` updated
 
-## Automation rule
-If critical checks fail → **DO NOT PUBLISH**. Quality over hitting 5 posts.
+**Fail critical → DO NOT publish** (status `needs-review`)

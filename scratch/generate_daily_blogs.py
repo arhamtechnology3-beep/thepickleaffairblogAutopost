@@ -31,6 +31,7 @@ TOPIC_LIB = json.loads((ROOT / "scratch" / "topic_library.json").read_text())
 BLOG_MD = ROOT / "BLOG.md"
 REGISTRY_MD = ROOT / "BLOG_REGISTRY.md"
 CALENDAR_MD = ROOT / "CONTENT_CALENDAR.md"
+REPORT_MD = ROOT / "DAILY_CONTENT_REPORT.md"
 
 SHOP_URL = shop_url()
 TOKEN = ""
@@ -392,6 +393,34 @@ def append_registry(topic: dict, handle: str, art_id: int) -> None:
     REGISTRY_MD.write_text(text.rstrip() + "\n" + block + "\n")
 
 
+def append_daily_report(day: dt.date, topic: dict, title: str, handle: str, body: str, status: str) -> None:
+    """BLOG.md §78 content report row."""
+    if not REPORT_MD.exists():
+        return
+    words = len(re.sub(r"<[^>]+>", " ", body).split())
+    h2s = len(re.findall(r"<h2\b", body, flags=re.I))
+    internal = len(re.findall(r'href="/blogs/|href="/collections/', body))
+    products = len(re.findall(r'href="/products/', body))
+    images = len(re.findall(r"<img\b", body, flags=re.I))
+    schema = "FAQPage" if "FAQPage" in body else "none"
+    row = (
+        f"| {day.isoformat()} | {title[:50]} | /blogs/kitchen-tales/{handle} | "
+        f"{topic.get('primary_keyword')} | {topic.get('intent')} | {topic.get('cluster')} | "
+        f"{topic.get('angle')} | {words} | {h2s} | {internal} | {products} | {images} | "
+        f"{schema} | {status} | pass | pass |\n"
+    )
+    text = REPORT_MD.read_text()
+    if row in text:
+        return
+    # Insert after table header block — append before ## Batch notes if present
+    marker = "\n## Batch notes"
+    if marker in text:
+        text = text.replace(marker, row + marker)
+    else:
+        text = text.rstrip() + "\n" + row
+    REPORT_MD.write_text(text)
+
+
 def create_article(title: str, excerpt: str, body: str, tags: str, image: str, published_at: str) -> dict:
     payload = {
         "article": {
@@ -445,10 +474,12 @@ def main() -> None:
         append_calendar(day, topic, f"/blogs/kitchen-tales/{handle}", "PUBLISHED")
         if art.get("id"):
             append_registry(topic, handle, art["id"])
+        append_daily_report(day, topic, title, handle, body, "PUBLISHED")
         created += 1
         articles.append({"title": title, "handle": handle})
 
     print(f"Done. Published {created} article(s) (cap {MAX_DAILY}).")
+    print("Report: DAILY_CONTENT_REPORT.md · Scorecard: BLOG.md §77")
     if created < MAX_DAILY:
         print("Note: fewer than 5 is correct when uniqueness/quality gates block fillers.")
 

@@ -61,3 +61,7 @@ python3 scratch/generate_daily_blogs.py
 | `scratch/generate_daily_blogs.py` | Create today's 5 posts |
 | `scratch/daily_publish_daemon.py` | Publish drafts if needed |
 | `.github/workflows/daily_blog_publisher.yml` | Schedule + manual run |
+
+## Always-on daily posting
+
+See [ALWAYS_ON.md](ALWAYS_ON.md) — runs on GitHub Actions every day until you disable the workflow.

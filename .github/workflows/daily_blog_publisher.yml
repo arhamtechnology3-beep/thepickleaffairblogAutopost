@@ -1,19 +1,31 @@
 name: The Pickle Affair Daily Blog Publisher
 
+# Runs on GitHub servers — Mac can be offline.
+# Stops only when you disable this workflow in GitHub Actions (or delete the schedule).
+
 on:
   schedule:
-    # 5 posts/day IST windows: ~09:05, 11:05, 14:05, 17:05, 19:35 IST
-    - cron: '35 3,5,8,11,14 * * *'
+    # Once per day ~09:05 IST (03:35 UTC). Publishes up to 5 quality posts (fewer OK).
+    - cron: '35 3 * * *'
   workflow_dispatch:
     inputs:
       mode:
-        description: 'generate (create 5) | publish (release drafts) | both'
+        description: 'generate | publish | both'
         required: true
         default: 'both'
+      count:
+        description: 'Max posts this run (1-5)'
+        required: false
+        default: '5'
+
+concurrency:
+  group: pickle-affair-daily-blogs
+  cancel-in-progress: false
 
 jobs:
   daily-blogs:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -23,20 +35,21 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Generate today's 5 SEO blogs
+      - name: Generate & publish Kitchen Tales posts
         if: ${{ github.event_name == 'schedule' || github.event.inputs.mode == 'generate' || github.event.inputs.mode == 'both' }}
         env:
-          # Prefer Client Credentials (Postman-style). Optional fallback: SHOPIFY_ACCESS_TOKEN
           SHOPIFY_CLIENT_ID: ${{ secrets.SHOPIFY_CLIENT_ID }}
           SHOPIFY_CLIENT_SECRET: ${{ secrets.SHOPIFY_CLIENT_SECRET }}
           SHOPIFY_ACCESS_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
           SHOPIFY_SHOP_URL: https://the-pickle-affair.myshopify.com
           SHOPIFY_BLOG_ID: '96853164183'
-          DAILY_BLOG_COUNT: '5'
+          DAILY_BLOG_COUNT: ${{ github.event.inputs.count || '5' }}
           PUBLISH_IMMEDIATELY: '1'
-        run: python3 scratch/generate_daily_blogs.py
+        run: |
+          echo "Policy: BLOG.md (quality over volume; max ${DAILY_BLOG_COUNT}/day)"
+          python3 scratch/generate_daily_blogs.py
 
-      - name: Publish queued drafts (cadence safety net)
+      - name: Publish queued drafts (safety net)
         if: ${{ github.event_name == 'schedule' || github.event.inputs.mode == 'publish' || github.event.inputs.mode == 'both' }}
         env:
           SHOPIFY_CLIENT_ID: ${{ secrets.SHOPIFY_CLIENT_ID }}
@@ -44,5 +57,5 @@ jobs:
           SHOPIFY_ACCESS_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
           SHOPIFY_SHOP_URL: https://the-pickle-affair.myshopify.com
           SHOPIFY_BLOG_ID: '96853164183'
-          DAILY_BLOG_COUNT: '5'
+          DAILY_BLOG_COUNT: ${{ github.event.inputs.count || '5' }}
         run: python3 scratch/daily_publish_daemon.py

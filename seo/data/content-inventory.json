@@ -1,0 +1,79 @@
+{
+  "updated": "2026-09-20",
+  "source": "product_registry.json + Kitchen Tales Admin API audit + theme templates",
+  "note": "read_products scope not granted to Blog Autopost app — product inventory from local registry; verify prices/ingredients in Shopify Admin before publishing claims.",
+  "products": [
+    {
+      "handle": "chhundo-pickle-sweet-shredded-mango-achar-gujarati",
+      "title": "Chhundo | Sweet Shredded Mango Achar",
+      "primary_keyword": "chhundo",
+      "collections_planned": ["sweet-pickles", "mango-pickles", "gujarati-pickles", "gujarati-mango-pickles"]
+    },
+    {
+      "handle": "gunda-keri-pickle-lasode-ka-achar-gujarati",
+      "title": "Gunda Keri | Lasode ka Achar",
+      "primary_keyword": "gunda keri pickle",
+      "collections_planned": ["mango-pickles", "gujarati-pickles", "spicy-tangy-pickles"]
+    },
+    {
+      "handle": "sweet-mango-pickle-meethi-keri-achar-homemade",
+      "title": "Meethi Keri | Sweet Mango Achar",
+      "primary_keyword": "meethi keri pickle",
+      "collections_planned": ["sweet-pickles", "mango-pickles", "gujarati-mango-pickles"]
+    },
+    {
+      "handle": "chana-keri-methi-pickle-gujarati-methia-achar",
+      "title": "Chana Keri Methi Achar | Methia Keri",
+      "primary_keyword": "chana keri methi pickle",
+      "collections_planned": ["spicy-tangy-pickles", "gujarati-pickles"]
+    },
+    {
+      "handle": "mango-pickle-traditional-keri-achar-gujarati",
+      "title": "Homemade Mango Pickle | Aam ka Achar",
+      "primary_keyword": "homemade mango pickle",
+      "collections_planned": ["mango-pickles", "homemade-pickles", "gujarati-mango-pickles", "spicy-tangy-pickles"]
+    },
+    {
+      "handle": "gor-keri-pickle-jaggery-mango-achar-gujarati",
+      "title": "Gor Keri | Jaggery Mango Achar",
+      "primary_keyword": "gor keri",
+      "collections_planned": ["sweet-pickles", "mango-pickles", "gujarati-mango-pickles"]
+    },
+    {
+      "handle": "katka-keri-pickle-homemade-gujarati-mango-achar",
+      "title": "Katka Keri Pickle | Homemade Gujarati Mango Achar",
+      "primary_keyword": "katka keri pickle",
+      "collections_planned": ["spicy-tangy-pickles", "mango-pickles", "gujarati-mango-pickles", "homemade-pickles"]
+    }
+  ],
+  "collections_live": [
+    {
+      "handle": "all-products",
+      "title": "All Products (existing)",
+      "status": "exists",
+      "notes": "Footer currently points many SHOP links here — replace with real SEO collections."
+    }
+  ],
+  "collections_planned": [
+    "all-pickles",
+    "mango-pickles",
+    "gujarati-pickles",
+    "sweet-pickles",
+    "spicy-tangy-pickles",
+    "gujarati-mango-pickles",
+    "saurashtra-pickles",
+    "homemade-pickles"
+  ],
+  "blogs_canonical": [
+    "/blogs/kitchen-tales/sweet-mango-pickle-homemade-guide-the-pickle-affair",
+    "/blogs/kitchen-tales/katka-keri-pickle-how-to-store-and-serve-at-home-the-pickle-affair",
+    "/blogs/kitchen-tales/buy-gunda-keri-online-guide-the-pickle-affair-20-sep",
+    "/blogs/kitchen-tales/gujarati-keri-achar-guide-the-pickle-affair-20-sep",
+    "/blogs/kitchen-tales/chana-keri-methi-pickle-guide-the-pickle-affair-20-sep",
+    "/blogs/kitchen-tales/why-mustard-oil-is-used-in-gujarati-and-kathiawadi-pickles",
+    "/blogs/kitchen-tales/pickle-with-khichdi-comfort-pairings-from-a-kathiawadi-kitchen",
+    "/blogs/kitchen-tales/how-baa-s-kitchen-makes-traditional-gujarati-pickles",
+    "/blogs/kitchen-tales/how-to-buy-authentic-gujarati-pickle-online-without-guesswork",
+    "/blogs/kitchen-tales/chhundo-traditional-gujarati-sweet-shredded-mango-achar"
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "updated": "2026-09-20",
+  "rules": "See SEO_AUTOPILOT.md §9 and BLOG.md §15",
+  "product_to_collections": {
+    "chhundo-pickle-sweet-shredded-mango-achar-gujarati": ["sweet-pickles", "mango-pickles", "gujarati-pickles"],
+    "gunda-keri-pickle-lasode-ka-achar-gujarati": ["mango-pickles", "gujarati-pickles", "spicy-tangy-pickles"],
+    "sweet-mango-pickle-meethi-keri-achar-homemade": ["sweet-pickles", "mango-pickles", "gujarati-mango-pickles"],
+    "chana-keri-methi-pickle-gujarati-methia-achar": ["spicy-tangy-pickles", "gujarati-pickles"],
+    "mango-pickle-traditional-keri-achar-gujarati": ["mango-pickles", "homemade-pickles", "gujarati-mango-pickles"],
+    "gor-keri-pickle-jaggery-mango-achar-gujarati": ["sweet-pickles", "mango-pickles", "gujarati-mango-pickles"],
+    "katka-keri-pickle-homemade-gujarati-mango-achar": ["spicy-tangy-pickles", "mango-pickles", "homemade-pickles"]
+  },
+  "blog_to_product": {
+    "chhundo-traditional-gujarati-sweet-shredded-mango-achar": "chhundo-pickle-sweet-shredded-mango-achar-gujarati",
+    "sweet-mango-pickle-homemade-guide-the-pickle-affair": "sweet-mango-pickle-meethi-keri-achar-homemade",
+    "buy-gunda-keri-online-guide-the-pickle-affair-20-sep": "gunda-keri-pickle-lasode-ka-achar-gujarati",
+    "katka-keri-pickle-how-to-store-and-serve-at-home-the-pickle-affair": "katka-keri-pickle-homemade-gujarati-mango-achar",
+    "chana-keri-methi-pickle-guide-the-pickle-affair-20-sep": "chana-keri-methi-pickle-gujarati-methia-achar",
+    "gujarati-keri-achar-guide-the-pickle-affair-20-sep": "mango-pickle-traditional-keri-achar-gujarati"
+  },
+  "pending_link_tasks": [
+    "After mango-pickles collection is live, link from all mango PDPs and related blogs",
+    "Update footer SHOP column to real collection URLs",
+    "Add related blogs block on product templates via metafields (Phase 2)"
+  ]
+}

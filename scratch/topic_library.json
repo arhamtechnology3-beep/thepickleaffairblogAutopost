@@ -1,0 +1,134 @@
+{
+  "pillars": [
+    {
+      "id": "gujarati-pickles-ultimate-guide",
+      "primary_keyword": "gujarati pickles",
+      "title": "Ultimate Guide to Gujarati Pickles: Keri Achar, Meethi Keri, Chhundo & More",
+      "intent": "Informational",
+      "cluster": "Pillar",
+      "category": "Heritage Recipes",
+      "angle": "pillar_overview",
+      "product_handles": ["mango-pickle-traditional-keri-achar-gujarati", "sweet-mango-pickle-meethi-keri-achar-homemade", "chhundo-pickle-sweet-shredded-mango-achar-gujarati", "gunda-keri-pickle-lasode-ka-achar-gujarati", "katka-keri-pickle-homemade-gujarati-mango-achar", "chana-keri-methi-pickle-gujarati-methia-achar"],
+      "secondary": ["kathiawadi pickles", "gujarati achar", "homemade mango pickle", "baa nu athanu"]
+    }
+  ],
+  "topics": [
+    {
+      "id": "store-indian-pickles",
+      "primary_keyword": "how to store indian pickles",
+      "title": "How to Store Indian Pickles: Keep Gujarati Achar Fresh for Months",
+      "intent": "How-to",
+      "cluster": "Pickle Guides",
+      "category": "Buying Guides",
+      "angle": "storage",
+      "product_handles": ["mango-pickle-traditional-keri-achar-gujarati"],
+      "secondary": ["pickle shelf life", "store mango pickle", "achar storage tips"]
+    },
+    {
+      "id": "mango-pickle-shelf-life",
+      "primary_keyword": "how long does mango pickle last",
+      "title": "How Long Does Mango Pickle Last? Shelf Life & Freshness Signs",
+      "intent": "Informational",
+      "cluster": "Pickle Guides",
+      "category": "Buying Guides",
+      "angle": "shelf_life",
+      "product_handles": ["mango-pickle-traditional-keri-achar-gujarati", "sweet-mango-pickle-meethi-keri-achar-homemade"],
+      "secondary": ["mango pickle expiry", "opened pickle storage", "homemade achar shelf life"]
+    },
+    {
+      "id": "mustard-oil-pickle",
+      "primary_keyword": "mustard oil in pickle",
+      "title": "Why Mustard Oil Is Used in Gujarati and Kathiawadi Pickles",
+      "intent": "Ingredient/spice education",
+      "cluster": "Health & Spices",
+      "category": "Health & Spices",
+      "angle": "ingredient",
+      "product_handles": ["mango-pickle-traditional-keri-achar-gujarati", "katka-keri-pickle-homemade-gujarati-mango-achar"],
+      "secondary": ["cold pressed mustard oil achar", "pickle oil choice", "kathiawadi pickle spices"]
+    },
+    {
+      "id": "fenugreek-methi-pickle",
+      "primary_keyword": "fenugreek in mango pickle",
+      "title": "Fenugreek (Methi) in Mango Pickle: Flavour, Bitterness & Chana Keri Methi",
+      "intent": "Ingredient/spice education",
+      "cluster": "Health & Spices",
+      "category": "Health & Spices",
+      "angle": "ingredient",
+      "product_handles": ["chana-keri-methi-pickle-gujarati-methia-achar"],
+      "secondary": ["methia keri", "methi dana pickle", "chana keri methi"]
+    },
+    {
+      "id": "pickle-thepla",
+      "primary_keyword": "pickle with thepla",
+      "title": "What to Eat with Thepla: Best Gujarati Pickle Pairings",
+      "intent": "Serving/pairing",
+      "cluster": "Pickle Pairings",
+      "category": "Pickle Pairings",
+      "angle": "pairing",
+      "product_handles": ["sweet-mango-pickle-meethi-keri-achar-homemade", "gor-keri-pickle-jaggery-mango-achar-gujarati", "chana-keri-methi-pickle-gujarati-methia-achar"],
+      "secondary": ["thepla and achar", "gujarati breakfast pickle", "travel food pickle"]
+    },
+    {
+      "id": "pickle-khichdi",
+      "primary_keyword": "pickle with khichdi",
+      "title": "Pickle with Khichdi: Comfort Pairings from a Kathiawadi Kitchen",
+      "intent": "Serving/pairing",
+      "cluster": "Pickle Pairings",
+      "category": "Pickle Pairings",
+      "angle": "pairing",
+      "product_handles": ["katka-keri-pickle-homemade-gujarati-mango-achar", "gunda-keri-pickle-lasode-ka-achar-gujarati"],
+      "secondary": ["khichdi achar", "dal rice pickle", "comfort food pickle"]
+    },
+    {
+      "id": "chhundo-vs-meethi-keri",
+      "primary_keyword": "chhundo vs meethi keri",
+      "title": "Chhundo vs Meethi Keri: What’s the Difference?",
+      "intent": "Comparison",
+      "cluster": "Heritage Recipes",
+      "category": "Heritage Recipes",
+      "angle": "comparison",
+      "product_handles": ["chhundo-pickle-sweet-shredded-mango-achar-gujarati", "sweet-mango-pickle-meethi-keri-achar-homemade"],
+      "secondary": ["sweet shredded mango achar", "meethi keri achar", "gujarati sweet pickle"]
+    },
+    {
+      "id": "baa-kitchen-traditional",
+      "primary_keyword": "traditional gujarati pickle making",
+      "title": "How Baa’s Kitchen Makes Traditional Gujarati Pickles",
+      "intent": "Heritage/story",
+      "cluster": "Artisanal Craft",
+      "category": "Artisanal Craft",
+      "angle": "baa_story",
+      "product_handles": ["mango-pickle-traditional-keri-achar-gujarati"],
+      "secondary": ["baa nu athanu", "kathiawadi pickle tradition", "small batch pickle"]
+    },
+    {
+      "id": "buy-gujarati-pickle-online",
+      "primary_keyword": "buy gujarati pickle online",
+      "title": "How to Buy Authentic Gujarati Pickle Online (Without Guesswork)",
+      "intent": "Commercial investigation",
+      "cluster": "Buying Guides",
+      "category": "Buying Guides",
+      "angle": "buying",
+      "product_handles": ["mango-pickle-traditional-keri-achar-gujarati", "gunda-keri-pickle-lasode-ka-achar-gujarati"],
+      "secondary": ["homemade pickle online india", "fssai pickle", "kathiawadi achar online"]
+    },
+    {
+      "id": "chhundo-guide",
+      "primary_keyword": "chhundo pickle",
+      "title": "Chhundo: Traditional Gujarati Sweet Shredded Mango Achar",
+      "intent": "Informational",
+      "cluster": "Heritage Recipes",
+      "category": "Heritage Recipes",
+      "angle": "heritage_product",
+      "product_handles": ["chhundo-pickle-sweet-shredded-mango-achar-gujarati"],
+      "secondary": ["sweet shredded mango pickle", "gujarati chhundo", "chhundo vs achar"]
+    }
+  ],
+  "daily_intent_mix": [
+    ["pillar_overview", "heritage_product", "baa_story"],
+    ["storage", "shelf_life"],
+    ["ingredient"],
+    ["pairing"],
+    ["buying", "comparison"]
+  ]
+}

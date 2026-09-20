@@ -20,13 +20,25 @@ Blog: https://thepickleaffair.com/blogs/kitchen-tales
 | Pickle with thepla | *(not published)* | Pickle Pairings | Pairing | IDEA |
 | Chhundo guide | *(not published)* | Heritage Recipes | Informational | IDEA |
 
-## Live published set (after duplicate cleanup)
+## Live published set (after BLOG.md rewrite 2026-09-20)
 
-1. `sweet-mango-pickle-homemade-guide-the-pickle-affair`
+All 13 live posts rewritten in place (answer-first, FAQs, products, related guides, no invented quantities).
+
+1. `sweet-mango-pickle-homemade-guide-the-pickle-affair` → Sweet Mango Pickle Recipe: Traditional Gujarati Meethi Keri Achar
 2. `katka-keri-pickle-how-to-store-and-serve-at-home-the-pickle-affair`
 3. `buy-gunda-keri-online-guide-the-pickle-affair-20-sep`
 4. `gujarati-keri-achar-guide-the-pickle-affair-20-sep`
 5. `chana-keri-methi-pickle-guide-the-pickle-affair-20-sep`
+6. `why-mustard-oil-is-used-in-gujarati-and-kathiawadi-pickles`
+7. `pickle-with-khichdi-comfort-pairings-from-a-kathiawadi-kitchen`
+8. `how-baa-s-kitchen-makes-traditional-gujarati-pickles`
+9. `how-to-buy-authentic-gujarati-pickle-online-without-guesswork`
+10. `chhundo-traditional-gujarati-sweet-shredded-mango-achar`
+11. `how-to-store-indian-pickles-keep-gujarati-achar-fresh-for-months`
+12. `how-long-does-mango-pickle-last-shelf-life-freshness-signs`
+13. `fenugreek-methi-in-mango-pickle-flavour-bitterness-chana-keri`
+
+Re-run: Actions → **Rewrite Live Kitchen Tales (BLOG.md)**
 
 ## Unpublished (thin near-duplicates)
 

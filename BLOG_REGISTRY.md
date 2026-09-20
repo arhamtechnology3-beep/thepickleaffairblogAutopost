@@ -35,3 +35,13 @@ Blog: https://thepickleaffair.com/blogs/kitchen-tales
 - `buy-gunda-keri-online-guide-the-pickle-affair`
 - `gujarati-keri-achar-guide-the-pickle-affair`
 - `chana-keri-methi-pickle-guide-the-pickle-affair`
+
+## Published 2026-09-20 (intent-mix run)
+
+| Topic / primary keyword | Canonical URL | Cluster | Intent | Status |
+|---|---|---|---|---|
+| mustard oil in pickle | /blogs/kitchen-tales/why-mustard-oil-is-used-in-gujarati-and-kathiawadi-pickles | Health & Spices | Ingredient | PUBLISHED |
+| pickle with khichdi | /blogs/kitchen-tales/pickle-with-khichdi-comfort-pairings-from-a-kathiawadi-kitchen | Pickle Pairings | Pairing | PUBLISHED |
+| traditional gujarati pickle making | /blogs/kitchen-tales/how-baa-s-kitchen-makes-traditional-gujarati-pickles | Artisanal Craft | Heritage | PUBLISHED |
+| buy gujarati pickle online | /blogs/kitchen-tales/how-to-buy-authentic-gujarati-pickle-online-without-guesswork | Buying Guides | Commercial | PUBLISHED |
+| chhundo pickle | /blogs/kitchen-tales/chhundo-traditional-gujarati-sweet-shredded-mango-achar | Heritage Recipes | Informational | PUBLISHED |

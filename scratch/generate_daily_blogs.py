@@ -73,15 +73,24 @@ def day_seed(day: dt.date) -> int:
 
 
 def load_owned_keywords() -> set[str]:
+    """Keywords already owning a live/canonical URL (not IDEA rows)."""
     owned: set[str] = set()
-    if REGISTRY_MD.exists():
-        for line in REGISTRY_MD.read_text().splitlines():
-            if line.startswith("|") and "Canonical URL" not in line and "---" not in line:
-                cols = [c.strip().lower() for c in line.strip("|").split("|")]
-                if cols and cols[0] and cols[0] != "topic / primary keyword":
-                    owned.add(cols[0])
-                    # also first token phrase before /
-                    owned.add(cols[0].split("/")[0].strip())
+    if not REGISTRY_MD.exists():
+        return owned
+    for line in REGISTRY_MD.read_text().splitlines():
+        if not line.startswith("|") or "Canonical URL" in line or line.startswith("|---"):
+            continue
+        cols = [c.strip() for c in line.strip("|").split("|")]
+        if len(cols) < 5:
+            continue
+        topic, url, _cluster, _intent, status = cols[0], cols[1], cols[2], cols[3], cols[4]
+        status_l = status.lower()
+        url_l = url.lower()
+        if "idea" in status_l or "not published" in url_l or url.strip().startswith("*"):
+            continue
+        if topic and topic.lower() != "topic / primary keyword":
+            owned.add(topic.lower())
+            owned.add(topic.lower().split("/")[0].strip())
     return owned
 
 

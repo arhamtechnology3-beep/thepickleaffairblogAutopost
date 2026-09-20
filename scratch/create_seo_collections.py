@@ -124,7 +124,8 @@ def rich_body(spec: dict, all_handles: list[str]) -> str:
     rel_c = "".join(f'<li><a href="{h}">{t}</a></li>' for h, t in related)
     rel_b = "".join(f'<li><a href="{h}">{t}</a></li>' for h, t in blog_links)
     compare_rows = "".join(
-        f"<tr><td>{n}</td><td>See product page for flavour profile and sizes</td><td><a href=\"/products/{PRODUCT_KEYS[k]}\">View jar</a></td></tr>"
+        f"<tr><td>{n}</td><td>See product page for flavour profile and sizes</td>"
+        f"<td><a href=\"/products/{PRODUCT_KEYS[k]}\">Shop →</a></td></tr>"
         for k, n in zip(spec["products"], names)
     )
     return f"""

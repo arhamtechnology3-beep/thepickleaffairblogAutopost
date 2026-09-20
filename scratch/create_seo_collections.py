@@ -389,7 +389,8 @@ def map_product_ids() -> dict[str, int]:
 
 def list_custom_by_handle() -> dict[str, dict]:
     data = api("GET", "/custom_collections.json?limit=250")
-    return {c["handle"]: c for c in data.get("collections", [])}
+    rows = data.get("custom_collections") or data.get("collections") or []
+    return {c["handle"]: c for c in rows}
 
 
 def set_seo_metafields(collection_id: int, seo_title: str, seo_desc: str) -> None:

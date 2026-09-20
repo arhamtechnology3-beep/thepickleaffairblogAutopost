@@ -34,6 +34,217 @@ TOKEN = ""
 DRY_RUN = os.environ.get("DRY_RUN", "").strip() in ("1", "true", "yes")
 BATCH = os.environ.get("COLLECTION_BATCH", "all").strip().lower()
 LIMIT = int(os.environ.get("COLLECTION_LIMIT", "0") or "0")
+# Collection body floor (useful words). Google has no official minimum;
+# 2025 Digitaloft study of #1 UK category pages averaged ~310 words.
+# Our policy: 400–600 useful words (floor 400) — helpful buying copy, not stuffing.
+MIN_COLLECTION_WORDS = int(os.environ.get("MIN_COLLECTION_WORDS", "400"))
+
+
+def word_count(html: str) -> int:
+    import re
+
+    text = re.sub(r"<[^>]+>", " ", html)
+    text = re.sub(r"\s+", " ", text).strip()
+    return len(text.split()) if text else 0
+
+
+FLAVOUR_NOTES: dict[str, str] = {
+    "mango": "Classic homemade mango / aam ka achar character — spice-forward keri pieces meant for everyday roti and dal plates.",
+    "gor": "Jaggery-led Gor Keri leans sweet-savoury; pairs well when the thali is already salty or spicy.",
+    "meethi": "Meethi Keri is the sweet mango achar lane — soft sweetness with traditional keri pieces for thepla and festive thalis.",
+    "gunda": "Gunda / lasode achar is a specialty texture jar — choose it when you want a distinct Kathiawadi accent, not a basic mango pickle.",
+    "chana": "Chana Keri Methi (methia keri) brings fenugreek depth; ideal when you want a savoury-bitter edge with mango.",
+    "chhundo": "Chhundo is sweet shredded mango — different cut and sweetness profile from chunk-style Meethi Keri.",
+    "katka": "Katka Keri sits in the traditional homemade mango achar lane for daily roti and khichdi plates.",
+}
+
+
+def intent_angle(spec: dict) -> tuple[str, str, str]:
+    """Return (who_for, flavour_lane, choose_tip) unique to the collection intent."""
+    kw = spec["primary_keyword"]
+    keys = spec.get("products") or []
+    handle = spec["handle"]
+
+    who = (
+        f"This hub is for shoppers comparing jars under the intent “{kw}” — "
+        "people who want handmade Kathiawadi / Gujarati achar with clear labels, "
+        "not a random mixed dump of every pickle on the site."
+    )
+    if "sweet" in kw or handle.startswith("meethi") or handle.startswith("chhundo") or handle.startswith("gor") or "sweet" in handle:
+        lane = (
+            "Flavour lane: sweet and sweet-tangy mango styles. Expect jaggery or natural sweetness "
+            "that balances salty or spicy meals rather than competing with them."
+        )
+        tip = "If your plate is already chilli-forward, start sweet; if you want heat, jump to spicy / traditional keri hubs instead."
+    elif "gunda" in kw or "gunda" in keys or "lasode" in kw:
+        lane = (
+            "Flavour lane: specialty gunda / lasode achar — texture and spice logic differ from everyday mango pickle."
+        )
+        tip = "Buy gunda when you specifically want that jar; do not treat it as a substitute for Meethi Keri or plain aam ka achar."
+    elif "methi" in kw or "chana" in keys or "methia" in kw:
+        lane = (
+            "Flavour lane: methi-forward mango achar. Fenugreek adds aroma and a controlled bitter edge when the kitchen balances it well."
+        )
+        tip = "Choose methia keri when you like that depth with thepla; pick sweeter hubs if bitterness is not your preference."
+    elif "thepla" in kw or "tiffin" in handle:
+        lane = "Use case lane: jars that travel well beside thepla and tiffin plates — companions, not the whole meal."
+        tip = "Pack a small portion, keep a dry spoon, and match sweet vs spicy to the day’s roti stuffing."
+    elif "khichdi" in kw:
+        lane = "Use case lane: brighter or spicier contrast for mild khichdi and dal-rice bowls."
+        tip = "Start with one contrasting jar; sweet styles also work when the khichdi is already peppery."
+    elif "gift" in kw or "gift" in handle:
+        lane = "Gifting lane: curated jars for festive or family hampers — still real products, not empty gift SEO pages."
+        tip = "Prefer a small set of distinct flavours over five near-identical sweet jars."
+    elif "fssai" in kw or "handmade" in handle or "homemade" in kw:
+        lane = (
+            "Trust lane: handmade preparation context with FSSAI kitchen hygiene signals and transparent product pages."
+        )
+        tip = "Read ingredients you recognise, then confirm size and storage on each product page."
+    elif "buy" in kw or "online" in kw:
+        lane = (
+            "Buying lane: help you compare styles online before you commit — intent first, then jar size."
+        )
+        tip = "Use collection hubs to shortlist, then open one product page for price, size, and ingredients."
+    else:
+        lane = (
+            "Regional / traditional lane: Kathiawadi and Gujarati achar styles for everyday thalis, "
+            "built around real jars we stock — not doorway keyword pages."
+        )
+        tip = "Match the meal first, then sweet vs spicy vs specialty, then confirm the product page."
+
+    return who, lane, tip
+
+
+def rich_body(spec: dict, all_handles: list[str]) -> str:
+    """SEO_AUTOPILOT §14 + 400–600 useful words (floor MIN_COLLECTION_WORDS)."""
+    kw = spec["primary_keyword"]
+    title = spec["title"]
+    keys = spec.get("products") or []
+    names = product_titles(keys)
+    name_list = ", ".join(names[:-1]) + (f" and {names[-1]}" if len(names) > 1 else names[0] if names else "our jars")
+    related = related_collection_links(spec["handle"], all_handles)
+    who, lane, tip = intent_angle(spec)
+    blog_links = [
+        ("/blogs/kitchen-tales/how-to-buy-authentic-gujarati-pickle-online-without-guesswork", "How to buy Gujarati pickle online"),
+        ("/blogs/kitchen-tales/how-to-store-indian-pickles-keep-gujarati-achar-fresh-for-months", "How to store Indian pickles"),
+        ("/blogs/kitchen-tales/how-baa-s-kitchen-makes-traditional-gujarati-pickles", "Baa’s Kitchen tradition"),
+        ("/blogs/kitchen-tales/how-long-does-mango-pickle-last-shelf-life-freshness-signs", "Mango pickle shelf life"),
+        ("/blogs/kitchen-tales", "Kitchen Tales blog"),
+    ]
+    product_notes = "".join(
+        f"<li><strong>{n}</strong> — {FLAVOUR_NOTES.get(k, 'See the product page for flavour profile, ingredients, and jar sizes.')} "
+        f'<a href="/products/{PRODUCT_KEYS[k]}">Shop {n} →</a></li>'
+        for k, n in zip(keys, names)
+    )
+    faqs = [
+        (
+            f"What is this {title} collection for?",
+            f"It groups jars that match the shopping intent around “{kw}” so you can compare styles, read buying notes, and open the right product page — instead of scrolling an unfiltered catalogue.",
+        ),
+        (
+            "How do I choose the right jar?",
+            f"{tip} Then check ingredients you recognise, jar size, and storage notes on the product page before adding to cart.",
+        ),
+        (
+            "Are these handmade?",
+            "Yes. The Pickle Affair prepares pickles in a Kathiawadi kitchen style with hygienic FSSAI-certified preparation context. We do not use synthetic colours, and we do not invent medical claims or proprietary recipe quantities for SEO.",
+        ),
+        (
+            "Do you ship across India?",
+            "Yes — handmade jars ship across India from our Virar, Maharashtra kitchen context. Delivery timing depends on your pincode; confirm size options on each product page.",
+        ),
+        (
+            "How should I store achar after opening?",
+            "Keep the jar cool and dry, lid sealed, and always use a clean dry spoon. Follow the label’s best-before guidance. For deeper storage habits, read our Kitchen Tales storage guide linked below.",
+        ),
+        (
+            f"Is “{kw}” the same as every mango pickle?",
+            f"No. “{kw}” points to a specific shopping intent on this page. Sweet, spicy, methi-forward, shredded chhundo, and specialty gunda jars are different lanes — use related collections if you need another style.",
+        ),
+    ]
+    faq_html = "".join(f"<h3>{q}</h3><p>{a}</p>" for q, a in faqs)
+    rel_c = "".join(f'<li><a href="{h}">{t}</a></li>' for h, t in related)
+    rel_b = "".join(f'<li><a href="{h}">{t}</a></li>' for h, t in blog_links)
+    compare_rows = "".join(
+        f"<tr><td>{n}</td><td>{FLAVOUR_NOTES.get(k, 'See product page for flavour profile and sizes')}</td>"
+        f"<td><a href=\"/products/{PRODUCT_KEYS[k]}\">Shop →</a></td></tr>"
+        for k, n in zip(keys, names)
+    )
+
+    body = f"""
+<p class="dp-lead">Looking for <strong>{kw}</strong>? The <strong>{title}</strong> collection from The Pickle Affair gathers {name_list} — handmade Kathiawadi / Gujarati achar meant for everyday meals, not factory-flat flavour. Use this page to understand the flavour lane, compare jars, read buying guidance, and jump to the product that fits your thali. We ship handmade jars across India and keep product pages transparent about ingredients and sizes.</p>
+
+<h2>What this category covers</h2>
+<p>{who}</p>
+<p>{lane}</p>
+<p>Unlike a generic “all products” dump, this hub is built around one shopping intent: <em>{kw}</em>. Competitor catalogues often split pickle shops into taste, ingredient, regional, and gifting silos; we only publish hubs we can fill with real jars and useful guidance — no doorway pages and no copied competitor wording.</p>
+<p>Every jar here follows traditional spice logic, glass packaging suited to home storage, and clear product pages. We refuse fake awards, invented medical claims, and proprietary recipe quantities written only for search engines.</p>
+
+<h2>Products in this collection</h2>
+<ul class="dp-seo-product-list">{product_notes}</ul>
+
+<h2>How to choose (buying guidance)</h2>
+<p>{tip}</p>
+<ol class="dp-seo-steps">
+  <li>Start with the meal: thepla/tiffin, khichdi/dal-rice, or festive thali.</li>
+  <li>Pick the flavour lane: sweet, spicy/traditional keri, methi-forward, shredded chhundo, or specialty gunda.</li>
+  <li>Read ingredients you recognise on the product page — oil, spices, and sweetness source should make kitchen sense.</li>
+  <li>Check storage notes — dry spoon and sealed jar matter after opening.</li>
+  <li>Start with one jar before gifting a full set, especially if you are new to Kathiawadi achar styles.</li>
+</ol>
+
+<h2>Quick comparison</h2>
+<table>
+  <thead><tr><th>Jar</th><th>Notes</th><th>Shop</th></tr></thead>
+  <tbody>{compare_rows}</tbody>
+</table>
+
+<h2>Serving ideas</h2>
+<ul class="dp-seo-idea-list">
+  <li>Spoon on the side of roti, rotla, or thepla — pickle is a companion, not the whole plate.</li>
+  <li>Khichdi and dal-rice often want brighter or spicier contrast; sweet styles shine when the plate is already salty.</li>
+  <li>Travel tiffins: pack a small dabba, keep spoons dry, and reseal the jar promptly.</li>
+  <li>Festive thalis: offer one sweet and one traditional/spicy jar so guests can choose.</li>
+</ul>
+
+<h2>Why The Pickle Affair</h2>
+<ul class="dp-seo-perk-list">
+  <li>Kathiawadi / Gujarati kitchen sensibility (Baa’s Kitchen)</li>
+  <li>FSSAI-certified kitchen context for hygienic preparation</li>
+  <li>No synthetic colours</li>
+  <li>Clear product pages plus Kitchen Tales guides for deeper education</li>
+  <li>Ships across India from Virar, Maharashtra</li>
+</ul>
+
+<h2>Frequently asked questions</h2>
+{faq_html}
+
+<h2>Related collections</h2>
+<ul class="dp-seo-chip-list">{rel_c}</ul>
+
+<h2>Related Kitchen Tales guides</h2>
+<ul class="dp-seo-chip-list">{rel_b}</ul>
+
+<p><em>Collection SEO: unique intro · buying guidance · comparison · serving · FAQ · internal links · one primary keyword ({kw}). Target {MIN_COLLECTION_WORDS}+ useful words. Ships across India from Virar, Maharashtra.</em></p>
+""".strip()
+
+    # Soft expansion if under floor (useful blocks, not keyword spam)
+    guard = 0
+    while word_count(body) < MIN_COLLECTION_WORDS and guard < 2:
+        guard += 1
+        body = body.replace(
+            "<h2>Related collections</h2>",
+            f"""<h2>What “{kw}” shoppers usually decide next</h2>
+<p>After shortlisting on this page, open the product card for price and jar size, then skim one Kitchen Tales guide if you still need storage or pairing context. If the flavour lane is wrong, use a related collection instead of forcing a mismatched jar into the cart. That keeps one primary intent per URL and avoids thin doorway pages.</p>
+<p>We measure usefulness by whether a first-time online pickle buyer can answer: which meal, which sweetness/heat lane, which jar, and how to store it — not by stuffing the same sentence with every synonym for {kw}.</p>
+
+<h2>Related collections</h2>""",
+            1,
+        )
+
+    wc = word_count(body)
+    print(f"  body words≈{wc} (floor {MIN_COLLECTION_WORDS}) [{spec['handle']}]")
+    return body
 
 
 def api(method: str, path: str, payload: dict | None = None) -> dict:
@@ -98,88 +309,6 @@ def related_collection_links(current: str, all_handles: list[str]) -> list[tuple
     titles = {c["handle"]: c["title"] for c in LIB["collections"]}
     picks = [h for h in all_handles if h != current][:5]
     return [(f"/collections/{h}", titles.get(h, h)) for h in picks]
-
-
-def rich_body(spec: dict, all_handles: list[str]) -> str:
-    """SEO_AUTOPILOT §14: intro, category, buying, comparison, serving, FAQ, related."""
-    kw = spec["primary_keyword"]
-    title = spec["title"]
-    names = product_titles(spec["products"])
-    name_list = ", ".join(names[:-1]) + (f" and {names[-1]}" if len(names) > 1 else names[0] if names else "our jars")
-    related = related_collection_links(spec["handle"], all_handles)
-    blog_links = [
-        ("/blogs/kitchen-tales/how-to-buy-authentic-gujarati-pickle-online-without-guesswork", "How to buy Gujarati pickle online"),
-        ("/blogs/kitchen-tales/how-to-store-indian-pickles-keep-gujarati-achar-fresh-for-months", "How to store Indian pickles"),
-        ("/blogs/kitchen-tales/how-baa-s-kitchen-makes-traditional-gujarati-pickles", "Baa’s Kitchen tradition"),
-        ("/blogs/kitchen-tales", "Kitchen Tales blog"),
-    ]
-    faqs = [
-        (f"What is this {title} collection for?", f"It groups jars that match the search intent around “{kw}” so you can compare styles before buying."),
-        ("How do I choose the right jar?", "Match the meal first (thepla, khichdi, dal-rice), then sweet vs spicy vs specialty — use the comparison notes below."),
-        ("Are these handmade?", "Yes. The Pickle Affair prepares pickles in a Kathiawadi kitchen style with hygienic FSSAI-certified preparation context and no synthetic colours."),
-        ("Do you ship across India?", "Yes — handmade jars ship across India. Check each product page for size options."),
-        ("How should I store achar after opening?", "Cool, dry place; sealed jar; clean dry spoon every time. Follow the label’s best-before guidance."),
-    ]
-    faq_html = "".join(f"<h3>{q}</h3><p>{a}</p>" for q, a in faqs)
-    rel_c = "".join(f'<li><a href="{h}">{t}</a></li>' for h, t in related)
-    rel_b = "".join(f'<li><a href="{h}">{t}</a></li>' for h, t in blog_links)
-    compare_rows = "".join(
-        f"<tr><td>{n}</td><td>See product page for flavour profile and sizes</td>"
-        f"<td><a href=\"/products/{PRODUCT_KEYS[k]}\">Shop →</a></td></tr>"
-        for k, n in zip(spec["products"], names)
-    )
-    return f"""
-<p class="dp-lead">Looking for <strong>{kw}</strong>? The <strong>{title}</strong> collection from The Pickle Affair gathers {name_list} — handmade Kathiawadi / Gujarati achar meant for everyday meals, not factory-flat flavour. Use this page to compare styles, read buying guidance, and jump to the jar that fits your thali.</p>
-
-<h2>What this category covers</h2>
-<p>Unlike a generic “all products” dump, this hub is built around one shopping intent: <em>{kw}</em>. Competitors often split pickle catalogues into taste, ingredient, regional and gifting silos; we only publish silos we can fill with real jars and useful guidance — no doorway pages.</p>
-<p>Every jar here follows traditional spice logic, glass packaging suited to home storage, and transparent product pages. We do not invent medical claims, fake awards, or proprietary recipe quantities for SEO.</p>
-
-<h2>Products in this collection</h2>
-<ul>{''.join(f'<li><strong>{n}</strong></li>' for n in names)}</ul>
-
-<h2>How to choose (buying guidance)</h2>
-<ol>
-  <li>Start with the meal: thepla/tiffin, khichdi/dal, or festive thali.</li>
-  <li>Pick the flavour lane: sweet, spicy/traditional keri, methi-forward, or specialty gunda.</li>
-  <li>Read ingredients you recognise on the product page.</li>
-  <li>Check storage notes — dry spoon and sealed jar matter after opening.</li>
-  <li>Start with one jar before gifting a full set.</li>
-</ol>
-
-<h2>Quick comparison</h2>
-<table>
-  <thead><tr><th>Jar</th><th>Notes</th><th>Shop</th></tr></thead>
-  <tbody>{compare_rows}</tbody>
-</table>
-
-<h2>Serving ideas</h2>
-<ul>
-  <li>Spoon on the side of roti, rotla, or thepla — pickle is a companion, not the whole plate.</li>
-  <li>Khichdi and dal-rice often want brighter or spicier contrast.</li>
-  <li>Sweet styles (Meethi Keri, Gor Keri, Chhundo) shine when the plate is already salty or spicy.</li>
-  <li>Travel tiffins: pack a small dabba and keep spoons dry.</li>
-</ul>
-
-<h2>Why The Pickle Affair</h2>
-<ul>
-  <li>Kathiawadi / Gujarati kitchen sensibility (Baa’s Kitchen)</li>
-  <li>FSSAI-certified kitchen context</li>
-  <li>No synthetic colours</li>
-  <li>Clear product pages and Kitchen Tales guides for deeper education</li>
-</ul>
-
-<h2>Frequently asked questions</h2>
-{faq_html}
-
-<h2>Related collections</h2>
-<ul>{rel_c}</ul>
-
-<h2>Related Kitchen Tales guides</h2>
-<ul>{rel_b}</ul>
-
-<p><em>Collection SEO: unique intro · buying guidance · comparison · serving · FAQ · internal links · one primary keyword ({kw}). Ships across India from Virar, Maharashtra.</em></p>
-""".strip()
 
 
 def list_custom_by_handle() -> dict[str, dict]:

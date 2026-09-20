@@ -18,15 +18,21 @@ Policy: `BLOG.md` · `seo/SEO_AUTOPILOT.md` §14 · Do not create doorway pages.
 
 1. SEO title + meta  
 2. H1 / clear title  
-3. Unique intro (150–300+ words in body)  
+3. Unique body copy **400–600 useful words** target (floor **400** via `MIN_COLLECTION_WORDS`; single-product hubs may land ~700–900 with FAQs/links)  
 4. Category explanation  
 5. Buying guidance  
 6. Product comparison  
 7. Serving ideas  
-8. FAQ (3–5+)  
+8. FAQ (5–6+)  
 9. Related collections  
 10. Related blog links  
 11. Real product membership (not Status=Active only)
+
+### Word-count evidence (not Google law)
+
+- Google has **no official minimum** word count for category pages (John Mueller: “very little” text can be enough).  
+- Digitaloft 2025 study of 300 #1 UK ecommerce category pages: **average ~310 unique words**; most under 400.  
+- Our floor **400** sits above that average with useful buying guidance — not blog-length stuffing (blogs stay ≥1500).
 
 Source of truth: `blog-autopost/scratch/collection_library.json`
 

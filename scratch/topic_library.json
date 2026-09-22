@@ -20,13 +20,24 @@
         "kathiawadi pickles",
         "gujarati achar",
         "homemade mango pickle",
-        "baa nu athanu"
+        "baa nu athanu",
+        "Tender Mango Pickle",
+        "Pickle Mango",
+        "Athanu",
+        "Gujarati Keri Athanu",
+        "Keri",
+        "Aachar",
+        "Aachari Pickle",
+        "Pickle 1kg",
+        "Mix Aachar",
+        "Raw Mango Pickle"
       ],
       "collection_handles": [
         "gujarati-achar",
         "all-pickles",
         "kathiawadi-homemade-pickles"
-      ]
+      ],
+      "keyword_pillar": "special_mango"
     }
   ],
   "topics": [
@@ -44,12 +55,24 @@
       "secondary": [
         "pickle shelf life",
         "store mango pickle",
-        "achar storage tips"
+        "achar storage tips",
+        "Tender Mango Pickle",
+        "Pickle Mango",
+        "Athanu",
+        "Gujarati Keri Athanu",
+        "Keri",
+        "Aachar",
+        "Aachari Pickle",
+        "Pickle 1kg",
+        "Mix Aachar",
+        "Raw Mango Pickle",
+        "Mango Pickle 1kg"
       ],
       "collection_handles": [
         "all-mango-pickles",
         "kathiawadi-homemade-pickles"
-      ]
+      ],
+      "keyword_pillar": "special_mango"
     },
     {
       "id": "mango-pickle-shelf-life",
@@ -66,12 +89,24 @@
       "secondary": [
         "mango pickle expiry",
         "opened pickle storage",
-        "homemade achar shelf life"
+        "homemade achar shelf life",
+        "Tender Mango Pickle",
+        "Pickle Mango",
+        "Athanu",
+        "Gujarati Keri Athanu",
+        "Keri",
+        "Aachar",
+        "Aachari Pickle",
+        "Pickle 1kg",
+        "Mix Aachar",
+        "Raw Mango Pickle",
+        "Mango Pickle 1kg"
       ],
       "collection_handles": [
         "all-mango-pickles",
         "homemade-mango-pickle"
-      ]
+      ],
+      "keyword_pillar": "special_mango"
     },
     {
       "id": "mustard-oil-pickle",
@@ -88,12 +123,24 @@
       "secondary": [
         "cold pressed mustard oil achar",
         "pickle oil choice",
-        "kathiawadi pickle spices"
+        "kathiawadi pickle spices",
+        "achar masala",
+        "pickle powder",
+        "achar masala powder",
+        "pickle masala",
+        "achar pickle masala",
+        "aam achar masala powder",
+        "pickle spices",
+        "mix pickle masala",
+        "pickle 1 kg",
+        "achar masala 100gm",
+        "achar masala 250gm"
       ],
       "collection_handles": [
         "spicy-traditional-keri-achar",
         "kathiawadi-homemade-pickles"
-      ]
+      ],
+      "keyword_pillar": "achar_masala"
     },
     {
       "id": "fenugreek-methi-pickle",
@@ -109,12 +156,24 @@
       "secondary": [
         "methia keri",
         "methi dana pickle",
-        "chana keri methi"
+        "chana keri methi",
+        "chana keri ka achar",
+        "chana methi keri achar",
+        "chana pickle",
+        "chana methi pickle",
+        "chana methi pickle gujarati",
+        "Tender Mango Pickle",
+        "Pickle Mango",
+        "Sweet Mango Pickle",
+        "Athanu",
+        "Gujarati Keri Athanu",
+        "Keri"
       ],
       "collection_handles": [
         "methi-fenugreek-pickles",
         "spicy-traditional-keri-achar"
-      ]
+      ],
+      "keyword_pillar": "chana_keri"
     },
     {
       "id": "pickle-thepla",
@@ -132,12 +191,24 @@
       "secondary": [
         "thepla and achar",
         "gujarati breakfast pickle",
-        "travel food pickle"
+        "travel food pickle",
+        "Sweet Pickle",
+        "sweet mango pickle",
+        "Mango Pickle 1Kg Sweet",
+        "Aam Mitha Achar",
+        "sweet mango achar 1kg",
+        "gorkeri",
+        "gorkeri pickle",
+        "gor keri pickle",
+        "gor keri pickle mothers",
+        "gor keri pickle 1kg",
+        "gor keri pickle masala"
       ],
       "collection_handles": [
         "pickles-for-thepla-tiffin",
         "sweet-gujarati-pickles"
-      ]
+      ],
+      "keyword_pillar": "sweet_combo"
     },
     {
       "id": "pickle-khichdi",
@@ -154,12 +225,24 @@
       "secondary": [
         "khichdi achar",
         "dal rice pickle",
-        "comfort food pickle"
+        "comfort food pickle",
+        "gunda pickle",
+        "gunda pickle gujarati",
+        "gunda pickle gujarati home made",
+        "gunda keri pickle gujarati",
+        "gunda ka achar",
+        "lasode ka achar",
+        "lasode aur aam ka achar",
+        "lasoda pickle",
+        "chana keri ka achar",
+        "chana methi keri achar",
+        "chana pickle"
       ],
       "collection_handles": [
         "pickle-with-khichdi-dal",
         "spicy-traditional-keri-achar"
-      ]
+      ],
+      "keyword_pillar": "tangy_combo"
     },
     {
       "id": "chhundo-vs-meethi-keri",
@@ -176,13 +259,25 @@
       "secondary": [
         "sweet shredded mango achar",
         "meethi keri achar",
-        "gujarati sweet pickle"
+        "gujarati sweet pickle",
+        "Sweet Pickle",
+        "sweet mango pickle",
+        "Mango Pickle 1Kg Sweet",
+        "Aam Mitha Achar",
+        "sweet mango achar 1kg",
+        "Tender Mango Pickle",
+        "Pickle Mango",
+        "Athanu",
+        "Gujarati Keri Athanu",
+        "Keri",
+        "Aachar"
       ],
       "collection_handles": [
         "sweet-gujarati-pickles",
         "chhundo-pickles",
         "meethi-keri-sweet-mango"
-      ]
+      ],
+      "keyword_pillar": "sweet_mango"
     },
     {
       "id": "baa-kitchen-traditional",
@@ -198,12 +293,24 @@
       "secondary": [
         "baa nu athanu",
         "kathiawadi pickle tradition",
-        "small batch pickle"
+        "small batch pickle",
+        "Tender Mango Pickle",
+        "Pickle Mango",
+        "Athanu",
+        "Gujarati Keri Athanu",
+        "Keri",
+        "Aachar",
+        "Aachari Pickle",
+        "Pickle 1kg",
+        "Mix Aachar",
+        "Raw Mango Pickle",
+        "Mango Pickle 1kg"
       ],
       "collection_handles": [
         "kathiawadi-homemade-pickles",
         "saurashtra-kathiawadi-achar"
-      ]
+      ],
+      "keyword_pillar": "special_mango"
     },
     {
       "id": "buy-gujarati-pickle-online",
@@ -220,12 +327,24 @@
       "secondary": [
         "homemade pickle online india",
         "fssai pickle",
-        "kathiawadi achar online"
+        "kathiawadi achar online",
+        "Sweet Pickle",
+        "sweet mango pickle",
+        "Mango Pickle 1Kg Sweet",
+        "Aam Mitha Achar",
+        "sweet mango achar 1kg",
+        "gorkeri",
+        "gorkeri pickle",
+        "gor keri pickle",
+        "gor keri pickle mothers",
+        "gor keri pickle 1kg",
+        "gor keri pickle masala"
       ],
       "collection_handles": [
         "buy-gujarati-pickle-online",
         "customer-favourites"
-      ]
+      ],
+      "keyword_pillar": "six_combo"
     },
     {
       "id": "chhundo-guide",
@@ -241,11 +360,333 @@
       "secondary": [
         "sweet shredded mango pickle",
         "gujarati chhundo",
-        "chhundo vs achar"
+        "chhundo vs achar",
+        "Sweet Pickle",
+        "sweet mango pickle",
+        "Mango Pickle 1Kg Sweet",
+        "Aam Mitha Achar",
+        "sweet mango achar 1kg",
+        "Tender Mango Pickle",
+        "Pickle Mango",
+        "Athanu",
+        "Gujarati Keri Athanu",
+        "Keri",
+        "Aachar"
       ],
       "collection_handles": [
         "chhundo-pickles",
         "sweet-gujarati-pickles"
+      ],
+      "keyword_pillar": "sweet_mango"
+    },
+    {
+      "id": "tender-raw-mango-pickle",
+      "primary_keyword": "tender mango pickle",
+      "title": "Tender & Raw Mango Pickle: What ‘Kachchi Keri’ Achar Really Means",
+      "intent": "Informational",
+      "cluster": "Heritage Recipes",
+      "category": "Heritage Recipes",
+      "angle": "heritage_product",
+      "keyword_pillar": "special_mango",
+      "product_handles": [
+        "mango-pickle-traditional-keri-achar-gujarati",
+        "katka-keri-pickle-homemade-gujarati-mango-achar"
+      ],
+      "collection_handles": [
+        "homemade-mango-pickle",
+        "all-mango-pickles",
+        "spicy-traditional-keri-achar"
+      ],
+      "secondary": [
+        "Tender Mango Pickle",
+        "Pickle Mango",
+        "Athanu",
+        "Gujarati Keri Athanu",
+        "Keri",
+        "Aachar",
+        "Aachari Pickle",
+        "Pickle 1kg",
+        "Mix Aachar",
+        "Raw Mango Pickle",
+        "Mango Pickle 1kg",
+        "Mango Pickles Homemade",
+        "Mango Pickle 500 G",
+        "Mango Pickles Homemade Maharashtra"
+      ]
+    },
+    {
+      "id": "gor-keri-jaggery-guide",
+      "primary_keyword": "gor keri pickle",
+      "title": "Gor Keri Pickle Guide: Jaggery Mango Achar Taste, Uses & Buying Tips",
+      "intent": "Informational",
+      "cluster": "Heritage Recipes",
+      "category": "Heritage Recipes",
+      "angle": "heritage_product",
+      "keyword_pillar": "gor_keri",
+      "product_handles": [
+        "gor-keri-pickle-jaggery-mango-achar-gujarati"
+      ],
+      "collection_handles": [
+        "gor-keri-jaggery-pickles",
+        "sweet-gujarati-pickles"
+      ],
+      "secondary": [
+        "gorkeri",
+        "gorkeri pickle",
+        "gor keri pickle",
+        "gor keri pickle mothers",
+        "gor keri pickle 1kg",
+        "gor keri pickle masala",
+        "jaggery mango pickle",
+        "jaggery mango pickle 1 kg",
+        "Tender Mango Pickle",
+        "Pickle Mango",
+        "Sweet Mango Pickle",
+        "Athanu",
+        "Gujarati Keri Athanu",
+        "Keri"
+      ]
+    },
+    {
+      "id": "gunda-lasode-achar-guide",
+      "primary_keyword": "lasode ka achar",
+      "title": "Lasode Ka Achar & Gunda Keri: Specialty Gujarati Pickle Explained",
+      "intent": "Informational",
+      "cluster": "Heritage Recipes",
+      "category": "Heritage Recipes",
+      "angle": "heritage_product",
+      "keyword_pillar": "gunda_keri",
+      "product_handles": [
+        "gunda-keri-pickle-lasode-ka-achar-gujarati"
+      ],
+      "collection_handles": [
+        "gunda-keri-specialty-achar"
+      ],
+      "secondary": [
+        "gunda pickle",
+        "gunda pickle gujarati",
+        "gunda pickle gujarati home made",
+        "gunda keri pickle gujarati",
+        "gunda ka achar",
+        "lasode ka achar",
+        "lasode aur aam ka achar",
+        "lasoda pickle",
+        "Tender Mango Pickle",
+        "Pickle Mango",
+        "Sweet Mango Pickle",
+        "Athanu",
+        "Gujarati Keri Athanu",
+        "Keri"
+      ]
+    },
+    {
+      "id": "chana-keri-methi-guide",
+      "primary_keyword": "chana keri ka achar",
+      "title": "Chana Keri Methi Achar: Methia Keri Flavour, Bitterness & Pairings",
+      "intent": "Informational",
+      "cluster": "Heritage Recipes",
+      "category": "Heritage Recipes",
+      "angle": "heritage_product",
+      "keyword_pillar": "chana_keri",
+      "product_handles": [
+        "chana-keri-methi-pickle-gujarati-methia-achar"
+      ],
+      "collection_handles": [
+        "methi-fenugreek-pickles",
+        "spicy-traditional-keri-achar"
+      ],
+      "secondary": [
+        "chana keri ka achar",
+        "chana methi keri achar",
+        "chana pickle",
+        "chana methi pickle",
+        "chana methi pickle gujarati",
+        "Tender Mango Pickle",
+        "Pickle Mango",
+        "Sweet Mango Pickle",
+        "Athanu",
+        "Gujarati Keri Athanu",
+        "Keri",
+        "Aachar",
+        "Aachari Pickle",
+        "Pickle 1kg"
+      ]
+    },
+    {
+      "id": "achar-masala-explained",
+      "primary_keyword": "achar masala",
+      "title": "What Is Achar Masala? Pickle Spices Behind Homemade Gujarati Athanu",
+      "intent": "Ingredient/spice education",
+      "cluster": "Health & Spices",
+      "category": "Health & Spices",
+      "angle": "ingredient",
+      "keyword_pillar": "achar_masala",
+      "product_handles": [
+        "mango-pickle-traditional-keri-achar-gujarati",
+        "katka-keri-pickle-homemade-gujarati-mango-achar",
+        "chana-keri-methi-pickle-gujarati-methia-achar"
+      ],
+      "collection_handles": [
+        "kathiawadi-homemade-pickles",
+        "all-pickles"
+      ],
+      "secondary": [
+        "achar masala",
+        "pickle powder",
+        "achar masala powder",
+        "pickle masala",
+        "achar pickle masala",
+        "aam achar masala powder",
+        "pickle spices",
+        "mix pickle masala",
+        "pickle 1 kg",
+        "achar masala 100gm",
+        "achar masala 250gm",
+        "mixture pickle 1 kg",
+        "Tender Mango Pickle",
+        "Pickle Mango"
+      ]
+    },
+    {
+      "id": "sweet-mango-achar-1kg",
+      "primary_keyword": "sweet mango achar 1kg",
+      "title": "Buying Sweet Mango Achar (1kg): Meethi Keri, Size & Storage Tips",
+      "intent": "Commercial investigation",
+      "cluster": "Buying Guides",
+      "category": "Buying Guides",
+      "angle": "buying",
+      "keyword_pillar": "sweet_mango",
+      "product_handles": [
+        "sweet-mango-pickle-meethi-keri-achar-homemade",
+        "gor-keri-pickle-jaggery-mango-achar-gujarati",
+        "chhundo-pickle-sweet-shredded-mango-achar-gujarati"
+      ],
+      "collection_handles": [
+        "sweet-gujarati-pickles",
+        "meethi-keri-sweet-mango"
+      ],
+      "secondary": [
+        "Sweet Pickle",
+        "sweet mango pickle",
+        "Mango Pickle 1Kg Sweet",
+        "Aam Mitha Achar",
+        "sweet mango achar 1kg",
+        "Tender Mango Pickle",
+        "Pickle Mango",
+        "Athanu",
+        "Gujarati Keri Athanu",
+        "Keri",
+        "Aachar",
+        "Aachari Pickle",
+        "Pickle 1kg",
+        "Mix Aachar"
+      ]
+    },
+    {
+      "id": "pickle-combo-pack-guide",
+      "primary_keyword": "gujarati pickle combo",
+      "title": "Gujarati Pickle Combo Packs: Sweet, Tangy & Full-Range Sets Explained",
+      "intent": "Commercial investigation",
+      "cluster": "Buying Guides",
+      "category": "Buying Guides",
+      "angle": "buying",
+      "keyword_pillar": "six_combo",
+      "product_handles": [
+        "sweet-mango-pickle-meethi-keri-achar-homemade",
+        "gunda-keri-pickle-lasode-ka-achar-gujarati",
+        "mango-pickle-traditional-keri-achar-gujarati",
+        "chhundo-pickle-sweet-shredded-mango-achar-gujarati"
+      ],
+      "collection_handles": [
+        "sweet-pickle-combo",
+        "tangy-spicy-pickle-combo",
+        "festive-gifting-pickles"
+      ],
+      "secondary": [
+        "Sweet Pickle",
+        "sweet mango pickle",
+        "Mango Pickle 1Kg Sweet",
+        "Aam Mitha Achar",
+        "sweet mango achar 1kg",
+        "gorkeri",
+        "gorkeri pickle",
+        "gor keri pickle",
+        "gor keri pickle mothers",
+        "gor keri pickle 1kg",
+        "gor keri pickle masala",
+        "jaggery mango pickle",
+        "jaggery mango pickle 1 kg",
+        "Sweet Lime Pickle"
+      ]
+    },
+    {
+      "id": "sweet-lemon-pickle-guide",
+      "primary_keyword": "sweet lemon pickle",
+      "title": "Sweet Lemon / Nimbu Pickle: What Shoppers Ask (and How It Differs from Mango Achar)",
+      "intent": "Informational",
+      "cluster": "Buying Guides",
+      "category": "Buying Guides",
+      "angle": "comparison",
+      "keyword_pillar": "sweet_lemon",
+      "product_handles": [
+        "sweet-mango-pickle-meethi-keri-achar-homemade",
+        "gor-keri-pickle-jaggery-mango-achar-gujarati"
+      ],
+      "collection_handles": [
+        "sweet-gujarati-pickles",
+        "buy-gujarati-pickle-online"
+      ],
+      "notes": "Demand keyword from Arham sheet; TPA catalogue is mango-led until lemon SKU ships.",
+      "secondary": [
+        "Sweet Lime Pickle",
+        "Sweet Lemon Pickle",
+        "khatta sweet lemon pickle",
+        "lemon sour sweet pickle",
+        "Lemon Pickle",
+        "Sweet lemon achar",
+        "nimbu masala",
+        "nimbu pickle",
+        "nimbu ka achar",
+        "nimbu ka achaar",
+        "nimbu mirchi ka achar",
+        "aam achaar lemon pickle",
+        "meetha nimbu ka aachar",
+        "nimbu mirchi ka achaar lemon"
+      ]
+    },
+    {
+      "id": "mix-achar-vs-single",
+      "primary_keyword": "mix achar",
+      "title": "Mix Achar vs Single-Flavour Pickle: Which Jar Should You Buy First?",
+      "intent": "Comparison",
+      "cluster": "Buying Guides",
+      "category": "Buying Guides",
+      "angle": "comparison",
+      "keyword_pillar": "achar_masala",
+      "product_handles": [
+        "mango-pickle-traditional-keri-achar-gujarati",
+        "gunda-keri-pickle-lasode-ka-achar-gujarati",
+        "chana-keri-methi-pickle-gujarati-methia-achar"
+      ],
+      "collection_handles": [
+        "all-pickles",
+        "customer-favourites"
+      ],
+      "secondary": [
+        "achar masala",
+        "pickle powder",
+        "achar masala powder",
+        "pickle masala",
+        "achar pickle masala",
+        "aam achar masala powder",
+        "pickle spices",
+        "mix pickle masala",
+        "pickle 1 kg",
+        "achar masala 100gm",
+        "achar masala 250gm",
+        "mixture pickle 1 kg",
+        "Tender Mango Pickle",
+        "Pickle Mango"
       ]
     }
   ],

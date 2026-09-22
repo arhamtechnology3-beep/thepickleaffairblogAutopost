@@ -10,6 +10,12 @@ PRODUCTS = {p["handle"]: p for p in json.loads((ROOT / "scratch" / "product_regi
 
 MIN_WORDS = int(__import__("os").environ.get("MIN_BLOG_WORDS", "1500"))
 
+try:
+    from keyword_bank import enrich_topic  # type: ignore
+except Exception:  # pragma: no cover
+    def enrich_topic(topic, max_secondary=14):  # noqa: ARG001
+        return topic
+
 
 def word_count(html: str) -> int:
     import re
@@ -228,6 +234,7 @@ def angle_depth(angle: str, kw: str) -> str:
 
 
 def build_long_article(topic: dict) -> tuple[str, str, str, str, str]:
+    topic = enrich_topic(topic)
     kw = topic["primary_keyword"]
     title = topic["title"]
     if len(title) > 70:

@@ -1,5 +1,5 @@
 {
-  "policy": "COLLECTIONS_SEO_PLAN.md + SEO_AUTOPILOT §14 + BLOG.md. One intent per URL. No doorway pages. Competitor research is for architecture only — never copy copy.",
+  "policy": "COLLECTIONS_SEO_PLAN.md + SEO_AUTOPILOT §14 + BLOG.md. One intent per URL. No doorway pages. Competitor research is for architecture only — never copy copy. Primary + secondary keywords sourced from Arham Foods keyword sheet via keyword_bank.json.",
   "competitor_notes": {
     "homepick": {
       "url": "https://homepick.co.in",
@@ -16,14 +16,14 @@
       "we_skip": [
         "oil-free",
         "jain",
-        "lemon",
         "bengali",
         "punjabi",
         "south-indian",
         "podi",
         "murabba",
         "chutneys"
-      ]
+      ],
+      "note_lemon": "Sweet lemon keywords tracked in keyword_bank (blog-only until lemon SKU)."
     },
     "pasand": {
       "url": "https://pasand.co.in",
@@ -69,7 +69,28 @@
         "katka"
       ],
       "priority": 1,
-      "status": "live"
+      "status": "live",
+      "keyword_pillars": [
+        "special_mango"
+      ],
+      "secondary_keywords": [
+        "Mango Pickle",
+        "Mango Achar",
+        "Tender Mango Pickle",
+        "Pickle Mango",
+        "Mango Aachar",
+        "Gujarati Pickle",
+        "Athanu",
+        "Gujarati Keri Athanu",
+        "Keri",
+        "Aachar",
+        "Aachari Pickle",
+        "Pickle 1kg",
+        "Mix Aachar",
+        "Raw Mango Pickle",
+        "Mango Pickle 1kg",
+        "Mango Pickles Homemade"
+      ]
     },
     {
       "handle": "sweet-gujarati-pickles",
@@ -83,7 +104,29 @@
         "chhundo"
       ],
       "priority": 1,
-      "status": "live"
+      "status": "live",
+      "keyword_pillars": [
+        "sweet_mango",
+        "sweet_combo"
+      ],
+      "secondary_keywords": [
+        "Sweet Pickle",
+        "sweet mango pickle",
+        "Mango Pickle 1Kg Sweet",
+        "Aam Mitha Achar",
+        "sweet mango achar 1kg",
+        "Mango Pickle",
+        "Mango Achar",
+        "Tender Mango Pickle",
+        "Pickle Mango",
+        "Mango Aachar",
+        "Gujarati Pickle",
+        "Athanu",
+        "Gujarati Keri Athanu",
+        "Keri",
+        "Aachar",
+        "Aachari Pickle"
+      ]
     },
     {
       "handle": "spicy-traditional-keri-achar",
@@ -97,7 +140,29 @@
         "chana"
       ],
       "priority": 1,
-      "status": "live"
+      "status": "live",
+      "keyword_pillars": [
+        "special_mango",
+        "tangy_combo"
+      ],
+      "secondary_keywords": [
+        "Mango Pickle",
+        "Mango Achar",
+        "Tender Mango Pickle",
+        "Pickle Mango",
+        "Mango Aachar",
+        "Gujarati Pickle",
+        "Athanu",
+        "Gujarati Keri Athanu",
+        "Keri",
+        "Aachar",
+        "Aachari Pickle",
+        "Pickle 1kg",
+        "Mix Aachar",
+        "Raw Mango Pickle",
+        "Mango Pickle 1kg",
+        "Mango Pickles Homemade"
+      ]
     },
     {
       "handle": "gunda-keri-specialty-achar",
@@ -109,7 +174,28 @@
         "gunda"
       ],
       "priority": 1,
-      "status": "live"
+      "status": "live",
+      "keyword_pillars": [
+        "gunda_keri"
+      ],
+      "secondary_keywords": [
+        "gunda pickle",
+        "gunda pickle gujarati",
+        "gunda pickle gujarati home made",
+        "gunda keri pickle gujarati",
+        "gunda ka achar",
+        "lasode ka achar",
+        "lasode aur aam ka achar",
+        "lasoda pickle",
+        "Mango Pickle",
+        "Mango Achar",
+        "Tender Mango Pickle",
+        "Pickle Mango",
+        "Mango Aachar",
+        "Sweet Mango Pickle",
+        "Gujarati Pickle",
+        "Athanu"
+      ]
     },
     {
       "handle": "methi-fenugreek-pickles",
@@ -121,7 +207,28 @@
         "chana"
       ],
       "priority": 1,
-      "status": "live"
+      "status": "live",
+      "keyword_pillars": [
+        "chana_keri"
+      ],
+      "secondary_keywords": [
+        "chana keri ka achar",
+        "chana methi keri achar",
+        "chana pickle",
+        "chana methi pickle",
+        "chana methi pickle gujarati",
+        "Mango Pickle",
+        "Mango Achar",
+        "Tender Mango Pickle",
+        "Pickle Mango",
+        "Mango Aachar",
+        "Sweet Mango Pickle",
+        "Gujarati Pickle",
+        "Athanu",
+        "Gujarati Keri Athanu",
+        "Keri",
+        "Aachar"
+      ]
     },
     {
       "handle": "kathiawadi-homemade-pickles",
@@ -139,7 +246,29 @@
         "katka"
       ],
       "priority": 1,
-      "status": "live"
+      "status": "live",
+      "keyword_pillars": [
+        "achar_masala",
+        "special_mango"
+      ],
+      "secondary_keywords": [
+        "achar masala",
+        "pickle powder",
+        "achar masala powder",
+        "pickle masala",
+        "achar pickle masala",
+        "aam achar masala powder",
+        "pickle spices",
+        "mix pickle masala",
+        "pickle 1 kg",
+        "achar masala 100gm",
+        "achar masala 250gm",
+        "mixture pickle 1 kg",
+        "Mango Pickle",
+        "Mango Achar",
+        "Tender Mango Pickle",
+        "Pickle Mango"
+      ]
     },
     {
       "handle": "pickles-for-thepla-tiffin",
@@ -154,7 +283,29 @@
         "katka"
       ],
       "priority": 1,
-      "status": "live"
+      "status": "live",
+      "keyword_pillars": [
+        "sweet_combo",
+        "chana_keri"
+      ],
+      "secondary_keywords": [
+        "Sweet Pickle",
+        "sweet mango pickle",
+        "Mango Pickle 1Kg Sweet",
+        "Aam Mitha Achar",
+        "sweet mango achar 1kg",
+        "gorkeri",
+        "gorkeri pickle",
+        "gor keri pickle",
+        "gor keri pickle mothers",
+        "gor keri pickle 1kg",
+        "gor keri pickle masala",
+        "jaggery mango pickle",
+        "jaggery mango pickle 1 kg",
+        "Sweet Lime Pickle",
+        "Sweet Lemon Pickle",
+        "khatta sweet lemon pickle"
+      ]
     },
     {
       "handle": "buy-gujarati-pickle-online",
@@ -172,7 +323,29 @@
         "katka"
       ],
       "priority": 1,
-      "status": "live"
+      "status": "live",
+      "keyword_pillars": [
+        "six_combo",
+        "special_mango"
+      ],
+      "secondary_keywords": [
+        "Sweet Pickle",
+        "sweet mango pickle",
+        "Mango Pickle 1Kg Sweet",
+        "Aam Mitha Achar",
+        "sweet mango achar 1kg",
+        "gorkeri",
+        "gorkeri pickle",
+        "gor keri pickle",
+        "gor keri pickle mothers",
+        "gor keri pickle 1kg",
+        "gor keri pickle masala",
+        "jaggery mango pickle",
+        "jaggery mango pickle 1 kg",
+        "Sweet Lime Pickle",
+        "Sweet Lemon Pickle",
+        "khatta sweet lemon pickle"
+      ]
     },
     {
       "handle": "gujarati-achar",
@@ -191,7 +364,29 @@
       ],
       "priority": 2,
       "status": "live",
-      "competitor_signal": "Homepick /collections/gujarati-achar"
+      "competitor_signal": "Homepick /collections/gujarati-achar",
+      "keyword_pillars": [
+        "special_mango",
+        "achar_masala"
+      ],
+      "secondary_keywords": [
+        "Mango Pickle",
+        "Mango Achar",
+        "Tender Mango Pickle",
+        "Pickle Mango",
+        "Mango Aachar",
+        "Gujarati Pickle",
+        "Athanu",
+        "Gujarati Keri Athanu",
+        "Keri",
+        "Aachar",
+        "Aachari Pickle",
+        "Pickle 1kg",
+        "Mix Aachar",
+        "Raw Mango Pickle",
+        "Mango Pickle 1kg",
+        "Mango Pickles Homemade"
+      ]
     },
     {
       "handle": "all-pickles",
@@ -210,7 +405,29 @@
       ],
       "priority": 2,
       "status": "live",
-      "competitor_signal": "Homepick /collections/all-pickles"
+      "competitor_signal": "Homepick /collections/all-pickles",
+      "keyword_pillars": [
+        "six_combo",
+        "achar_masala"
+      ],
+      "secondary_keywords": [
+        "Sweet Pickle",
+        "sweet mango pickle",
+        "Mango Pickle 1Kg Sweet",
+        "Aam Mitha Achar",
+        "sweet mango achar 1kg",
+        "gorkeri",
+        "gorkeri pickle",
+        "gor keri pickle",
+        "gor keri pickle mothers",
+        "gor keri pickle 1kg",
+        "gor keri pickle masala",
+        "jaggery mango pickle",
+        "jaggery mango pickle 1 kg",
+        "Sweet Lime Pickle",
+        "Sweet Lemon Pickle",
+        "khatta sweet lemon pickle"
+      ]
     },
     {
       "handle": "customer-favourites",
@@ -226,7 +443,28 @@
       ],
       "priority": 2,
       "status": "live",
-      "competitor_signal": "Pasand customer-favourites / Homepick bestsellers"
+      "competitor_signal": "Pasand customer-favourites / Homepick bestsellers",
+      "keyword_pillars": [
+        "six_combo"
+      ],
+      "secondary_keywords": [
+        "Sweet Pickle",
+        "sweet mango pickle",
+        "Mango Pickle 1Kg Sweet",
+        "Aam Mitha Achar",
+        "sweet mango achar 1kg",
+        "gorkeri",
+        "gorkeri pickle",
+        "gor keri pickle",
+        "gor keri pickle mothers",
+        "gor keri pickle 1kg",
+        "gor keri pickle masala",
+        "jaggery mango pickle",
+        "jaggery mango pickle 1 kg",
+        "Sweet Lime Pickle",
+        "Sweet Lemon Pickle",
+        "khatta sweet lemon pickle"
+      ]
     },
     {
       "handle": "festive-gifting-pickles",
@@ -243,7 +481,29 @@
       ],
       "priority": 2,
       "status": "live",
-      "competitor_signal": "Homepick festive-gifting / Pasand gift-box"
+      "competitor_signal": "Homepick festive-gifting / Pasand gift-box",
+      "keyword_pillars": [
+        "six_combo",
+        "sweet_combo"
+      ],
+      "secondary_keywords": [
+        "Sweet Pickle",
+        "sweet mango pickle",
+        "Mango Pickle 1Kg Sweet",
+        "Aam Mitha Achar",
+        "sweet mango achar 1kg",
+        "gorkeri",
+        "gorkeri pickle",
+        "gor keri pickle",
+        "gor keri pickle mothers",
+        "gor keri pickle 1kg",
+        "gor keri pickle masala",
+        "jaggery mango pickle",
+        "jaggery mango pickle 1 kg",
+        "Sweet Lime Pickle",
+        "Sweet Lemon Pickle",
+        "khatta sweet lemon pickle"
+      ]
     },
     {
       "handle": "chhundo-pickles",
@@ -256,7 +516,28 @@
       ],
       "priority": 2,
       "status": "live",
-      "competitor_signal": "Homepick sweet-pickles + Pasand chhundo focus"
+      "competitor_signal": "Homepick sweet-pickles + Pasand chhundo focus",
+      "keyword_pillars": [
+        "sweet_mango"
+      ],
+      "secondary_keywords": [
+        "Sweet Pickle",
+        "sweet mango pickle",
+        "Mango Pickle 1Kg Sweet",
+        "Aam Mitha Achar",
+        "sweet mango achar 1kg",
+        "Mango Pickle",
+        "Mango Achar",
+        "Tender Mango Pickle",
+        "Pickle Mango",
+        "Mango Aachar",
+        "Gujarati Pickle",
+        "Athanu",
+        "Gujarati Keri Athanu",
+        "Keri",
+        "Aachar",
+        "Aachari Pickle"
+      ]
     },
     {
       "handle": "gor-keri-jaggery-pickles",
@@ -269,7 +550,28 @@
       ],
       "priority": 2,
       "status": "live",
-      "competitor_signal": "Adani Gor Keri / Gol Keri demand"
+      "competitor_signal": "Adani Gor Keri / Gol Keri demand",
+      "keyword_pillars": [
+        "gor_keri"
+      ],
+      "secondary_keywords": [
+        "gorkeri",
+        "gorkeri pickle",
+        "gor keri pickle",
+        "gor keri pickle mothers",
+        "gor keri pickle 1kg",
+        "gor keri pickle masala",
+        "jaggery mango pickle",
+        "jaggery mango pickle 1 kg",
+        "Mango Pickle",
+        "Mango Achar",
+        "Tender Mango Pickle",
+        "Pickle Mango",
+        "Mango Aachar",
+        "Sweet Mango Pickle",
+        "Gujarati Pickle",
+        "Athanu"
+      ]
     },
     {
       "handle": "homemade-mango-pickle",
@@ -283,7 +585,28 @@
       ],
       "priority": 2,
       "status": "live",
-      "competitor_signal": "Homepick mango-pickles"
+      "competitor_signal": "Homepick mango-pickles",
+      "keyword_pillars": [
+        "special_mango"
+      ],
+      "secondary_keywords": [
+        "Mango Pickle",
+        "Mango Achar",
+        "Tender Mango Pickle",
+        "Pickle Mango",
+        "Mango Aachar",
+        "Gujarati Pickle",
+        "Athanu",
+        "Gujarati Keri Athanu",
+        "Keri",
+        "Aachar",
+        "Aachari Pickle",
+        "Pickle 1kg",
+        "Mix Aachar",
+        "Raw Mango Pickle",
+        "Mango Pickle 1kg",
+        "Mango Pickles Homemade"
+      ]
     },
     {
       "handle": "pickle-with-khichdi-dal",
@@ -298,7 +621,28 @@
       ],
       "priority": 3,
       "status": "live",
-      "competitor_signal": "Occasion pairing hub (our content advantage)"
+      "competitor_signal": "Occasion pairing hub (our content advantage)",
+      "keyword_pillars": [
+        "tangy_combo"
+      ],
+      "secondary_keywords": [
+        "gunda pickle",
+        "gunda pickle gujarati",
+        "gunda pickle gujarati home made",
+        "gunda keri pickle gujarati",
+        "gunda ka achar",
+        "lasode ka achar",
+        "lasode aur aam ka achar",
+        "lasoda pickle",
+        "chana keri ka achar",
+        "chana methi keri achar",
+        "chana pickle",
+        "chana methi pickle",
+        "chana methi pickle gujarati",
+        "Mango Pickle",
+        "Mango Achar",
+        "Tender Mango Pickle"
+      ]
     },
     {
       "handle": "saurashtra-kathiawadi-achar",
@@ -317,7 +661,29 @@
       ],
       "priority": 3,
       "status": "live",
-      "competitor_signal": "Regional silo pattern (Homepick regional achar pages)"
+      "competitor_signal": "Regional silo pattern (Homepick regional achar pages)",
+      "keyword_pillars": [
+        "special_mango",
+        "achar_masala"
+      ],
+      "secondary_keywords": [
+        "Mango Pickle",
+        "Mango Achar",
+        "Tender Mango Pickle",
+        "Pickle Mango",
+        "Mango Aachar",
+        "Gujarati Pickle",
+        "Athanu",
+        "Gujarati Keri Athanu",
+        "Keri",
+        "Aachar",
+        "Aachari Pickle",
+        "Pickle 1kg",
+        "Mix Aachar",
+        "Raw Mango Pickle",
+        "Mango Pickle 1kg",
+        "Mango Pickles Homemade"
+      ]
     },
     {
       "handle": "meethi-keri-sweet-mango",
@@ -330,7 +696,28 @@
       ],
       "priority": 3,
       "status": "live",
-      "competitor_signal": "SKU-intent landing page (sweet mango / meethi keri)"
+      "competitor_signal": "SKU-intent landing page (sweet mango / meethi keri)",
+      "keyword_pillars": [
+        "sweet_mango"
+      ],
+      "secondary_keywords": [
+        "Sweet Pickle",
+        "sweet mango pickle",
+        "Mango Pickle 1Kg Sweet",
+        "Aam Mitha Achar",
+        "sweet mango achar 1kg",
+        "Mango Pickle",
+        "Mango Achar",
+        "Tender Mango Pickle",
+        "Pickle Mango",
+        "Mango Aachar",
+        "Gujarati Pickle",
+        "Athanu",
+        "Gujarati Keri Athanu",
+        "Keri",
+        "Aachar",
+        "Aachari Pickle"
+      ]
     },
     {
       "handle": "katka-keri-pickles",
@@ -343,7 +730,29 @@
       ],
       "priority": 3,
       "status": "live",
-      "competitor_signal": "Niche SKU collection (Homepick-style specialty pages)"
+      "competitor_signal": "Niche SKU collection (Homepick-style specialty pages)",
+      "keyword_pillars": [
+        "special_mango",
+        "tangy_combo"
+      ],
+      "secondary_keywords": [
+        "Mango Pickle",
+        "Mango Achar",
+        "Tender Mango Pickle",
+        "Pickle Mango",
+        "Mango Aachar",
+        "Gujarati Pickle",
+        "Athanu",
+        "Gujarati Keri Athanu",
+        "Keri",
+        "Aachar",
+        "Aachari Pickle",
+        "Pickle 1kg",
+        "Mix Aachar",
+        "Raw Mango Pickle",
+        "Mango Pickle 1kg",
+        "Mango Pickles Homemade"
+      ]
     },
     {
       "handle": "fssai-handmade-pickles",
@@ -362,7 +771,218 @@
       ],
       "priority": 3,
       "status": "live",
-      "competitor_signal": "Trust / clean-label hub (claim only what we state)"
+      "competitor_signal": "Trust / clean-label hub (claim only what we state)",
+      "keyword_pillars": [
+        "six_combo"
+      ],
+      "secondary_keywords": [
+        "Sweet Pickle",
+        "sweet mango pickle",
+        "Mango Pickle 1Kg Sweet",
+        "Aam Mitha Achar",
+        "sweet mango achar 1kg",
+        "gorkeri",
+        "gorkeri pickle",
+        "gor keri pickle",
+        "gor keri pickle mothers",
+        "gor keri pickle 1kg",
+        "gor keri pickle masala",
+        "jaggery mango pickle",
+        "jaggery mango pickle 1 kg",
+        "Sweet Lime Pickle",
+        "Sweet Lemon Pickle",
+        "khatta sweet lemon pickle"
+      ]
+    },
+    {
+      "handle": "sweet-pickle-combo",
+      "title": "Sweet Pickle Combo",
+      "primary_keyword": "sweet pickle combo",
+      "seo_title": "Sweet Pickle Combo | Meethi Keri, Gor Keri & Chhundo",
+      "seo_desc": "Build a sweet Gujarati pickle combo — Meethi Keri, Gor Keri (jaggery) and Chhundo. Handmade jars from The Pickle Affair.",
+      "products": [
+        "meethi",
+        "gor",
+        "chhundo"
+      ],
+      "priority": 2,
+      "status": "queued",
+      "keyword_pillars": [
+        "sweet_combo",
+        "sweet_mango",
+        "gor_keri"
+      ],
+      "competitor_signal": "Arham keyword sheet · Sweet Combo pillar",
+      "secondary_keywords": [
+        "Sweet Pickle",
+        "sweet mango pickle",
+        "Mango Pickle 1Kg Sweet",
+        "Aam Mitha Achar",
+        "sweet mango achar 1kg",
+        "gorkeri",
+        "gorkeri pickle",
+        "gor keri pickle",
+        "gor keri pickle mothers",
+        "gor keri pickle 1kg",
+        "gor keri pickle masala",
+        "jaggery mango pickle",
+        "jaggery mango pickle 1 kg",
+        "Sweet Lime Pickle",
+        "Sweet Lemon Pickle",
+        "khatta sweet lemon pickle"
+      ]
+    },
+    {
+      "handle": "tangy-spicy-pickle-combo",
+      "title": "Tangy & Spicy Pickle Combo",
+      "primary_keyword": "tangy pickle combo",
+      "seo_title": "Tangy Spicy Pickle Combo | Gunda, Chana Methi & Keri",
+      "seo_desc": "Tangy-spicy Gujarati pickle combo — Gunda Keri, Chana Keri Methi, Katka and classic mango achar from The Pickle Affair.",
+      "products": [
+        "gunda",
+        "chana",
+        "katka",
+        "mango"
+      ],
+      "priority": 2,
+      "status": "queued",
+      "keyword_pillars": [
+        "tangy_combo",
+        "gunda_keri",
+        "chana_keri"
+      ],
+      "competitor_signal": "Arham keyword sheet · Tangy Combo pillar",
+      "secondary_keywords": [
+        "gunda pickle",
+        "gunda pickle gujarati",
+        "gunda pickle gujarati home made",
+        "gunda keri pickle gujarati",
+        "gunda ka achar",
+        "lasode ka achar",
+        "lasode aur aam ka achar",
+        "lasoda pickle",
+        "chana keri ka achar",
+        "chana methi keri achar",
+        "chana pickle",
+        "chana methi pickle",
+        "chana methi pickle gujarati",
+        "Mango Pickle",
+        "Mango Achar",
+        "Tender Mango Pickle"
+      ]
+    },
+    {
+      "handle": "gujarati-pickle-combo-pack",
+      "title": "Gujarati Pickle Combo Pack",
+      "primary_keyword": "gujarati pickle combo",
+      "seo_title": "Gujarati Pickle Combo Pack | Full Kathiawadi Range",
+      "seo_desc": "Explore a full Gujarati pickle combo pack path — sweet, spicy, methi and specialty jars from The Pickle Affair. Ships across India.",
+      "products": [
+        "mango",
+        "gor",
+        "meethi",
+        "gunda",
+        "chana",
+        "chhundo",
+        "katka"
+      ],
+      "priority": 2,
+      "status": "queued",
+      "keyword_pillars": [
+        "six_combo"
+      ],
+      "competitor_signal": "Arham keyword sheet · 6 Combo pillar",
+      "secondary_keywords": [
+        "Sweet Pickle",
+        "sweet mango pickle",
+        "Mango Pickle 1Kg Sweet",
+        "Aam Mitha Achar",
+        "sweet mango achar 1kg",
+        "gorkeri",
+        "gorkeri pickle",
+        "gor keri pickle",
+        "gor keri pickle mothers",
+        "gor keri pickle 1kg",
+        "gor keri pickle masala",
+        "jaggery mango pickle",
+        "jaggery mango pickle 1 kg",
+        "Sweet Lime Pickle",
+        "Sweet Lemon Pickle",
+        "khatta sweet lemon pickle"
+      ]
+    },
+    {
+      "handle": "traditional-achar-masala-pickles",
+      "title": "Traditional Achar Masala Pickles",
+      "primary_keyword": "achar masala",
+      "seo_title": "Achar Masala Pickles | Traditional Spice-Forward Athanu",
+      "seo_desc": "Shop traditional achar-masala style pickles — spice-forward Kathiawadi jars where pickle masala character leads the flavour.",
+      "products": [
+        "mango",
+        "katka",
+        "chana",
+        "gunda"
+      ],
+      "priority": 2,
+      "status": "queued",
+      "keyword_pillars": [
+        "achar_masala"
+      ],
+      "competitor_signal": "Arham keyword sheet · Aachar Masala pillar",
+      "secondary_keywords": [
+        "achar masala",
+        "pickle powder",
+        "achar masala powder",
+        "pickle masala",
+        "achar pickle masala",
+        "aam achar masala powder",
+        "pickle spices",
+        "mix pickle masala",
+        "pickle 1 kg",
+        "achar masala 100gm",
+        "achar masala 250gm",
+        "mixture pickle 1 kg",
+        "Mango Pickle",
+        "Mango Achar",
+        "Tender Mango Pickle",
+        "Pickle Mango"
+      ]
+    },
+    {
+      "handle": "raw-tender-mango-pickle",
+      "title": "Raw & Tender Mango Pickle",
+      "primary_keyword": "raw mango pickle",
+      "seo_title": "Raw & Tender Mango Pickle Online | Kachchi Keri Achar",
+      "seo_desc": "Shop raw / tender mango pickle (kachchi keri achar) styles — traditional homemade mango achar from The Pickle Affair.",
+      "products": [
+        "mango",
+        "katka"
+      ],
+      "priority": 2,
+      "status": "queued",
+      "keyword_pillars": [
+        "special_mango"
+      ],
+      "competitor_signal": "Arham keyword sheet · Special Mango pillar",
+      "secondary_keywords": [
+        "Mango Pickle",
+        "Mango Achar",
+        "Tender Mango Pickle",
+        "Pickle Mango",
+        "Mango Aachar",
+        "Gujarati Pickle",
+        "Athanu",
+        "Gujarati Keri Athanu",
+        "Keri",
+        "Aachar",
+        "Aachari Pickle",
+        "Pickle 1kg",
+        "Mix Aachar",
+        "Raw Mango Pickle",
+        "Mango Pickle 1kg",
+        "Mango Pickles Homemade"
+      ]
     }
-  ]
+  ],
+  "keyword_bank": "scratch/keyword_bank.json"
 }

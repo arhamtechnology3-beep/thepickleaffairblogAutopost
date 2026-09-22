@@ -26,6 +26,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scratch"))
 from shopify_auth import resolve_access_token, shop_url  # noqa: E402
+from keyword_bank import enrich_topic  # noqa: E402
 from blog_content import MIN_WORDS, build_long_article, word_count  # noqa: E402
 
 PRODUCTS = {p["handle"]: p for p in json.loads((ROOT / "scratch" / "product_registry.json").read_text())}
@@ -176,7 +177,7 @@ def pick_daily_topics(day: dt.date, articles: list[dict], owned: set[str]) -> li
         if reason:
             print(f"SKIP {topic['id']}: {reason}")
             continue
-        selected.append(topic)
+        selected.append(enrich_topic(topic))
         used_angles.add(angle)
         used_clusters.add(cluster)
 

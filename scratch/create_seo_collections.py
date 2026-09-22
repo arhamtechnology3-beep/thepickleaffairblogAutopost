@@ -24,6 +24,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scratch"))
 from shopify_auth import resolve_access_token, shop_url  # noqa: E402
+from keyword_bank import enrich_collection, secondary_phrase  # noqa: E402
 
 LIB = json.loads((ROOT / "scratch" / "collection_library.json").read_text())
 PRODUCT_KEYS: dict[str, str] = LIB["product_keys"]
@@ -117,6 +118,7 @@ def intent_angle(spec: dict) -> tuple[str, str, str]:
 
 def rich_body(spec: dict, all_handles: list[str]) -> str:
     """SEO_AUTOPILOT §14 + 400–600 useful words (floor MIN_COLLECTION_WORDS)."""
+    spec = enrich_collection(spec)
     kw = spec["primary_keyword"]
     title = spec["title"]
     keys = spec.get("products") or []
@@ -124,6 +126,7 @@ def rich_body(spec: dict, all_handles: list[str]) -> str:
     name_list = ", ".join(names[:-1]) + (f" and {names[-1]}" if len(names) > 1 else names[0] if names else "our jars")
     related = related_collection_links(spec["handle"], all_handles)
     who, lane, tip = intent_angle(spec)
+    related_terms = secondary_phrase(spec, "secondary_keywords", limit=10)
     blog_links = [
         ("/blogs/kitchen-tales/how-to-buy-authentic-gujarati-pickle-online-without-guesswork", "How to buy Gujarati pickle online"),
         ("/blogs/kitchen-tales/how-to-store-indian-pickles-keep-gujarati-achar-fresh-for-months", "How to store Indian pickles"),
@@ -178,6 +181,7 @@ def rich_body(spec: dict, all_handles: list[str]) -> str:
 <p>{who}</p>
 <p>{lane}</p>
 <p>Unlike a generic “all products” dump, this hub is built around one shopping intent: <em>{kw}</em>. Competitor catalogues often split pickle shops into taste, ingredient, regional, and gifting silos; we only publish hubs we can fill with real jars and useful guidance — no doorway pages and no copied competitor wording.</p>
+<p>Shoppers also search related phrases such as <em>{related_terms or kw}</em>. We cover those naturally here and in Kitchen Tales — never as thin duplicate URLs.</p>
 <p>Every jar here follows traditional spice logic, glass packaging suited to home storage, and clear product pages. We refuse fake awards, invented medical claims, and proprietary recipe quantities written only for search engines.</p>
 
 <h2>Products in this collection</h2>

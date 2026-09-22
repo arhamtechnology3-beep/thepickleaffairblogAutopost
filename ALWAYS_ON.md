@@ -17,7 +17,7 @@ Blogs (`topic_library.json`) and collections (`collection_library.json`) map to 
 
 ## Blogs (daily, random time)
 
-Each day picks a **random IST time** (~09:00–20:45). Default **1 post/day**.
+Each day picks **3 random IST times** (~09:00–20:45). Default **3 posts/day** (staggered — one per slot).
 
 - Body length gate: **≥1500 words**
 - Each post targets **collection hubs + product pages** (`topic_library.json` + keyword bank)

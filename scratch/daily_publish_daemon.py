@@ -17,7 +17,7 @@ from shopify_auth import resolve_access_token, shop_url  # noqa: E402
 SHOP_URL = shop_url()
 TOKEN = ""
 BLOG_ID = os.environ.get("SHOPIFY_BLOG_ID", "96853164183")
-DAILY_TARGET = int(os.environ.get("DAILY_BLOG_COUNT", "1"))
+DAILY_TARGET = int(os.environ.get("DAILY_BLOG_COUNT", "3"))
 API = "2024-10"
 CTX = ssl.create_default_context()
 IST = dt.timezone(dt.timedelta(hours=5, minutes=30))

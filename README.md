@@ -1,6 +1,6 @@
 # The Pickle Affair — Daily Blog Autopost
 
-Publishes **5 SEO blog posts per day** to Kitchen Tales on [thepickleaffair.com](https://thepickleaffair.com/blogs/kitchen-tales).
+Publishes **3 SEO blog posts per day** to Kitchen Tales on [thepickleaffair.com](https://thepickleaffair.com/blogs/kitchen-tales).
 
 ## Skip `npm init @shopify/app@latest`
 

@@ -41,7 +41,7 @@ TOKEN = ""
 BLOG_ID = os.environ.get("SHOPIFY_BLOG_ID", "96853164183")
 API = "2024-10"
 CTX = ssl.create_default_context()
-MAX_DAILY = int(os.environ.get("DAILY_BLOG_COUNT", "5"))
+MAX_DAILY = int(os.environ.get("DAILY_BLOG_COUNT", "3"))
 
 
 def api(method: str, path: str, payload: dict | None = None) -> dict:
@@ -535,7 +535,7 @@ def main() -> None:
     print(f"Done. Published {created} article(s) (cap {MAX_DAILY}).")
     print("Report: DAILY_CONTENT_REPORT.md · Scorecard: BLOG.md §77")
     if created < MAX_DAILY and force:
-        print("Note: fewer than 5 is correct when uniqueness/quality gates block fillers.")
+        print("Note: fewer than 3 is correct when uniqueness/quality gates block fillers.")
 
 
 if __name__ == "__main__":

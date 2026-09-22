@@ -15,9 +15,9 @@ on:
         required: true
         default: 'both'
       count:
-        description: 'Max posts/day (each at a different random time; default 1)'
+        description: 'Max posts/day (each at a different random time; default 3)'
         required: false
-        default: '1'
+        default: '3'
       force:
         description: 'Ignore random slot wait (1 = publish now)'
         required: false
@@ -48,7 +48,7 @@ jobs:
           SHOPIFY_ACCESS_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
           SHOPIFY_SHOP_URL: https://the-pickle-affair.myshopify.com
           SHOPIFY_BLOG_ID: '96853164183'
-          DAILY_BLOG_COUNT: ${{ github.event_name == 'schedule' && '1' || github.event.inputs.count || '1' }}
+          DAILY_BLOG_COUNT: ${{ github.event_name == 'schedule' && '3' || github.event.inputs.count || '3' }}
           FORCE_PUBLISH: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.force || '0' }}
           PUBLISH_IMMEDIATELY: '1'
         run: |
@@ -63,5 +63,5 @@ jobs:
           SHOPIFY_ACCESS_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
           SHOPIFY_SHOP_URL: https://the-pickle-affair.myshopify.com
           SHOPIFY_BLOG_ID: '96853164183'
-          DAILY_BLOG_COUNT: ${{ github.event.inputs.count || '1' }}
+          DAILY_BLOG_COUNT: ${{ github.event.inputs.count || '3' }}
         run: python3 scratch/daily_publish_daemon.py

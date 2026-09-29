@@ -19,7 +19,8 @@ except Exception:  # pragma: no cover
 
 def word_count(html: str) -> int:
     import re
-    return len(re.sub(r"<[^>]+>", " ", html).split())
+    visible = re.sub(r"<script[\s\S]*?</script>", " ", html)
+    return len(re.sub(r"<[^>]+>", " ", visible).split())
 
 
 def product_block(handle: str) -> str:
@@ -233,8 +234,135 @@ def angle_depth(angle: str, kw: str) -> str:
 """
 
 
+SUPPORT_SECTIONS: list[tuple[str, str]] = [
+    ("Reading a pickle label before you buy", """
+<p>A good achar label answers four questions quickly: which fruit or vegetable, which oil, whether the sweetness comes from sugar or jaggery, and how to store the jar after opening. If a label hides behind vague words like “special masala” with no oil or sweetener named, treat that as a reason to look elsewhere.</p>
+<p>Also look for the FSSAI licence number and the name of the business that packs the jar. On The Pickle Affair jars and footer you will see Arham Foods with licence 21521053000490 — you can match that number against the FSSAI FoSCoS portal yourself.</p>
+<ul>
+  <li>Ingredients listed in plain words you recognise</li>
+  <li>Net weight (our jars are 250 g and 500 g)</li>
+  <li>Best-before guidance and storage note</li>
+  <li>Packer name and FSSAI licence</li>
+</ul>"""),
+    ("Glossary: Gujarati pickle names in one place", """
+<p>Online shops mix Hindi and Gujarati names, which makes searching harder than it should be. Here is how the words line up:</p>
+<ul>
+  <li><strong>Athanu</strong> — Gujarati for pickle; <em>achar</em> in Hindi.</li>
+  <li><strong>Keri</strong> — raw mango; <em>aam</em> is the general Hindi word for mango.</li>
+  <li><strong>Gor / Gol Keri</strong> — raw mango pickled with jaggery (gor/gol).</li>
+  <li><strong>Chhundo</strong> — grated raw mango cooked or sun-set with sugar into a sweet relish.</li>
+  <li><strong>Methia Keri</strong> — mango pickle led by split fenugreek (methi kuria).</li>
+  <li><strong>Gunda / Lasoda</strong> — the sticky Cordia fruit used in Gunda Keri (lasode ka achar).</li>
+  <li><strong>Katka Keri</strong> — mango cut into small pieces (katka) for a chunky everyday achar.</li>
+</ul>"""),
+    ("How much pickle to serve", """
+<p>Traditional achar is strong by design. One level teaspoon beside a roti or a bowl of rice is usually enough for one person; a festive thali might carry two different teaspoons — one sweet and one spicy. Serving more than that tends to drown the meal rather than lift it.</p>
+<p>For a family of four eating pickle at one meal a day, a 500 g jar typically lasts a few weeks. A household that only opens pickle on weekends is better served by a 250 g jar, which gets finished while the flavour is at its best.</p>"""),
+    ("Keeping jars safe in humid weather", """
+<p>Monsoon and coastal humidity are the hardest conditions for any oil-cured pickle. Moisture that condenses inside the lid can drip onto the surface, and a warm, damp cupboard speeds that up.</p>
+<ol>
+  <li>Keep the jar in the driest cupboard you have, away from the sink and stove steam.</li>
+  <li>Wipe the inside of the lid with a dry cloth if you see droplets.</li>
+  <li>Use a separate dry spoon kept only for pickle.</li>
+  <li>Decant a week’s portion into a small dry bowl instead of opening the main jar at every meal.</li>
+</ol>"""),
+    ("What to check when a glass jar arrives", """
+<p>Pickles travel in glass because glass does not react with oil, salt, or acid. When your parcel arrives, check the seal before anything else: the lid should be tight and there should be no oil seepage on the outer packing. A little oil on the rim is normal after transit and can be wiped away.</p>
+<p>If a jar arrives cracked or the seal is broken, do not taste it — photograph it and contact us through the Contact page so it can be replaced. Once opened, move the jar straight to a cool cupboard rather than leaving it on the counter.</p>"""),
+    ("Choosing between 250 g and 500 g jars", """
+<p>Every Pickle Affair variety comes in 250 g and 500 g jars. The smaller jar is the right first order when you are trying a new style — you find out whether your family likes methi bitterness or jaggery sweetness without committing to a large jar.</p>
+<p>Once a style becomes a household staple, the 500 g jar makes more sense per gram and means fewer re-orders. If you want more than 500 g of one style, two 500 g jars are better than one huge jar: one stays sealed and fresh while the other is in use.</p>"""),
+    ("Pairing sweet and spicy on one table", """
+<p>Gujarati meals balance sweet, sour, salty, and hot on the same plate, and pickles follow the same rule. When you serve two jars, choose one from each side: a sweet jar such as Chhundo, Meethi Keri, or Gor Keri, and a sharper jar such as Katka Keri, Gunda Keri, or Chana Keri Methi.</p>
+<p>That pairing covers guests who prefer mild food and those who want heat, and it is also the easiest way to gift pickles to a family whose taste you do not know well.</p>"""),
+]
+
+
+MAX_SUPPORT_SECTIONS = 1
+
+
+def _pick_support(topic_id: str, count: int) -> list[tuple[str, str]]:
+    import hashlib
+
+    start = int(hashlib.md5(topic_id.encode()).hexdigest(), 16) % len(SUPPORT_SECTIONS)
+    return [SUPPORT_SECTIONS[(start + i) % len(SUPPORT_SECTIONS)] for i in range(count)]
+
+
+def custom_depth(topic: dict) -> str:
+    parts = [f"<h2>Quick answer</h2>\n<p>{topic['quick_answer']}</p>"]
+    for s in topic.get("sections") or []:
+        parts.append(f"<h2>{s['h2']}</h2>")
+        parts.extend(f"<p>{p}</p>" for p in s.get("p") or [])
+        if s.get("list"):
+            tag = "ol" if s.get("ordered") else "ul"
+            parts.append(f"<{tag}>" + "".join(f"<li>{i}</li>" for i in s["list"]) + f"</{tag}>")
+    return "\n".join(parts)
+
+
+def build_custom_article(topic: dict) -> tuple[str, str, str, str, str]:
+    """Article from topic-specific content; support sections vary per topic to reach MIN_WORDS."""
+    kw = topic["primary_keyword"]
+    title = topic["title"]
+    if len(title) > 70:
+        title = title[:67].rstrip() + "…"
+    excerpt = (topic.get("excerpt") or f"{title} — practical guidance from The Pickle Affair’s Kathiawadi kitchen.")[:155]
+    products = topic.get("product_handles") or []
+    collections = topic.get("collection_handles") or ["buy-gujarati-pickle-online"]
+    faqs = [tuple(f) for f in topic.get("faqs") or []] + [
+        ("Does The Pickle Affair use synthetic colours?", "No. Colour comes from the spices, turmeric, chilli, and mango themselves."),
+        ("Who makes The Pickle Affair pickles?", "The Pickle Affair is a brand of Arham Foods, packed in Maharashtra under FSSAI licence 21521053000490."),
+    ]
+    faq_json = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faqs
+        ],
+    }
+    faq_html = "".join(
+        f'<div class="dp-faq-item"><h3 class="dp-faq-question">{q}</h3><p>{a}</p></div>' for q, a in faqs
+    )
+    toc_items = ["Quick answer"] + [s["h2"] for s in topic.get("sections") or []] + ["Jars to consider", "FAQs"]
+    toc = "<h2>In this guide</h2>\n<ul>" + "".join(f"<li>{t}</li>" for t in toc_items) + "</ul>"
+
+    def assemble(support: list[tuple[str, str]]) -> str:
+        support_html = "".join(f"<h2>{h}</h2>{b}" for h, b in support)
+        return f"""
+<script type="application/ld+json">{json.dumps(faq_json, ensure_ascii=False)}</script>
+<p class="dp-lead">{excerpt}</p>
+{toc}
+{custom_depth(topic)}
+{support_html}
+{collection_cta(collections)}
+{product_cta(products)}
+<h2>Frequently asked questions</h2>
+{faq_html}
+<h2>Conclusion</h2>
+<p>{topic.get('conclusion') or f'Use the collections above to compare jars for {kw}, start with one 250 g jar if the style is new to you, and keep a dry spoon habit from the first day.'}</p>
+<p><a href="/blogs/kitchen-tales">More Kitchen Tales guides →</a></p>
+""".strip()
+
+    support: list[tuple[str, str]] = []
+    body = assemble(support)
+    skip = set(topic.get("skip_support") or [])
+    for extra in _pick_support(topic["id"], len(SUPPORT_SECTIONS)):
+        if word_count(body) >= MIN_WORDS or len(support) >= MAX_SUPPORT_SECTIONS:
+            break
+        if extra[0] in skip:
+            continue
+        support.append(extra)
+        body = assemble(support)
+
+    tags = f"{topic.get('category', 'Heritage Recipes')}, {kw}"
+    primary = products[0] if products else next(iter(PRODUCTS))
+    image = PRODUCTS[primary]["image"] if primary in PRODUCTS else PRODUCTS[next(iter(PRODUCTS))]["image"]
+    return title, excerpt, body, tags, image
+
+
 def build_long_article(topic: dict) -> tuple[str, str, str, str, str]:
     topic = enrich_topic(topic)
+    if topic.get("sections") and topic.get("quick_answer"):
+        return build_custom_article(topic)
     kw = topic["primary_keyword"]
     title = topic["title"]
     if len(title) > 70:

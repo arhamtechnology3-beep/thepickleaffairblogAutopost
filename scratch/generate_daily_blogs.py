@@ -162,6 +162,8 @@ def pick_daily_topics(day: dt.date, articles: list[dict], owned: set[str]) -> li
     for topic in ordered:
         if len(selected) >= MAX_DAILY:
             break
+        if topic.get("draft"):
+            continue
         angle = topic.get("angle", "")
         cluster = topic.get("cluster", "")
         # Prefer diverse mix

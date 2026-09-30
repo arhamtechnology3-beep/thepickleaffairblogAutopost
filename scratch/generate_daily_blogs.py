@@ -28,6 +28,7 @@ sys.path.insert(0, str(ROOT / "scratch"))
 from shopify_auth import resolve_access_token, shop_url  # noqa: E402
 from keyword_bank import enrich_topic  # noqa: E402
 from blog_content import MIN_WORDS, build_long_article, word_count  # noqa: E402
+from blog_image import featured_image_payload  # noqa: E402
 
 PRODUCTS = {p["handle"]: p for p in json.loads((ROOT / "scratch" / "product_registry.json").read_text())}
 TOPIC_LIB = json.loads((ROOT / "scratch" / "topic_library.json").read_text())
@@ -446,7 +447,7 @@ def append_daily_report(day: dt.date, topic: dict, title: str, handle: str, body
     REPORT_MD.write_text(text)
 
 
-def create_article(title: str, excerpt: str, body: str, tags: str, image: str, published_at: str) -> dict:
+def create_article(title: str, excerpt: str, body: str, tags: str, image: dict, published_at: str) -> dict:
     payload = {
         "article": {
             "title": title,
@@ -456,7 +457,7 @@ def create_article(title: str, excerpt: str, body: str, tags: str, image: str, p
             "body_html": body,
             "published": True,
             "published_at": published_at,
-            "image": {"src": image, "alt": title},
+            "image": image,
         }
     }
     return api("POST", f"/blogs/{BLOG_ID}/articles.json", payload)
@@ -523,7 +524,8 @@ def main() -> None:
         published_at = now.isoformat()
         print(f"→ PUBLISH ({topic.get('intent')} / {topic.get('cluster')}): {title} (~{words} words)")
         print(f"   collections={topic.get('collection_handles')} products={topic.get('product_handles')}")
-        result = create_article(title, excerpt, body, tags, image, published_at)
+        featured = featured_image_payload(topic, title) or {"src": image, "alt": title}
+        result = create_article(title, excerpt, body, tags, featured, published_at)
         art = result.get("article", {})
         handle = art.get("handle", "")
         print(f"   id={art.get('id')} handle={handle}")

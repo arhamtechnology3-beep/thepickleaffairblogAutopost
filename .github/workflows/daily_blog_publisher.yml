@@ -40,6 +40,9 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Install image dependencies
+        run: pip install -r requirements.txt
+
       - name: Publish when today's random slot is due
         if: ${{ github.event_name == 'schedule' || github.event.inputs.mode == 'generate' || github.event.inputs.mode == 'both' }}
         env:
@@ -51,6 +54,10 @@ jobs:
           DAILY_BLOG_COUNT: ${{ github.event_name == 'schedule' && '3' || github.event.inputs.count || '3' }}
           FORCE_PUBLISH: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.force || '0' }}
           PUBLISH_IMMEDIATELY: '1'
+          # Featured image: AI scene when OPENAI_API_KEY secret exists, else local brand scene.
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          BLOG_IMAGE_PROVIDER: ${{ vars.BLOG_IMAGE_PROVIDER || 'auto' }}
+          BLOG_IMAGE_MODEL: ${{ vars.BLOG_IMAGE_MODEL || 'gpt-image-1' }}
         run: |
           echo "Random daily slot gate · count=${DAILY_BLOG_COUNT} · force=${FORCE_PUBLISH}"
           python3 scratch/generate_daily_blogs.py

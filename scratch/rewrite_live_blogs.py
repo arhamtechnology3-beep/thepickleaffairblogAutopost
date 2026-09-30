@@ -696,8 +696,6 @@ def unpublish(article_id: int, title: str) -> None:
 
 
 def update_article(art: dict, prof: dict) -> None:
-    image_handle = prof["image"]
-    image = PRODUCTS[image_handle]["image"] if image_handle in PRODUCTS else PRODUCTS[next(iter(PRODUCTS))]["image"]
     body = wrap_article(
         lead=prof["excerpt"],
         middle=prof["middle"],
@@ -717,7 +715,6 @@ def update_article(art: dict, prof: dict) -> None:
             "summary_html": f"<p>{prof['excerpt']}</p>",
             "body_html": body,
             "published": True,
-            "image": {"src": image, "alt": title},
         }
     }
     words = len(re.sub(r"<[^>]+>", " ", body).split())

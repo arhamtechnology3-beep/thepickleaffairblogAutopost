@@ -44,6 +44,17 @@ Schedule (IST): ~09:05, 11:05, 14:05, 17:05, 19:35.
 
 Edit `scratch/product_registry.json`, commit, push.
 
+## Featured images (new image per post)
+
+Every new post gets its own 1600×900 featured image (`scratch/blog_image.py`):
+
+- The **real product photo** is cut out of its white background and placed as-is — only scaled, never recoloured or redrawn — so jar colour, shape, label and packaging stay exactly like the product.
+- Only the **scene around the jar** is new, in brand colours (cream, leaf green `#4A6B29`, mango, turmeric, terracotta) and matched to the topic (storage, pairing, ingredient…) plus the pickle's ingredients (`scene_props` in `product_registry.json`).
+- With the GitHub secret **`OPENAI_API_KEY`** the scene is a photoreal AI background (`gpt-image-1`; set repo variable `BLOG_IMAGE_MODEL` to change). Without it, a procedural brand scene is used. Any failure falls back safely and never blocks a publish.
+- Repo variable `BLOG_IMAGE_PROVIDER`: `auto` (default) · `openai` · `local` · `off` (old behaviour: raw product photo).
+
+Preview locally: `pip install -r requirements.txt && python3 scratch/blog_image.py pickle-thepla --out preview.jpg`
+
 ## Local test
 
 ```bash
@@ -59,6 +70,7 @@ python3 scratch/generate_daily_blogs.py
 |------|------|
 | `scratch/product_registry.json` | Products + focus keywords |
 | `scratch/generate_daily_blogs.py` | Create today's 5 posts |
+| `scratch/blog_image.py` | Unique featured image per post |
 | `scratch/daily_publish_daemon.py` | Publish drafts if needed |
 | `.github/workflows/daily_blog_publisher.yml` | Schedule + manual run |
 

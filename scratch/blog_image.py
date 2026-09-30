@@ -8,13 +8,15 @@ scene in The Pickle Affair brand palette. The jar's colour, shape, label and
 packaging are never redrawn or recoloured — only the scene around it is new.
 
 Background providers (BLOG_IMAGE_PROVIDER):
-  auto   — OpenAI image model if OPENAI_API_KEY is set, else local (default)
-  openai — AI-generated scene (falls back to local on any error)
-  local  — procedural brand-palette scene, seeded per topic (no API needed)
-  off    — skip generation; caller keeps the raw product photo
+  auto       — try every configured AI provider in order (Cloudflare, then OpenAI), else local (default)
+  cloudflare — Cloudflare Workers AI FLUX (CLOUDFLARE_ACCOUNT_ID + CLOUDFLARE_API_TOKEN; free daily tier)
+  openai     — OpenAI image model (OPENAI_API_KEY)
+  local      — procedural brand-palette scene, seeded per topic (no API needed)
+  off        — skip generation; caller keeps the raw product photo
+Any AI failure falls back to the next provider and finally to local.
 
 CLI preview:
-  python3 scratch/blog_image.py <topic_id> [--out preview.jpg] [--provider local]
+  python3 scratch/blog_image.py <topic_id> [--out preview.jpg] [--provider cloudflare]
 """
 from __future__ import annotations
 
@@ -165,7 +167,7 @@ def _props_for(handles: list[str]) -> str:
     return "; ".join(p for p in props if p) or "raw green mangoes and mango leaves"
 
 
-def build_prompt(topic: dict, handles: list[str]) -> str:
+def build_prompt(topic: dict, handles: list[str], frame: str = "wide 16:9 landscape") -> str:
     scene = ANGLE_SCENES.get(topic.get("angle", ""), DEFAULT_SCENE)
     return (
         "Photorealistic premium food-photography background plate for The Pickle Affair, "
@@ -176,13 +178,40 @@ def build_prompt(topic: dict, handles: list[str]) -> str:
         "Brand look: warm cream and ivory base, leaf green (#4A6B29) and deep olive accents, "
         "ripe mango yellow, turmeric and terracotta highlights, brass, jute and wood textures, "
         "natural soft daylight from the left, gentle shallow depth of field. "
-        "Composition: wide 16:9 landscape, camera at eye level with the tabletop; the tabletop fills "
+        f"Composition: {frame}, camera at eye level with the tabletop; the tabletop fills "
         "the lower third; keep the CENTRAL 50% of the frame completely empty — a clear tabletop with a "
         "softly blurred background — because product jars will be composited there later; place props "
         "only near the left and right edges. "
         "Strictly no jars, bottles, labelled containers, packaging, text, letters, numbers, logos, "
         "watermarks, hands or people."
     )
+
+
+def cloudflare_background(prompt: str, seed: int) -> Image.Image:
+    account = os.environ.get("CLOUDFLARE_ACCOUNT_ID", "").strip()
+    token = os.environ.get("CLOUDFLARE_API_TOKEN", "").strip()
+    if not (account and token):
+        raise RuntimeError("CLOUDFLARE_ACCOUNT_ID / CLOUDFLARE_API_TOKEN not set")
+    model = os.environ.get("CLOUDFLARE_IMAGE_MODEL", "@cf/black-forest-labs/flux-1-schnell")
+    req = urllib.request.Request(
+        f"https://api.cloudflare.com/client/v4/accounts/{account}/ai/run/{model}",
+        data=json.dumps({"prompt": prompt[:2048], "steps": 8, "seed": seed}).encode(),
+        method="POST",
+        headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
+    )
+    try:
+        with urllib.request.urlopen(req, context=CTX, timeout=180) as resp:
+            raw = resp.read()
+            ctype = resp.headers.get("Content-Type", "")
+    except urllib.error.HTTPError as e:
+        raise RuntimeError(f"Cloudflare AI {e.code}: {e.read().decode()[:300]}") from e
+    if ctype.startswith("image/"):
+        return Image.open(io.BytesIO(raw)).convert("RGB")
+    data = json.loads(raw.decode())
+    image_b64 = (data.get("result") or {}).get("image")
+    if not data.get("success", True) or not image_b64:
+        raise RuntimeError(f"Cloudflare AI returned no image: {str(data.get('errors'))[:300]}")
+    return Image.open(io.BytesIO(base64.b64decode(image_b64))).convert("RGB")
 
 
 def openai_background(prompt: str) -> Image.Image:
@@ -313,11 +342,12 @@ def local_background(topic: dict) -> Image.Image:
     return Image.alpha_composite(bg, vignette).convert("RGB")
 
 
-def _cover(img: Image.Image, size: tuple[int, int]) -> Image.Image:
+def _cover(img: Image.Image, size: tuple[int, int], y_bias: float = 0.5) -> Image.Image:
+    """Scale to fill `size`; y_bias 0 keeps the top, 1 keeps the bottom."""
     w, h = size
     scale = max(w / img.width, h / img.height)
     img = img.resize((math.ceil(img.width * scale), math.ceil(img.height * scale)), Image.LANCZOS)
-    left, top = (img.width - w) // 2, (img.height - h) // 2
+    left, top = (img.width - w) // 2, int((img.height - h) * y_bias)
     return img.crop((left, top, left + w, top + h))
 
 
@@ -347,8 +377,8 @@ def _place(canvas: Image.Image, cut: Image.Image, height: int, cx: int, bottom: 
     canvas.alpha_composite(jar, (x, y))
 
 
-def compose(background: Image.Image, handles: list[str]) -> Image.Image:
-    canvas = _cover(background, (W, H)).convert("RGBA")
+def compose(background: Image.Image, handles: list[str], y_bias: float = 0.5) -> Image.Image:
+    canvas = _cover(background, (W, H), y_bias).convert("RGBA")
     cuts = [product_cutout(h) for h in handles[:3]]
     main_h = int(H * 0.80)
     main_bottom = int(H * 0.95)
@@ -371,20 +401,33 @@ def topic_handles(topic: dict) -> list[str]:
     return handles or [next(iter(PRODUCTS))]
 
 
+def _ai_chain(provider: str) -> list[str]:
+    if provider in ("cloudflare", "openai"):
+        return [provider]
+    if provider != "auto":
+        return []
+    chain = []
+    if os.environ.get("CLOUDFLARE_ACCOUNT_ID") and os.environ.get("CLOUDFLARE_API_TOKEN"):
+        chain.append("cloudflare")
+    if os.environ.get("OPENAI_API_KEY"):
+        chain.append("openai")
+    return chain
+
+
 def render(topic: dict, provider: str | None = None) -> tuple[Image.Image, str]:
     provider = (provider or os.environ.get("BLOG_IMAGE_PROVIDER", "auto")).strip().lower()
     handles = topic_handles(topic)
-    used = "local"
-    background = None
-    if provider in ("auto", "openai") and (provider == "openai" or os.environ.get("OPENAI_API_KEY")):
+    for name in _ai_chain(provider):
         try:
-            background = openai_background(build_prompt(topic, handles))
-            used = "openai"
+            if name == "cloudflare":
+                # FLUX returns a square image; keep its lower part so the tabletop sits under the jars.
+                prompt = build_prompt(topic, handles, "square frame")
+                seed = _seed(topic.get("id", ""), topic.get("title", "")) % 2_000_000_000
+                return compose(cloudflare_background(prompt, seed), handles, y_bias=0.75), name
+            return compose(openai_background(build_prompt(topic, handles)), handles), name
         except Exception as e:  # noqa: BLE001 — never block a publish on image generation
-            print(f"   image: OpenAI background failed ({e}); using local brand scene")
-    if background is None:
-        background = local_background(topic)
-    return compose(background, handles), used
+            print(f"   image: {name} background failed ({e}); trying next option")
+    return compose(local_background(topic), handles), "local"
 
 
 def featured_image_payload(topic: dict, title: str) -> dict | None:
@@ -421,7 +464,7 @@ def main() -> None:
     ap = argparse.ArgumentParser(description="Preview a Kitchen Tales featured image")
     ap.add_argument("topic_id")
     ap.add_argument("--out", default="")
-    ap.add_argument("--provider", default=None, choices=["auto", "openai", "local"])
+    ap.add_argument("--provider", default=None, choices=["auto", "cloudflare", "openai", "local"])
     args = ap.parse_args()
     topic = _find_topic(args.topic_id)
     img, used = render(topic, args.provider)

@@ -9,7 +9,8 @@ packaging are never redrawn or recoloured — only the scene around it is new.
 
 Background providers (BLOG_IMAGE_PROVIDER):
   auto       — try every configured AI provider in order (Cloudflare, then OpenAI), else local (default)
-  cloudflare — Cloudflare Workers AI FLUX (CLOUDFLARE_ACCOUNT_ID + CLOUDFLARE_API_TOKEN; free daily tier)
+  cloudflare — Cloudflare Workers AI FLUX.2 klein, falling back to FLUX.1 schnell
+               (CLOUDFLARE_ACCOUNT_ID + CLOUDFLARE_API_TOKEN; free daily tier; CLOUDFLARE_IMAGE_MODEL overrides)
   openai     — OpenAI image model (OPENAI_API_KEY)
   local      — procedural brand-palette scene, seeded per topic (no API needed)
   off        — skip generation; caller keeps the raw product photo
@@ -189,46 +190,77 @@ def build_prompt(topic: dict, handles: list[str]) -> str:
     )
 
 
-def cloudflare_background(prompt: str) -> Image.Image:
-    account = os.environ.get("CLOUDFLARE_ACCOUNT_ID", "").strip()
-    token = os.environ.get("CLOUDFLARE_API_TOKEN", "").strip()
-    if not (account and token):
-        raise RuntimeError("CLOUDFLARE_ACCOUNT_ID / CLOUDFLARE_API_TOKEN not set")
-    model = os.environ.get("CLOUDFLARE_IMAGE_MODEL", "@cf/black-forest-labs/flux-1-schnell")
+CF_FLUX2 = "@cf/black-forest-labs/flux-2-klein-4b"
+CF_FLUX1 = "@cf/black-forest-labs/flux-1-schnell"
+
+
+def _multipart(fields: dict) -> tuple[bytes, str]:
+    boundary = f"----tpa{random.getrandbits(64):016x}"
+    body = b"".join(
+        f'--{boundary}\r\nContent-Disposition: form-data; name="{k}"\r\n\r\n{v}\r\n'.encode()
+        for k, v in fields.items()
+    ) + f"--{boundary}--\r\n".encode()
+    return body, f"multipart/form-data; boundary={boundary}"
+
+
+def _cloudflare_run(model: str, prompt: str, seed: int) -> Image.Image:
+    account = os.environ["CLOUDFLARE_ACCOUNT_ID"].strip()
+    token = os.environ["CLOUDFLARE_API_TOKEN"].strip()
+    if "flux-2" in model:
+        # FLUX.2 takes multipart form data and renders 16:9 natively (steps are fixed on klein).
+        body, ctype = _multipart({"prompt": prompt[:2048], "width": 1536, "height": 864, "seed": seed})
+    else:
+        # flux-1-schnell's schema rejects any field besides prompt/steps (including seed).
+        body, ctype = json.dumps({"prompt": prompt[:2048], "steps": 8}).encode(), "application/json"
     req = urllib.request.Request(
         f"https://api.cloudflare.com/client/v4/accounts/{account}/ai/run/{model}",
-        # flux-1-schnell's schema rejects any field besides prompt/steps (including seed).
-        data=json.dumps({"prompt": prompt[:2048], "steps": 8}).encode(),
+        data=body,
         method="POST",
-        headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
+        headers={"Authorization": f"Bearer {token}", "Content-Type": ctype},
     )
     try:
         with urllib.request.urlopen(req, context=CTX, timeout=180) as resp:
             raw = resp.read()
-            ctype = resp.headers.get("Content-Type", "")
+            rtype = resp.headers.get("Content-Type", "")
     except urllib.error.HTTPError as e:
-        raise RuntimeError(f"Cloudflare AI {e.code}: {e.read().decode()[:300]}") from e
-    if ctype.startswith("image/"):
+        raise RuntimeError(f"Cloudflare AI {model} {e.code}: {e.read().decode()[:300]}") from e
+    if rtype.startswith("image/"):
         return Image.open(io.BytesIO(raw)).convert("RGB")
     data = json.loads(raw.decode())
     image_b64 = (data.get("result") or {}).get("image")
     if not data.get("success", True) or not image_b64:
-        raise RuntimeError(f"Cloudflare AI returned no image: {str(data.get('errors'))[:300]}")
+        raise RuntimeError(f"Cloudflare AI {model} returned no image: {str(data.get('errors'))[:300]}")
     return Image.open(io.BytesIO(base64.b64decode(image_b64))).convert("RGB")
+
+
+def cloudflare_background(prompt: str, seed: int = 0) -> Image.Image:
+    """FLUX.2 klein (sharper, native 16:9, ~160 neurons) with FLUX.1 schnell as fallback."""
+    if not (os.environ.get("CLOUDFLARE_ACCOUNT_ID") and os.environ.get("CLOUDFLARE_API_TOKEN")):
+        raise RuntimeError("CLOUDFLARE_ACCOUNT_ID / CLOUDFLARE_API_TOKEN not set")
+    preferred = os.environ.get("CLOUDFLARE_IMAGE_MODEL", "").strip() or CF_FLUX2
+    errors = []
+    for model in dict.fromkeys([preferred, CF_FLUX1]):
+        try:
+            return _cloudflare_run(model, prompt, seed)
+        except Exception as e:  # noqa: BLE001 — try the next model
+            errors.append(str(e))
+            print(f"[blog_image] {e}", file=sys.stderr)
+    raise RuntimeError(" | ".join(errors))
 
 
 def build_flux_prompt(topic: dict, handles: list[str]) -> str:
     """Short, positive-only wording: FLUX drops negations and drifts to overhead food shots."""
     scene = ANGLE_SCENES.get(topic.get("angle", ""), DEFAULT_SCENE)
     return (
-        "Side view photographed at table height, eye-level product photography background, "
-        "straight-on camera, horizon of the tabletop in the lower third. "
+        "High-end commercial food advertising photograph, side view at table height, "
+        "eye-level straight-on camera, 85mm lens, the front edge of a warm wooden tabletop in the lower third. "
         f"Setting: {scene}. "
-        f"Small props only near the far left and far right edges: {_props_for(handles)}. "
-        "The middle of the tabletop is clear and empty, with a softly blurred background behind it. "
+        f"Small styled props only near the far left and far right edges: {_props_for(handles)}. "
+        "The middle of the tabletop is clear and empty, with a bright, softly blurred background behind it "
+        "and creamy bokeh. "
         "Warm cream and ivory tones with leaf green, ripe mango yellow, turmeric and terracotta accents, "
-        "brass, jute and wood textures, soft natural daylight from the left, shallow depth of field, "
-        "photorealistic, premium handcrafted Gujarati food brand."
+        "brass, jute and wood textures, soft golden morning daylight from the left, airy and bright, "
+        "shallow depth of field, photorealistic, premium handcrafted Gujarati food brand."
     )
 
 
@@ -371,43 +403,114 @@ def _cover(img: Image.Image, size: tuple[int, int], y_bias: float = 0.5) -> Imag
 
 # ---------------------------------------------------------------- composite
 
+def _grade_background(bg: Image.Image, bottom: int) -> Image.Image:
+    """Make any generated scene read as a soft-focus studio set around a sharp product.
+
+    Brightens dark scenes towards the product photo's studio exposure, calms saturation so
+    the label stays the most colourful thing in frame, and applies depth of field that is
+    strongest at the back wall and nearly sharp at the tabletop where the jar stands.
+    """
+    arr = np.asarray(bg.convert("RGB")).astype(np.float32) / 255.0
+    lum = float((arr[..., 0] * 0.299 + arr[..., 1] * 0.587 + arr[..., 2] * 0.114).mean())
+    if lum < 0.62:
+        arr = arr ** (math.log(0.62) / math.log(max(lum, 0.05)))
+    grey = arr.mean(axis=2, keepdims=True)
+    arr = grey + (arr - grey) * 0.86
+    arr = arr * np.array([1.02, 1.0, 0.96], np.float32)
+    graded = Image.fromarray((np.clip(arr, 0, 1) * 255).astype(np.uint8))
+
+    far = graded.filter(ImageFilter.GaussianBlur(7))
+    mid = graded.filter(ImageFilter.GaussianBlur(3))
+    near = graded.filter(ImageFilter.GaussianBlur(1.2))
+    y = np.linspace(0.0, 1.0, H, dtype=np.float32)[:, None]
+    focus = bottom / H
+    to_mid = np.clip((y - 0.35) / max(focus - 0.35, 1e-3), 0, 1)
+    out = np.asarray(far, np.float32)
+    out = out + (np.asarray(mid, np.float32) - out) * np.clip(to_mid * 2, 0, 1)[..., None]
+    out = out + (np.asarray(near, np.float32) - out) * np.clip(to_mid * 2 - 1, 0, 1)[..., None]
+    return Image.fromarray(np.clip(out, 0, 255).astype(np.uint8)).convert("RGBA")
+
+
+def _backlight(canvas: Image.Image, cx: int, cy: int, rx: int, ry: int) -> None:
+    """Soft warm halo behind the product, like a studio background light."""
+    yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
+    d = ((xx - cx) / rx) ** 2 + ((yy - cy) / ry) ** 2
+    glow = np.exp(-d * 1.6)[..., None] * 0.30
+    arr = np.asarray(canvas.convert("RGB"), np.float32)
+    arr = arr + (np.array([255, 250, 238], np.float32) - arr) * glow
+    canvas.paste(Image.fromarray(np.clip(arr, 0, 255).astype(np.uint8)).convert("RGBA"))
+
+
+def _vignette(canvas: Image.Image, strength: float = 0.22) -> None:
+    yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
+    d = np.sqrt(((xx - W / 2) / (W / 2)) ** 2 + ((yy - H * 0.55) / (H / 2)) ** 2)
+    shade = 1.0 - np.clip(d - 0.6, 0, 1) * strength
+    arr = np.asarray(canvas.convert("RGB"), np.float32) * shade[..., None]
+    canvas.paste(Image.fromarray(np.clip(arr, 0, 255).astype(np.uint8)).convert("RGBA"))
+
+
+def _shadow_layer(size: tuple[int, int], shapes: list[tuple], blur: float) -> Image.Image:
+    layer = Image.new("L", size, 0)
+    d = ImageDraw.Draw(layer)
+    for box, value in shapes:
+        d.ellipse(box, fill=value)
+    return layer.filter(ImageFilter.GaussianBlur(blur))
+
+
 def _place(canvas: Image.Image, cut: Image.Image, height: int, cx: int, bottom: int) -> None:
+    """Seat the jar on the tabletop: ambient occlusion, a soft cast shadow falling right
+    and back (key light from the left), a faint table reflection, then the untouched jar."""
     scale = height / cut.height
     jar = cut.resize((max(1, round(cut.width * scale)), height), Image.LANCZOS)
     x, y = cx - jar.width // 2, bottom - jar.height
+    jw = jar.width
 
-    alpha = jar.getchannel("A")
-    solid = alpha.point(lambda v: 255 if v > 200 else 0)
+    # Faint reflection: the jar's lower part mirrored into the tabletop, fading quickly.
+    refl_h = int(height * 0.14)
+    mirror = jar.transpose(Image.FLIP_TOP_BOTTOM).crop((0, 0, jw, refl_h))
+    fade = np.linspace(0.13, 0.0, refl_h, dtype=np.float32)[:, None]
+    ra = (np.asarray(mirror.getchannel("A"), np.float32) * fade).astype(np.uint8)
+    mirror.putalpha(Image.fromarray(ra))
+    canvas.alpha_composite(mirror.filter(ImageFilter.GaussianBlur(2.5)), (x, bottom))
 
-    drop = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
-    tint = Image.new("RGBA", jar.size, (35, 24, 14, 0))
-    tint.putalpha(solid.point(lambda v: int(v * 0.32)))
-    drop.alpha_composite(tint, (x + int(jar.width * 0.05), y + int(jar.height * 0.02)))
-    canvas.alpha_composite(drop.filter(ImageFilter.GaussianBlur(max(8, jar.width // 28))))
+    darkness = Image.new("RGBA", canvas.size, (28, 18, 10, 255))
 
-    contact = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
-    ew, eh = int(jar.width * 0.92), max(10, int(jar.height * 0.055))
-    ImageDraw.Draw(contact).ellipse(
-        [cx - ew // 2, bottom - eh // 2, cx + ew // 2, bottom + eh // 2], fill=(30, 20, 12, 120)
-    )
-    canvas.alpha_composite(contact.filter(ImageFilter.GaussianBlur(max(6, eh // 2))))
+    # Cast shadow: long soft ellipse pushed right-and-back along the table plane.
+    cast = _shadow_layer(canvas.size, [
+        ((cx - jw * 0.35, bottom - jw * 0.16, cx + jw * 1.05, bottom + jw * 0.02), 95),
+    ], blur=jw * 0.09)
+    # Ground shadow directly under the jar, then a tight dark occlusion line at the base.
+    ground = _shadow_layer(canvas.size, [
+        ((cx - jw * 0.58, bottom - jw * 0.07, cx + jw * 0.62, bottom + jw * 0.05), 120),
+    ], blur=jw * 0.05)
+    contact = _shadow_layer(canvas.size, [
+        ((cx - jw * 0.47, bottom - jw * 0.025, cx + jw * 0.49, bottom + jw * 0.02), 215),
+    ], blur=max(2.0, jw * 0.012))
+
+    for mask in (cast, ground, contact):
+        layer = darkness.copy()
+        layer.putalpha(mask)
+        canvas.alpha_composite(layer)
 
     canvas.alpha_composite(jar, (x, y))
 
 
 def compose(background: Image.Image, handles: list[str], y_bias: float = 0.5) -> Image.Image:
-    canvas = _cover(background, (W, H), y_bias).convert("RGBA")
     cuts = [product_cutout(h) for h in handles[:3]]
-    main_h = int(H * 0.80)
-    main_bottom = int(H * 0.95)
+    main_h = int(H * (0.70 if len(cuts) == 1 else 0.66))
+    main_bottom = int(H * 0.92)
+
+    canvas = _grade_background(_cover(background, (W, H), y_bias), main_bottom)
+    _backlight(canvas, W // 2, int(main_bottom - main_h * 0.55), int(W * 0.30), int(H * 0.45))
+    _vignette(canvas)
 
     if len(cuts) > 1:
-        side_h = int(main_h * 0.76)
+        side_h = int(main_h * 0.80)
         main_w = cuts[0].width * main_h / cuts[0].height
-        side_bottom = int(H * 0.905)
+        side_bottom = main_bottom - int(H * 0.035)
         for i, cut in enumerate(cuts[1:]):
             side_w = cut.width * side_h / cut.height
-            offset = int(main_w / 2 + side_w * 0.28)
+            offset = int(main_w / 2 + side_w * 0.30)
             _place(canvas, cut, side_h, W // 2 - offset if i == 0 else W // 2 + offset, side_bottom)
 
     _place(canvas, cuts[0], main_h, W // 2, main_bottom)
@@ -438,8 +541,10 @@ def render(topic: dict, provider: str | None = None) -> tuple[Image.Image, str]:
     for name in _ai_chain(provider):
         try:
             if name == "cloudflare":
-                # FLUX returns a square image; keep its lower part so the tabletop sits under the jars.
-                return compose(cloudflare_background(build_flux_prompt(topic, handles)), handles, y_bias=0.75), name
+                seed = _seed(topic.get("id", ""), topic.get("title", "")) & 0x7FFFFFFF
+                bg = cloudflare_background(build_flux_prompt(topic, handles), seed)
+                # The schnell fallback is square; keep its lower part so the tabletop sits under the jars.
+                return compose(bg, handles, y_bias=0.75), name
             return compose(openai_background(build_prompt(topic, handles)), handles), name
         except Exception as e:  # noqa: BLE001 — never block a publish on image generation
             print(f"   image: {name} background failed ({e}); trying next option")

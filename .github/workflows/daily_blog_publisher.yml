@@ -57,6 +57,7 @@ jobs:
           # Featured image: AI scene via Cloudflare Workers AI, then OpenAI, else local brand scene.
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_IMAGE_MODEL: ${{ vars.CLOUDFLARE_IMAGE_MODEL }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           BLOG_IMAGE_PROVIDER: ${{ vars.BLOG_IMAGE_PROVIDER || 'auto' }}
           BLOG_IMAGE_MODEL: ${{ vars.BLOG_IMAGE_MODEL || 'gpt-image-1' }}

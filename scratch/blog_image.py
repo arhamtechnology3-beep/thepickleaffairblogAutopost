@@ -59,13 +59,15 @@ BRAND = {
     "wood": (168, 107, 60),      # #A86B3C
 }
 
+# Scene wording avoids containers (pantry, pots, vessels): FLUX ignores "no jars" and
+# happily adds extra jars next to the real product when a scene suggests storage.
 ANGLE_SCENES = {
-    "storage": "a clean, airy Indian kitchen countertop beside a wooden cupboard shelf in soft morning light, a dry steel spoon resting on a folded cotton cloth, cool shaded corner",
-    "shelf_life": "a calm sunlit Gujarati pantry corner with brass vessels and clay pots on wooden shelves, a steel spoon on a cotton napkin",
+    "storage": "a clean, airy Indian kitchen countertop in soft morning light, a dry steel spoon resting on a folded cotton cloth, a wooden chopping board, cool shaded corner",
+    "shelf_life": "a calm sunlit Gujarati kitchen corner with carved wooden panels, a steel spoon on a cotton napkin, a sprig of curry leaves",
     "ingredient": "a rustic wooden board scattered with whole spices — mustard seeds, fenugreek seeds, dried red chillies, turmeric and rock salt in small brass katoris",
-    "pairing": "a Gujarati meal on a brass thali — thepla, khichdi, dal-rice and a cup of masala chai — arranged toward the edges of the frame",
+    "pairing": "a Gujarati meal — thepla, khichdi and a cup of masala chai on small brass plates — placed toward the edges of the table",
     "comparison": "a balanced, symmetrical wooden tabletop with two small brass bowls placed far left and far right, raw mango slices and jaggery pieces",
-    "baa_story": "a warm traditional Kathiawadi home kitchen with clay pots, brass utensils and a wooden rolling pin, sunlight streaming through a carved jharokha window",
+    "baa_story": "a warm traditional Kathiawadi home kitchen with brass plates, a wooden rolling pin and a clay diya, sunlight streaming through a carved jharokha window",
     "buying": "a festive gifting table with jute cloth, marigold flowers, a kraft paper gift box and twine in warm light",
     "heritage_product": "a sun-drenched Kathiawadi courtyard table with raw green mangoes, mango leaves, brass katoris of spices, terracotta and jute textures",
     "pillar_overview": "a generous Gujarati festive spread on a wooden table with raw mangoes, mango leaves, brass katoris of spices and marigold flowers",
@@ -167,7 +169,7 @@ def _props_for(handles: list[str]) -> str:
     return "; ".join(p for p in props if p) or "raw green mangoes and mango leaves"
 
 
-def build_prompt(topic: dict, handles: list[str], frame: str = "wide 16:9 landscape") -> str:
+def build_prompt(topic: dict, handles: list[str]) -> str:
     scene = ANGLE_SCENES.get(topic.get("angle", ""), DEFAULT_SCENE)
     return (
         "Photorealistic premium food-photography background plate for The Pickle Affair, "
@@ -178,7 +180,7 @@ def build_prompt(topic: dict, handles: list[str], frame: str = "wide 16:9 landsc
         "Brand look: warm cream and ivory base, leaf green (#4A6B29) and deep olive accents, "
         "ripe mango yellow, turmeric and terracotta highlights, brass, jute and wood textures, "
         "natural soft daylight from the left, gentle shallow depth of field. "
-        f"Composition: {frame}, camera at eye level with the tabletop; the tabletop fills "
+        "Composition: wide 16:9 landscape, camera at eye level with the tabletop; the tabletop fills "
         "the lower third; keep the CENTRAL 50% of the frame completely empty — a clear tabletop with a "
         "softly blurred background — because product jars will be composited there later; place props "
         "only near the left and right edges. "
@@ -187,7 +189,7 @@ def build_prompt(topic: dict, handles: list[str], frame: str = "wide 16:9 landsc
     )
 
 
-def cloudflare_background(prompt: str, seed: int) -> Image.Image:
+def cloudflare_background(prompt: str) -> Image.Image:
     account = os.environ.get("CLOUDFLARE_ACCOUNT_ID", "").strip()
     token = os.environ.get("CLOUDFLARE_API_TOKEN", "").strip()
     if not (account and token):
@@ -195,7 +197,8 @@ def cloudflare_background(prompt: str, seed: int) -> Image.Image:
     model = os.environ.get("CLOUDFLARE_IMAGE_MODEL", "@cf/black-forest-labs/flux-1-schnell")
     req = urllib.request.Request(
         f"https://api.cloudflare.com/client/v4/accounts/{account}/ai/run/{model}",
-        data=json.dumps({"prompt": prompt[:2048], "steps": 8, "seed": seed}).encode(),
+        # flux-1-schnell's schema rejects any field besides prompt/steps (including seed).
+        data=json.dumps({"prompt": prompt[:2048], "steps": 8}).encode(),
         method="POST",
         headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
     )
@@ -212,6 +215,21 @@ def cloudflare_background(prompt: str, seed: int) -> Image.Image:
     if not data.get("success", True) or not image_b64:
         raise RuntimeError(f"Cloudflare AI returned no image: {str(data.get('errors'))[:300]}")
     return Image.open(io.BytesIO(base64.b64decode(image_b64))).convert("RGB")
+
+
+def build_flux_prompt(topic: dict, handles: list[str]) -> str:
+    """Short, positive-only wording: FLUX drops negations and drifts to overhead food shots."""
+    scene = ANGLE_SCENES.get(topic.get("angle", ""), DEFAULT_SCENE)
+    return (
+        "Side view photographed at table height, eye-level product photography background, "
+        "straight-on camera, horizon of the tabletop in the lower third. "
+        f"Setting: {scene}. "
+        f"Small props only near the far left and far right edges: {_props_for(handles)}. "
+        "The middle of the tabletop is clear and empty, with a softly blurred background behind it. "
+        "Warm cream and ivory tones with leaf green, ripe mango yellow, turmeric and terracotta accents, "
+        "brass, jute and wood textures, soft natural daylight from the left, shallow depth of field, "
+        "photorealistic, premium handcrafted Gujarati food brand."
+    )
 
 
 def openai_background(prompt: str) -> Image.Image:
@@ -421,9 +439,7 @@ def render(topic: dict, provider: str | None = None) -> tuple[Image.Image, str]:
         try:
             if name == "cloudflare":
                 # FLUX returns a square image; keep its lower part so the tabletop sits under the jars.
-                prompt = build_prompt(topic, handles, "square frame")
-                seed = _seed(topic.get("id", ""), topic.get("title", "")) % 2_000_000_000
-                return compose(cloudflare_background(prompt, seed), handles, y_bias=0.75), name
+                return compose(cloudflare_background(build_flux_prompt(topic, handles)), handles, y_bias=0.75), name
             return compose(openai_background(build_prompt(topic, handles)), handles), name
         except Exception as e:  # noqa: BLE001 — never block a publish on image generation
             print(f"   image: {name} background failed ({e}); trying next option")

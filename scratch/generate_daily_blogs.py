@@ -92,6 +92,17 @@ def random_publish_slots(day: dt.date, count: int) -> list[dt.datetime]:
     return [dt.datetime.combine(day, t, tzinfo=IST) for t in picked]
 
 
+LOW_STOCK_WARNING = 10
+
+
+def daily_target(stock_at_day_start: int) -> int:
+    """Pace posts by remaining topics so the blog slows down instead of going silent."""
+    if stock_at_day_start <= 0:
+        return 0
+    pace = 3 if stock_at_day_start >= 21 else 2 if stock_at_day_start >= 8 else 1
+    return min(MAX_DAILY, pace)
+
+
 def count_published_today(articles: list[dict], day: dt.date) -> int:
     prefix = day.isoformat()
     return sum(1 for a in articles if str(a.get("published_at") or "").startswith(prefix))
@@ -184,7 +195,22 @@ def pick_daily_topics(day: dt.date, articles: list[dict], owned: set[str]) -> li
         used_angles.add(angle)
         used_clusters.add(cluster)
 
+    # When the diversity rules leave slots empty, fill them from any remaining unique topic.
+    chosen = {t["id"] for t in selected}
+    for topic in ordered:
+        if len(selected) >= MAX_DAILY:
+            break
+        if topic.get("draft") or topic["id"] in chosen or is_duplicate(topic, articles, owned):
+            continue
+        selected.append(enrich_topic(topic))
+        chosen.add(topic["id"])
+
     return selected
+
+
+def eligible_topic_count(articles: list[dict], owned: set[str]) -> int:
+    pool = list(TOPIC_LIB.get("topics", [])) + list(TOPIC_LIB.get("pillars", []))
+    return sum(1 for t in pool if not t.get("draft") and not is_duplicate(t, articles, owned))
 
 
 def product_block(handle: str) -> str:
@@ -472,37 +498,35 @@ def main() -> None:
     now = ist_now()
     day = now.date()
     force = os.environ.get("FORCE_PUBLISH", "").strip() in ("1", "true", "yes")
-    slots = random_publish_slots(day, MAX_DAILY)
     print(f"=== Kitchen Tales quality publisher · {day.isoformat()} IST {now.strftime('%H:%M')} ===")
-    print("Rule: publish only unique intents that pass gates (max "
-          f"{MAX_DAILY}, fewer OK).")
-    print("Today's random publish slot(s) IST: "
-          + ", ".join(s.strftime("%H:%M") for s in slots)
-          + (" · FORCE" if force else ""))
 
     articles = existing_articles()
+    owned = load_owned_keywords()
     already = count_published_today(articles, day)
-    if already >= MAX_DAILY and not force:
-        print(f"Already published {already}/{MAX_DAILY} today — skip.")
-        return
+    stock = eligible_topic_count(articles, owned)
+    target = daily_target(stock + already)
+    slots = random_publish_slots(day, target) if target else []
+    print(f"Topic stock: {stock} unused · today's target: {target} post(s) (max {MAX_DAILY})")
+    if stock < LOW_STOCK_WARNING:
+        print(f"WARNING: only {stock} unused topics left — add more to scratch/topic_library.json.")
+    print("Today's random publish slot(s) IST: "
+          + (", ".join(s.strftime("%H:%M") for s in slots) or "none")
+          + (" · FORCE" if force else ""))
 
     if not force:
-        # Publish at most one article per run, only after the next random slot.
-        next_idx = already
-        if next_idx >= len(slots):
-            print("All random slots for today are done.")
+        if already >= target:
+            print(f"Already published {already}/{target} today — skip.")
             return
-        due = slots[next_idx]
-        if now < due:
-            print(f"Waiting for random slot {due.strftime('%H:%M')} IST "
+        # GitHub often runs scheduled jobs late or skips them, so catch up on every slot already due.
+        publish_cap = sum(1 for s in slots if s <= now) - already
+        if publish_cap <= 0:
+            print(f"Waiting for random slot {slots[already].strftime('%H:%M')} IST "
                   f"(now {now.strftime('%H:%M')}) — no post this run.")
             return
-        print(f"Slot {due.strftime('%H:%M')} IST is due — publishing 1 post.")
-        publish_cap = 1
+        print(f"{publish_cap} slot(s) due — publishing {publish_cap} post(s).")
     else:
         publish_cap = max(0, MAX_DAILY - already) or MAX_DAILY
 
-    owned = load_owned_keywords()
     topics = pick_daily_topics(day, articles, owned)[:publish_cap]
 
     if not topics:

@@ -1,13 +1,13 @@
 name: The Pickle Affair Daily Blog Publisher
 
-# Runs on GitHub (Mac offline OK). Each day picks a RANDOM IST publish time.
-# Hourly checks; posts only when that day's random slot is due — never a same-time batch.
+# Runs on GitHub (Mac offline OK). Each day picks RANDOM IST publish times (1–3, paced by
+# how many unused topics remain); each run publishes every slot that is due and not yet posted.
 
 on:
   schedule:
-    # Poll every 30m during ~09:00–20:30 IST (03:30–15:00 UTC)
-    - cron: '0,30 3-14 * * *'
-    - cron: '0 15 * * *'
+    # Poll every 30m from ~08:45 to 21:15 IST. Off-peak minutes: GitHub drops many :00/:30 runs.
+    # Missed runs are fine — the next run catches up on every slot already due.
+    - cron: '17,47 3-15 * * *'
   workflow_dispatch:
     inputs:
       mode:
@@ -54,7 +54,7 @@ jobs:
           DAILY_BLOG_COUNT: ${{ github.event_name == 'schedule' && '3' || github.event.inputs.count || '3' }}
           FORCE_PUBLISH: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.force || '0' }}
           PUBLISH_IMMEDIATELY: '1'
-          # Featured image: AI scene via Cloudflare Workers AI, then OpenAI, else local brand scene.
+          # Featured image: curated scene library (no API), then Cloudflare / OpenAI if configured, else local.
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_IMAGE_MODEL: ${{ vars.CLOUDFLARE_IMAGE_MODEL }}

@@ -8,7 +8,8 @@ scene in The Pickle Affair brand palette. The jar's colour, shape, label and
 packaging are never redrawn or recoloured — only the scene around it is new.
 
 Background providers (BLOG_IMAGE_PROVIDER):
-  auto       — try every configured AI provider in order (Cloudflare, then OpenAI), else local (default)
+  auto       — library first, then any configured AI provider (Cloudflare, OpenAI), else local (default)
+  library    — curated photoreal scenes in scratch/backgrounds/, matched to the topic (no API needed)
   cloudflare — Cloudflare Workers AI FLUX.2 klein, falling back to FLUX.1 schnell
                (CLOUDFLARE_ACCOUNT_ID + CLOUDFLARE_API_TOKEN; free daily tier; CLOUDFLARE_IMAGE_MODEL overrides)
   openai     — OpenAI image model (OPENAI_API_KEY)
@@ -23,6 +24,7 @@ from __future__ import annotations
 
 import argparse
 import base64
+import datetime as dt
 import hashlib
 import io
 import json
@@ -392,6 +394,54 @@ def local_background(topic: dict) -> Image.Image:
     return Image.alpha_composite(bg, vignette).convert("RGB")
 
 
+BG_DIR = ROOT / "scratch" / "backgrounds"
+# Curated scenes (no jars, text or people) with the tabletop height where a jar stands.
+BG_BASE = {
+    "buying-1": 0.90, "buying-2": 0.92, "buying-3": 0.92,
+    "comparison-1": 0.92, "comparison-2": 0.86,
+    "festive-1": 0.92,
+    "heritage-1": 0.84, "heritage-2": 0.77, "heritage-3": 0.90,
+    "ingredient-1": 0.87, "ingredient-2": 0.92, "ingredient-3": 0.85,
+    "pairing-1": 0.89, "pairing-3": 0.89, "pairing-4": 0.89,
+    "storage-1": 0.92, "storage-2": 0.92,
+}
+BG_BY_ANGLE = {
+    "ingredient": ["ingredient-1", "ingredient-2", "ingredient-3", "comparison-1"],
+    "pairing": ["pairing-1", "pairing-3", "pairing-4"],
+    "storage": ["storage-1", "storage-2", "buying-2"],
+    "shelf_life": ["storage-1", "storage-2", "buying-2"],
+    "comparison": ["comparison-1", "comparison-2", "ingredient-3"],
+    "buying": ["buying-1", "buying-2", "buying-3"],
+    "baa_story": ["heritage-1", "heritage-2", "heritage-3"],
+    "heritage_product": ["heritage-1", "heritage-2", "heritage-3", "ingredient-1"],
+    "pillar_overview": ["heritage-1", "heritage-2", "heritage-3"],
+}
+BG_BY_KEYWORD = [
+    (("gift", "diwali", "festive", "hamper", "corporate"), ["festive-1"]),
+    (("monsoon", "rain"), ["storage-2"]),
+    (("sun dried", "sun-dried", "sun drying", "season"), ["heritage-3"]),
+]
+
+
+def library_background(topic: dict) -> tuple[Image.Image, float, bool]:
+    """Pick a curated scene for the topic; rotates daily and mirrors some for variety.
+
+    Returns (image, jar base height, light comes from the left)."""
+    text = f"{topic.get('primary_keyword', '')} {topic.get('title', '')}".lower()
+    names = next((n for keys, n in BG_BY_KEYWORD if any(k in text for k in keys)), None)
+    names = names or BG_BY_ANGLE.get(topic.get("angle", ""), list(BG_BASE))
+    names = [n for n in names if (BG_DIR / f"{n}.jpg").exists()]
+    if not names:
+        raise RuntimeError("background library is empty")
+    seed = _seed(topic.get("id", ""), topic.get("title", ""))
+    name = names[(dt.date.today().toordinal() + seed) % len(names)]
+    img = Image.open(BG_DIR / f"{name}.jpg").convert("RGB")
+    light_left = not (seed >> 5) & 1
+    if not light_left:
+        img = img.transpose(Image.FLIP_LEFT_RIGHT)
+    return img, BG_BASE.get(name, 0.92), light_left
+
+
 def _cover(img: Image.Image, size: tuple[int, int], y_bias: float = 0.5) -> Image.Image:
     """Scale to fill `size`; y_bias 0 keeps the top, 1 keeps the bottom."""
     w, h = size
@@ -417,11 +467,15 @@ def _grade_background(bg: Image.Image, bottom: int) -> Image.Image:
     grey = arr.mean(axis=2, keepdims=True)
     arr = grey + (arr - grey) * 0.86
     arr = arr * np.array([1.02, 1.0, 0.96], np.float32)
-    graded = Image.fromarray((np.clip(arr, 0, 1) * 255).astype(np.uint8))
+    return _depth_of_field(Image.fromarray((np.clip(arr, 0, 1) * 255).astype(np.uint8)), bottom)
 
-    far = graded.filter(ImageFilter.GaussianBlur(7))
-    mid = graded.filter(ImageFilter.GaussianBlur(3))
-    near = graded.filter(ImageFilter.GaussianBlur(1.2))
+
+def _depth_of_field(img: Image.Image, bottom: int) -> Image.Image:
+    """Blur strongest at the back wall, nearly sharp at the tabletop where the jar stands."""
+    img = img.convert("RGB")
+    far = img.filter(ImageFilter.GaussianBlur(7))
+    mid = img.filter(ImageFilter.GaussianBlur(3))
+    near = img.filter(ImageFilter.GaussianBlur(1.2))
     y = np.linspace(0.0, 1.0, H, dtype=np.float32)[:, None]
     focus = bottom / H
     to_mid = np.clip((y - 0.35) / max(focus - 0.35, 1e-3), 0, 1)
@@ -457,9 +511,9 @@ def _shadow_layer(size: tuple[int, int], shapes: list[tuple], blur: float) -> Im
     return layer.filter(ImageFilter.GaussianBlur(blur))
 
 
-def _place(canvas: Image.Image, cut: Image.Image, height: int, cx: int, bottom: int) -> None:
-    """Seat the jar on the tabletop: ambient occlusion, a soft cast shadow falling right
-    and back (key light from the left), a faint table reflection, then the untouched jar."""
+def _place(canvas: Image.Image, cut: Image.Image, height: int, cx: int, bottom: int, light_left: bool = True) -> None:
+    """Seat the jar on the tabletop: ambient occlusion, a soft cast shadow falling away
+    from the key light, a faint table reflection, then the untouched jar."""
     scale = height / cut.height
     jar = cut.resize((max(1, round(cut.width * scale)), height), Image.LANCZOS)
     x, y = cx - jar.width // 2, bottom - jar.height
@@ -474,14 +528,16 @@ def _place(canvas: Image.Image, cut: Image.Image, height: int, cx: int, bottom: 
     canvas.alpha_composite(mirror.filter(ImageFilter.GaussianBlur(2.5)), (x, bottom))
 
     darkness = Image.new("RGBA", canvas.size, (28, 18, 10, 255))
+    near, far = (0.35, 1.05) if light_left else (1.05, 0.35)
 
-    # Cast shadow: long soft ellipse pushed right-and-back along the table plane.
+    # Cast shadow: long soft ellipse pushed away from the light, back along the table plane.
     cast = _shadow_layer(canvas.size, [
-        ((cx - jw * 0.35, bottom - jw * 0.16, cx + jw * 1.05, bottom + jw * 0.02), 95),
+        ((cx - jw * near, bottom - jw * 0.16, cx + jw * far, bottom + jw * 0.02), 95),
     ], blur=jw * 0.09)
     # Ground shadow directly under the jar, then a tight dark occlusion line at the base.
+    gl, gr = (0.58, 0.62) if light_left else (0.62, 0.58)
     ground = _shadow_layer(canvas.size, [
-        ((cx - jw * 0.58, bottom - jw * 0.07, cx + jw * 0.62, bottom + jw * 0.05), 120),
+        ((cx - jw * gl, bottom - jw * 0.07, cx + jw * gr, bottom + jw * 0.05), 120),
     ], blur=jw * 0.05)
     contact = _shadow_layer(canvas.size, [
         ((cx - jw * 0.47, bottom - jw * 0.025, cx + jw * 0.49, bottom + jw * 0.02), 215),
@@ -495,12 +551,22 @@ def _place(canvas: Image.Image, cut: Image.Image, height: int, cx: int, bottom: 
     canvas.alpha_composite(jar, (x, y))
 
 
-def compose(background: Image.Image, handles: list[str], y_bias: float = 0.5) -> Image.Image:
+def compose(
+    background: Image.Image,
+    handles: list[str],
+    y_bias: float = 0.5,
+    base: float = 0.92,
+    grade: bool = True,
+    light_left: bool = True,
+) -> Image.Image:
+    """`base` is where the jar stands (fraction of height); `grade` evens out exposure and
+    saturation for unvetted AI scenes — curated library scenes skip it to keep their mood."""
     cuts = [product_cutout(h) for h in handles[:3]]
-    main_h = int(H * (0.70 if len(cuts) == 1 else 0.66))
-    main_bottom = int(H * 0.92)
+    main_bottom = int(H * base)
+    main_h = min(int(H * (0.70 if len(cuts) == 1 else 0.66)), int(main_bottom - H * 0.06))
 
-    canvas = _grade_background(_cover(background, (W, H), y_bias), main_bottom)
+    canvas = _cover(background, (W, H), y_bias)
+    canvas = _grade_background(canvas, main_bottom) if grade else _depth_of_field(canvas, main_bottom)
     _backlight(canvas, W // 2, int(main_bottom - main_h * 0.55), int(W * 0.30), int(H * 0.45))
     _vignette(canvas)
 
@@ -511,9 +577,9 @@ def compose(background: Image.Image, handles: list[str], y_bias: float = 0.5) ->
         for i, cut in enumerate(cuts[1:]):
             side_w = cut.width * side_h / cut.height
             offset = int(main_w / 2 + side_w * 0.30)
-            _place(canvas, cut, side_h, W // 2 - offset if i == 0 else W // 2 + offset, side_bottom)
+            _place(canvas, cut, side_h, W // 2 - offset if i == 0 else W // 2 + offset, side_bottom, light_left)
 
-    _place(canvas, cuts[0], main_h, W // 2, main_bottom)
+    _place(canvas, cuts[0], main_h, W // 2, main_bottom, light_left)
     return canvas.convert("RGB")
 
 
@@ -522,12 +588,12 @@ def topic_handles(topic: dict) -> list[str]:
     return handles or [next(iter(PRODUCTS))]
 
 
-def _ai_chain(provider: str) -> list[str]:
-    if provider in ("cloudflare", "openai"):
+def _chain(provider: str) -> list[str]:
+    if provider in ("library", "cloudflare", "openai"):
         return [provider]
     if provider != "auto":
         return []
-    chain = []
+    chain = ["library"]
     if os.environ.get("CLOUDFLARE_ACCOUNT_ID") and os.environ.get("CLOUDFLARE_API_TOKEN"):
         chain.append("cloudflare")
     if os.environ.get("OPENAI_API_KEY"):
@@ -538,8 +604,11 @@ def _ai_chain(provider: str) -> list[str]:
 def render(topic: dict, provider: str | None = None) -> tuple[Image.Image, str]:
     provider = (provider or os.environ.get("BLOG_IMAGE_PROVIDER", "auto")).strip().lower()
     handles = topic_handles(topic)
-    for name in _ai_chain(provider):
+    for name in _chain(provider):
         try:
+            if name == "library":
+                bg, base, light_left = library_background(topic)
+                return compose(bg, handles, base=base, grade=False, light_left=light_left), name
             if name == "cloudflare":
                 seed = _seed(topic.get("id", ""), topic.get("title", "")) & 0x7FFFFFFF
                 bg = cloudflare_background(build_flux_prompt(topic, handles), seed)
@@ -585,7 +654,7 @@ def main() -> None:
     ap = argparse.ArgumentParser(description="Preview a Kitchen Tales featured image")
     ap.add_argument("topic_id")
     ap.add_argument("--out", default="")
-    ap.add_argument("--provider", default=None, choices=["auto", "cloudflare", "openai", "local"])
+    ap.add_argument("--provider", default=None, choices=["auto", "library", "cloudflare", "openai", "local"])
     args = ap.parse_args()
     topic = _find_topic(args.topic_id)
     img, used = render(topic, args.provider)

@@ -982,6 +982,109 @@
         "Mango Pickle 1kg",
         "Mango Pickles Homemade"
       ]
+    },
+    {
+      "handle": "aam-ka-achar",
+      "title": "Aam Ka Achar",
+      "primary_keyword": "aam ka achar",
+      "seo_title": "Aam Ka Achar Online | Homemade Gujarati Mango Pickle",
+      "seo_desc": "Traditional aam ka achar from a Kathiawadi kitchen — Special Mango, Katka Keri and Chana Keri Methi. Handmade jars from The Pickle Affair.",
+      "products": [
+        "mango",
+        "katka",
+        "chana"
+      ],
+      "priority": 3,
+      "status": "queued",
+      "keyword_pillars": [
+        "special_mango",
+        "chana_keri"
+      ],
+      "competitor_signal": "Hindi search intent for mango pickle",
+      "secondary_keywords": [
+        "aam ka achar",
+        "aam ka achar online",
+        "homemade aam ka achar",
+        "mango achar",
+        "keri achar"
+      ]
+    },
+    {
+      "handle": "spicy-mango-pickle",
+      "title": "Spicy Mango Pickle",
+      "primary_keyword": "spicy mango pickle",
+      "seo_title": "Spicy Mango Pickle | Kathiawadi Keri, Katka & Gunda Achar",
+      "seo_desc": "Shop spicy Gujarati mango pickle — Special Mango, Katka Keri, Chana Keri Methi and Gunda Keri. Bold, traditional Kathiawadi achar.",
+      "products": [
+        "mango",
+        "katka",
+        "chana",
+        "gunda"
+      ],
+      "priority": 3,
+      "status": "queued",
+      "keyword_pillars": [
+        "special_mango",
+        "gunda_keri"
+      ],
+      "competitor_signal": "Heat-led mango pickle intent",
+      "secondary_keywords": [
+        "spicy mango pickle",
+        "spicy keri achar",
+        "teekha aam ka achar",
+        "hot mango pickle"
+      ]
+    },
+    {
+      "handle": "pickles-for-paratha",
+      "title": "Pickles for Paratha",
+      "primary_keyword": "pickle for paratha",
+      "seo_title": "Best Pickle for Paratha | Sweet, Spicy & Methi Achar",
+      "seo_desc": "Pick the right achar for aloo, methi or plain paratha — Chhundo, Katka Keri, Chana Keri Methi and Special Mango from The Pickle Affair.",
+      "products": [
+        "chhundo",
+        "katka",
+        "chana",
+        "mango"
+      ],
+      "priority": 4,
+      "status": "queued",
+      "keyword_pillars": [
+        "special_mango",
+        "sweet_mango"
+      ],
+      "competitor_signal": "Serving intent matching Kitchen Tales paratha guide",
+      "secondary_keywords": [
+        "pickle for paratha",
+        "achar for paratha",
+        "paratha pickle",
+        "aloo paratha pickle"
+      ]
+    },
+    {
+      "handle": "pickle-for-curd-rice",
+      "title": "Pickle for Curd Rice",
+      "primary_keyword": "pickle for curd rice",
+      "seo_title": "Pickle for Curd Rice | Tangy Gujarati Mango Achar",
+      "seo_desc": "Tangy, spicy Gujarati achar that lifts a cool bowl of curd rice — Katka Keri, Special Mango and Gunda Keri from The Pickle Affair.",
+      "products": [
+        "katka",
+        "mango",
+        "gunda"
+      ],
+      "priority": 4,
+      "status": "queued",
+      "keyword_pillars": [
+        "special_mango",
+        "gunda_keri"
+      ],
+      "competitor_signal": "Serving intent matching Kitchen Tales curd rice guide",
+      "secondary_keywords": [
+        "pickle for curd rice",
+        "curd rice pickle",
+        "achar with curd rice",
+        "dahi chawal pickle"
+      ]
     }
   ],
   "keyword_bank": "scratch/keyword_bank.json"

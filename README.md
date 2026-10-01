@@ -50,11 +50,12 @@ Every new post gets its own 1600×900 featured image (`scratch/blog_image.py`):
 
 - The **real product photo** is cut out of its white background and placed as-is — only scaled, never recoloured or redrawn — so jar colour, shape, label and packaging stay exactly like the product.
 - Only the **scene around the jar** is new, in brand colours (cream, leaf green `#4A6B29`, mango, turmeric, terracotta) and matched to the topic (storage, pairing, ingredient…) plus the pickle's ingredients (`scene_props` in `product_registry.json`).
-- AI backgrounds, tried in order:
-  1. **Cloudflare Workers AI** (FLUX.2 klein at native 16:9, falling back to FLUX.1 schnell; free daily tier of 10,000 neurons, ~160 per image): GitHub secrets `CLOUDFLARE_ACCOUNT_ID` + `CLOUDFLARE_API_TOKEN`. Optional repo variable `CLOUDFLARE_IMAGE_MODEL` overrides the model.
-  2. **OpenAI** (`gpt-image-1`, paid credits): GitHub secret `OPENAI_API_KEY`.
-  3. Otherwise a procedural brand scene. Any failure falls back to the next option and never blocks a publish.
-- Repo variable `BLOG_IMAGE_PROVIDER`: `auto` (default) · `cloudflare` · `openai` · `local` · `off` (old behaviour: raw product photo).
+- Backgrounds, tried in order:
+  1. **Built-in photo library** (`scratch/backgrounds/`, no API or credits): realistic tabletop scenes picked by topic angle and keyword, rotated daily and randomly mirrored so consecutive posts differ. Floor heights per photo live in `BG_BASE` in `blog_image.py`.
+  2. **Cloudflare Workers AI** (FLUX.2 klein at native 16:9, falling back to FLUX.1 schnell; free daily tier of 10,000 neurons, ~160 per image): GitHub secrets `CLOUDFLARE_ACCOUNT_ID` + `CLOUDFLARE_API_TOKEN`. Optional repo variable `CLOUDFLARE_IMAGE_MODEL` overrides the model.
+  3. **OpenAI** (`gpt-image-1`, paid credits): GitHub secret `OPENAI_API_KEY`.
+  4. Otherwise a procedural brand scene. Any failure falls back to the next option and never blocks a publish.
+- Repo variable `BLOG_IMAGE_PROVIDER`: `auto` (default) · `library` · `cloudflare` · `openai` · `local` · `off` (old behaviour: raw product photo).
 
 Preview locally: `pip install -r requirements.txt && python3 scratch/blog_image.py pickle-thepla --out preview.jpg`
 

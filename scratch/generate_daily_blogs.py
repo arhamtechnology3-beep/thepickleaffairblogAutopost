@@ -99,7 +99,7 @@ def daily_target(stock_at_day_start: int) -> int:
     """Pace posts by remaining topics so the blog slows down instead of going silent."""
     if stock_at_day_start <= 0:
         return 0
-    pace = 3 if stock_at_day_start >= 21 else 2 if stock_at_day_start >= 8 else 1
+    pace = 3 if stock_at_day_start >= 120 else 2 if stock_at_day_start >= 60 else 1
     return min(MAX_DAILY, pace)
 
 

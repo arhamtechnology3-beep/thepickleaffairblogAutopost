@@ -1085,6 +1085,201 @@
         "achar with curd rice",
         "dahi chawal pickle"
       ]
+    },
+    {
+      "handle": "khatta-meetha-achar",
+      "title": "Khatta Meetha Achar",
+      "primary_keyword": "khatta meetha achar",
+      "seo_title": "Khatta Meetha Achar | Sweet & Tangy Gujarati Mango Pickle",
+      "seo_desc": "Sweet-and-tangy khatta meetha achar from a Kathiawadi kitchen: Gor Keri, Meethi Keri and Chhundo. Handmade Gujarati pickle jars.",
+      "products": [
+        "gor",
+        "meethi",
+        "chhundo"
+      ],
+      "priority": 4,
+      "status": "queued",
+      "keyword_pillars": [
+        "sweet_mango",
+        "gor_keri"
+      ],
+      "competitor_signal": "Hindi sweet-sour pickle intent",
+      "secondary_keywords": [
+        "khatta meetha achar",
+        "sweet and sour pickle",
+        "khatta meetha aam ka achar"
+      ]
+    },
+    {
+      "handle": "pickles-for-gujarati-thali",
+      "title": "Pickles for Gujarati Thali",
+      "primary_keyword": "pickle for gujarati thali",
+      "seo_title": "Pickles for a Gujarati Thali | Sweet, Spicy & Specialty Achar",
+      "seo_desc": "Build a complete Gujarati thali with the right achar: Chhundo, Katka Keri, Gunda Keri and Gor Keri from The Pickle Affair.",
+      "products": [
+        "chhundo",
+        "katka",
+        "gunda",
+        "gor"
+      ],
+      "priority": 4,
+      "status": "queued",
+      "keyword_pillars": [
+        "six_combo",
+        "special_mango"
+      ],
+      "competitor_signal": "Matches Kitchen Tales thali guide",
+      "secondary_keywords": [
+        "gujarati thali pickle",
+        "thali achar",
+        "pickle for thali"
+      ]
+    },
+    {
+      "handle": "pickles-for-dhokla-farsan",
+      "title": "Pickles for Dhokla & Farsan",
+      "primary_keyword": "pickle with dhokla",
+      "seo_title": "Pickle with Dhokla & Farsan | Gujarati Achar Pairings",
+      "seo_desc": "Sweet and tangy Gujarati achar that suits dhokla, khaman, handvo and farsan: Chhundo, Gor Keri and Katka Keri.",
+      "products": [
+        "chhundo",
+        "gor",
+        "katka"
+      ],
+      "priority": 4,
+      "status": "queued",
+      "keyword_pillars": [
+        "sweet_mango",
+        "special_mango"
+      ],
+      "competitor_signal": "Matches Kitchen Tales dhokla guide",
+      "secondary_keywords": [
+        "pickle with dhokla",
+        "achar with farsan",
+        "pickle with handvo"
+      ]
+    },
+    {
+      "handle": "pickle-for-bajra-rotla",
+      "title": "Pickle for Bajra Rotla",
+      "primary_keyword": "pickle with bajra rotla",
+      "seo_title": "Pickle with Bajra Rotla | Kathiawadi Achar for Rotla",
+      "seo_desc": "Bold Kathiawadi achar for bajra rotla and bhakri: Katka Keri, Gunda Keri, Chana Keri Methi and Gor Keri.",
+      "products": [
+        "katka",
+        "gunda",
+        "chana",
+        "gor"
+      ],
+      "priority": 4,
+      "status": "queued",
+      "keyword_pillars": [
+        "special_mango",
+        "gunda_keri"
+      ],
+      "competitor_signal": "Matches Kitchen Tales bajra rotla guide",
+      "secondary_keywords": [
+        "pickle with bajra rotla",
+        "achar with rotla",
+        "pickle with bhakri"
+      ]
+    },
+    {
+      "handle": "pickle-for-puri",
+      "title": "Pickle for Puri",
+      "primary_keyword": "pickle with puri",
+      "seo_title": "Pickle with Puri | Sweet & Spicy Achar for Puri Meals",
+      "seo_desc": "Achar that lifts puri, aloo sabzi and travel meals: Chhundo, Meethi Keri, Katka Keri and Special Mango.",
+      "products": [
+        "chhundo",
+        "meethi",
+        "katka",
+        "mango"
+      ],
+      "priority": 5,
+      "status": "queued",
+      "keyword_pillars": [
+        "sweet_mango",
+        "special_mango"
+      ],
+      "competitor_signal": "Matches Kitchen Tales puri guide",
+      "secondary_keywords": [
+        "pickle with puri",
+        "achar with puri",
+        "puri pickle"
+      ]
+    },
+    {
+      "handle": "mild-pickles-for-kids",
+      "title": "Mild Pickles for Kids",
+      "primary_keyword": "mild pickle for kids",
+      "seo_title": "Mild Pickles for Kids | Sweet Gujarati Achar for Tiffin",
+      "seo_desc": "Gentle, sweet Gujarati pickles children enjoy in small portions: Chhundo, Meethi Keri and Gor Keri.",
+      "products": [
+        "chhundo",
+        "meethi",
+        "gor"
+      ],
+      "priority": 5,
+      "status": "queued",
+      "keyword_pillars": [
+        "sweet_mango",
+        "gor_keri"
+      ],
+      "competitor_signal": "Matches Kitchen Tales kids guide",
+      "secondary_keywords": [
+        "pickle for kids",
+        "sweet pickle for kids",
+        "kids tiffin pickle"
+      ]
+    },
+    {
+      "handle": "pickles-for-travel",
+      "title": "Pickles for Travel",
+      "primary_keyword": "pickle for travel",
+      "seo_title": "Pickles for Travel | Gujarati Achar for Trips & Journeys",
+      "seo_desc": "Gujarati achar that packs well for train trips and travel food with thepla and puri: Chhundo, Katka Keri and Chana Keri Methi.",
+      "products": [
+        "chhundo",
+        "katka",
+        "chana"
+      ],
+      "priority": 5,
+      "status": "queued",
+      "keyword_pillars": [
+        "special_mango",
+        "chana_keri"
+      ],
+      "competitor_signal": "Matches Kitchen Tales travel guide",
+      "secondary_keywords": [
+        "pickle for travel",
+        "travel food pickle",
+        "pickle for train journey"
+      ]
+    },
+    {
+      "handle": "pickles-for-khakhra",
+      "title": "Pickles for Khakhra",
+      "primary_keyword": "khakhra and pickle",
+      "seo_title": "Khakhra and Pickle | Gujarati Achar for Tea-Time Snacks",
+      "seo_desc": "Pair crisp khakhra with Gujarati achar: Chhundo, Gor Keri and Chana Keri Methi for tea-time and quick snacks.",
+      "products": [
+        "chhundo",
+        "gor",
+        "chana"
+      ],
+      "priority": 5,
+      "status": "queued",
+      "keyword_pillars": [
+        "sweet_mango",
+        "chana_keri"
+      ],
+      "competitor_signal": "Matches Kitchen Tales khakhra guide",
+      "secondary_keywords": [
+        "khakhra and pickle",
+        "achar with khakhra",
+        "khakhra pickle"
+      ]
     }
   ],
   "keyword_bank": "scratch/keyword_bank.json"

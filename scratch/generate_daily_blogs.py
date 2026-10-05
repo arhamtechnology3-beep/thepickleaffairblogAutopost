@@ -96,11 +96,8 @@ LOW_STOCK_WARNING = 10
 
 
 def daily_target(stock_at_day_start: int) -> int:
-    """Pace posts by remaining topics so the blog slows down instead of going silent."""
-    if stock_at_day_start <= 0:
-        return 0
-    pace = 3 if stock_at_day_start >= 120 else 2 if stock_at_day_start >= 60 else 1
-    return min(MAX_DAILY, pace)
+    """Commitment is MAX_DAILY posts a day; only fewer when the topic library runs short."""
+    return max(0, min(MAX_DAILY, stock_at_day_start))
 
 
 def count_published_today(articles: list[dict], day: dt.date) -> int:

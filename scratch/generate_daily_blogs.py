@@ -84,7 +84,7 @@ def random_publish_slots(day: dt.date, count: int) -> list[dt.datetime]:
     """Pick distinct random IST publish times for this calendar day (changes daily)."""
     rng = random.Random(day_seed(day) ^ 0xB106)
     candidates: list[dt.time] = []
-    for hour in range(9, 21):  # 09:00–20:45 IST
+    for hour in range(9, 17):  # 09:00–16:45 IST; GitHub cron often runs hours late
         for minute in (0, 15, 30, 45):
             candidates.append(dt.time(hour, minute))
     count = max(1, min(int(count), len(candidates)))

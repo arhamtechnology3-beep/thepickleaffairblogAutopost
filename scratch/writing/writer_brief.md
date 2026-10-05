@@ -54,7 +54,7 @@ conclusion (2-3 sentences)
   name/registry says so (e.g. don't assert a product uses groundnut oil).
 - Write about traditions accurately and respectfully (Gujarati/Kathiawadi food culture).
 - Use straight ASCII apostrophes or typographic ones consistently with the examples; the content is
-  inserted as HTML text, so do not include HTML tags or markdown in strings.
+  inserted as HTML text, so do not include markdown or HTML tags in strings (except <strong> for a short bold lead-in, as in the published examples).
 
 ## Output
 Write a JSON **array** of the finished topic objects to the output file named in your task

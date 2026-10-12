@@ -924,7 +924,7 @@
         "gunda"
       ],
       "priority": 2,
-      "status": "queued",
+      "status": "live",
       "keyword_pillars": [
         "achar_masala"
       ],
@@ -995,7 +995,7 @@
         "chana"
       ],
       "priority": 3,
-      "status": "queued",
+      "status": "live",
       "keyword_pillars": [
         "special_mango",
         "chana_keri"

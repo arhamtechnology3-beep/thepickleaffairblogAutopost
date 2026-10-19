@@ -1022,7 +1022,7 @@
         "gunda"
       ],
       "priority": 3,
-      "status": "queued",
+      "status": "live",
       "keyword_pillars": [
         "special_mango",
         "gunda_keri"
@@ -1098,7 +1098,7 @@
         "chhundo"
       ],
       "priority": 4,
-      "status": "queued",
+      "status": "live",
       "keyword_pillars": [
         "sweet_mango",
         "gor_keri"

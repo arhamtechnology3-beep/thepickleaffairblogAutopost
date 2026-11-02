@@ -1123,7 +1123,7 @@
         "gor"
       ],
       "priority": 4,
-      "status": "queued",
+      "status": "live",
       "keyword_pillars": [
         "six_combo",
         "special_mango"
@@ -1147,7 +1147,7 @@
         "katka"
       ],
       "priority": 4,
-      "status": "queued",
+      "status": "live",
       "keyword_pillars": [
         "sweet_mango",
         "special_mango"

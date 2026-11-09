@@ -1048,7 +1048,7 @@
         "mango"
       ],
       "priority": 4,
-      "status": "queued",
+      "status": "live",
       "keyword_pillars": [
         "special_mango",
         "sweet_mango"
@@ -1221,7 +1221,7 @@
         "gor"
       ],
       "priority": 5,
-      "status": "queued",
+      "status": "live",
       "keyword_pillars": [
         "sweet_mango",
         "gor_keri"
